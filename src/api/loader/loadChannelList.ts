@@ -1,7 +1,7 @@
 import getCookie from "../../components/getCookie";
 
 const loadChannelList = async (page: number) => {
-  const params = new URL(document.location).searchParams;
+  const params = new URL(document.URL).searchParams;
 
   console.log(params);
 
