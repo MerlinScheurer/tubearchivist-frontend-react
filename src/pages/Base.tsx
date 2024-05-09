@@ -14,11 +14,6 @@ import importColours from "../configuration/colours/getColours";
 import { UserConfig } from "../api/actions/updateUserConfig";
 import { useEffect, useState } from "react";
 
-type User = {
-  is_staff: boolean;
-  groups: string[];
-};
-
 type BaseLoaderData = {
   userConfig: UserConfig;
 };
@@ -34,7 +29,7 @@ const Base = () => {
   const currentPageFromUrl = Number(searchParams2.get("page"));
 
   const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   console.log(currentPageFromUrl, currentPage);
 
