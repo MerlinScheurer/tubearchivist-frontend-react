@@ -1,72 +1,72 @@
-import { Link, useParams } from 'react-router-dom'
-import loadVideoById from '../loader/loadVideoById'
-import { useEffect, useState } from 'react'
-import { ConfigType, VideoType } from './Home'
-import VideoPlayer, { VideoProgressType } from '../components/VideoPlayer'
-import iconUnseen from '/img/icon-unseen.svg'
-import iconSeen from '/img/icon-seen.svg'
-import iconEye from '/img/icon-eye.svg'
-import iconThumb from '/img/icon-thumb.svg'
-import iconStarFull from '/img/icon-star-full.svg'
-import iconStarEmpty from '/img/icon-star-empty.svg'
-import iconStarHalf from '/img/icon-star-half.svg'
-import Routes from '../configuration/routes/RouteList'
-import Linkify from '../components/Linkify'
-import loadSimmilarVideosById from '../loader/loadSimmilarVideosById'
-import VideoOverview from '../components/VideoOverview'
-import updateWatchedState from '../action/updateWatchedState'
-import humanFileSize from '../components/humanFileSize'
-import ScrollToTopOnNavigate from '../components/ScrollToTop'
-import loadVideoProgressById from '../loader/loadVideoProgressById'
+import { Link, useParams } from 'react-router-dom';
+import loadVideoById from '../loader/loadVideoById';
+import { useEffect, useState } from 'react';
+import { ConfigType, VideoType } from './Home';
+import VideoPlayer, { VideoProgressType } from '../components/VideoPlayer';
+import iconUnseen from '/img/icon-unseen.svg';
+import iconSeen from '/img/icon-seen.svg';
+import iconEye from '/img/icon-eye.svg';
+import iconThumb from '/img/icon-thumb.svg';
+import iconStarFull from '/img/icon-star-full.svg';
+import iconStarEmpty from '/img/icon-star-empty.svg';
+import iconStarHalf from '/img/icon-star-half.svg';
+import Routes from '../configuration/routes/RouteList';
+import Linkify from '../components/Linkify';
+import loadSimmilarVideosById from '../loader/loadSimmilarVideosById';
+import VideoOverview from '../components/VideoOverview';
+import updateWatchedState from '../action/updateWatchedState';
+import humanFileSize from '../components/humanFileSize';
+import ScrollToTopOnNavigate from '../components/ScrollToTop';
+import loadVideoProgressById from '../loader/loadVideoProgressById';
 
 type VideoParams = {
-    videoId: string
-}
+    videoId: string;
+};
 
-type PlaylistNavType = {}
+type PlaylistNavType = {};
 
 export type SimilarVideoResponseType = {
-    data: VideoType
-    config: ConfigType
-}
+    data: VideoType;
+    config: ConfigType;
+};
 
 export type VideoResponseType = {
-    data: VideoType
-    config: ConfigType
-    playlist_nav: PlaylistNavType
-}
+    data: VideoType;
+    config: ConfigType;
+    playlist_nav: PlaylistNavType;
+};
 
 const Video = () => {
-    const { videoId } = useParams() as VideoParams
-    const [videoResponse, setVideoResponse] = useState<VideoResponseType>()
+    const { videoId } = useParams() as VideoParams;
+    const [videoResponse, setVideoResponse] = useState<VideoResponseType>();
     const [simmilarVideos, setSimmilarVideos] =
-        useState<SimilarVideoResponseType>()
-    const [videoProgress, setVideoProgress] = useState<VideoProgressType>()
-    const [descriptionExpanded, setDescriptionExpanded] = useState(false)
-    const [watched, setWatched] = useState(false)
-    const [refreshVideoList, setRefreshVideoList] = useState(false)
+        useState<SimilarVideoResponseType>();
+    const [videoProgress, setVideoProgress] = useState<VideoProgressType>();
+    const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+    const [watched, setWatched] = useState(false);
+    const [refreshVideoList, setRefreshVideoList] = useState(false);
 
     useEffect(() => {
-        ;(async () => {
-            const videoResponse = await loadVideoById(videoId)
-            const simmilarVideos = await loadSimmilarVideosById(videoId)
-            const videoProgress = await loadVideoProgressById(videoId)
+        (async () => {
+            const videoResponse = await loadVideoById(videoId);
+            const simmilarVideos = await loadSimmilarVideosById(videoId);
+            const videoProgress = await loadVideoProgressById(videoId);
 
-            setVideoResponse(videoResponse)
-            setSimmilarVideos(simmilarVideos)
-            setWatched(videoResponse.data.player.watched)
-            setVideoProgress(videoProgress)
-            setRefreshVideoList(false)
-        })()
-    }, [videoId, refreshVideoList])
+            setVideoResponse(videoResponse);
+            setSimmilarVideos(simmilarVideos);
+            setWatched(videoResponse.data.player.watched);
+            setVideoProgress(videoProgress);
+            setRefreshVideoList(false);
+        })();
+    }, [videoId, refreshVideoList]);
 
     if (videoResponse === undefined) {
-        return []
+        return [];
     }
 
-    const video = videoResponse.data
-    const config = videoResponse.config
-    const playlistNav = videoResponse.playlist_nav
+    const video = videoResponse.data;
+    const config = videoResponse.config;
+    const playlistNav = videoResponse.playlist_nav;
 
     // let sponsorblock = video.sponsorblock;
 
@@ -74,23 +74,23 @@ const Video = () => {
         is_enabled: false,
         segments: [],
         has_unlocked: false,
-    }
+    };
 
-    const cast = false
+    const cast = false;
 
     // TODO: get from api
-    const request = { user: { groups: [], is_staff: false } }
+    const request = { user: { groups: [], is_staff: false } };
 
     const isAdmin =
         request &&
         (request.user.groups.some((group) => {
-            group === 'admin'
+            group === 'admin';
         }) ||
-            request.user.is_staff)
+            request.user.is_staff);
 
-    const reindex = false
+    const reindex = false;
 
-    const formatNumber = Intl.NumberFormat()
+    const formatNumber = Intl.NumberFormat();
 
     return (
         <>
@@ -200,12 +200,12 @@ const Video = () => {
                                         data-id={video.youtube_id}
                                         data-status="watched"
                                         onClick={async () => {
-                                            setWatched(false)
+                                            setWatched(false);
 
                                             await updateWatchedState({
                                                 id: videoId,
                                                 is_watched: false,
-                                            })
+                                            });
                                         }}
                                         className="watch-button"
                                         title="Mark as unwatched"
@@ -218,12 +218,12 @@ const Video = () => {
                                         data-id={video.youtube_id}
                                         data-status="unwatched"
                                         onClick={async () => {
-                                            setWatched(true)
+                                            setWatched(true);
 
                                             await updateWatchedState({
                                                 id: videoId,
                                                 is_watched: true,
-                                            })
+                                            });
                                         }}
                                         className="watch-button"
                                         title="Mark as watched"
@@ -273,7 +273,7 @@ const Video = () => {
                                                     src={iconStarFull}
                                                     alt={star}
                                                 />
-                                            )
+                                            );
                                         }
 
                                         if (star === 'half') {
@@ -282,7 +282,7 @@ const Video = () => {
                                                     src={iconStarHalf}
                                                     alt={star}
                                                 />
-                                            )
+                                            );
                                         }
 
                                         return (
@@ -290,7 +290,7 @@ const Video = () => {
                                                 src={iconStarEmpty}
                                                 alt={star}
                                             />
-                                        )
+                                        );
                                     })}
                                 </div>
                             )}
@@ -388,7 +388,7 @@ const Video = () => {
                                             </>
                                         )}{' '}
                                     </p>
-                                )
+                                );
                             })}
                     </div>
                 </div>
@@ -396,7 +396,7 @@ const Video = () => {
                     <div className="description-box">
                         <div className="video-tag-box">
                             {video.tags.map((tag) => {
-                                return <span className="video-tag">{tag}</span>
+                                return <span className="video-tag">{tag}</span>;
                             })}
                         </div>
                     </div>
@@ -428,7 +428,7 @@ const Video = () => {
                 {playlistNav && (
                     <>
                         {playlistNav.map((playlistItem) => {
-                            ;<div className="playlist-wrap">
+                            <div className="playlist-wrap">
                                 <Link
                                     to={Routes.Playlist(
                                         playlistItem.playlist_meta.playlist_id
@@ -529,7 +529,7 @@ const Video = () => {
                                         )}
                                     </div>
                                 </div>
-                            </div>
+                            </div>;
                         })}
                     </>
                 )}
@@ -560,7 +560,7 @@ const Video = () => {
                 <div className="boxed-content-empty" />
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Video
+export default Video;

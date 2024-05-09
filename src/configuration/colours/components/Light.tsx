@@ -1,7 +1,7 @@
-import './css/light.css'
+import './css/light.css';
 
 const LightStylesheet = () => {
-    return <></>
-}
+    return <></>;
+};
 
-export default LightStylesheet
+export default LightStylesheet;

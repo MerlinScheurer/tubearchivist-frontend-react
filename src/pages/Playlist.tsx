@@ -1,9 +1,9 @@
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
 
 function Playlist() {
-    const { playlistId } = useParams()
+    const { playlistId } = useParams();
 
-    return <>Playlist {playlistId}</>
+    return <>Playlist {playlistId}</>;
 }
 
-export default Playlist
+export default Playlist;

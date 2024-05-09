@@ -1,24 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import {
     Link,
     useLoaderData,
     useOutletContext,
     useSearchParams,
-} from 'react-router-dom'
-import Routes from '../configuration/routes/RouteList'
+} from 'react-router-dom';
+import Routes from '../configuration/routes/RouteList';
 
-import iconSort from '/img/icon-sort.svg'
-import iconAdd from '/img/icon-add.svg'
-import iconSubstract from '/img/icon-substract.svg'
-import iconGridView from '/img/icon-gridview.svg'
-import iconListView from '/img/icon-listview.svg'
+import iconSort from '/img/icon-sort.svg';
+import iconAdd from '/img/icon-add.svg';
+import iconSubstract from '/img/icon-substract.svg';
+import iconGridView from '/img/icon-gridview.svg';
+import iconListView from '/img/icon-listview.svg';
 
-import Pagination, { PaginationType } from '../components/Pagination'
-import loadVideoListByPage from '../loader/loadVideoListByPage'
-import updateUserConfig, { UserConfig } from '../action/updateUserConfig'
-import VideoOverview from '../components/VideoOverview'
-import { ChannelType } from './Channels'
-import { OutletContextType } from '../Base'
+import Pagination, { PaginationType } from '../components/Pagination';
+import loadVideoListByPage from '../loader/loadVideoListByPage';
+import updateUserConfig, { UserConfig } from '../action/updateUserConfig';
+import VideoOverview from '../components/VideoOverview';
+import { ChannelType } from './Channels';
+import { OutletContextType } from '../Base';
 
 /*
 
@@ -67,74 +67,74 @@ import { OutletContextType } from '../Base'
 */
 
 export type PlayerType = {
-    watched: boolean
-    duration: number
-    duration_str: string
-    progress: number
-}
+    watched: boolean;
+    duration: number;
+    duration_str: string;
+    progress: number;
+};
 
 export type StatsType = {
-    view_count: number
-    like_count: number
-    dislike_count: number
-    average_rating: number
-}
+    view_count: number;
+    like_count: number;
+    dislike_count: number;
+    average_rating: number;
+};
 
 export type VideoType = {
-    active: boolean
-    category: string[]
-    channel: ChannelType
-    date_downloaded: number
-    description: string
-    media_size: number
-    media_url: string
-    player: PlayerType
-    published: string
-    stats: StatsType
-    streams: []
-    tags: string[]
-    title: string
-    vid_last_refresh: string
-    vid_thumb_base64: boolean
-    vid_thumb_url: string
-    vid_type: string
-    youtube_id: string
-}
+    active: boolean;
+    category: string[];
+    channel: ChannelType;
+    date_downloaded: number;
+    description: string;
+    media_size: number;
+    media_url: string;
+    player: PlayerType;
+    published: string;
+    stats: StatsType;
+    streams: [];
+    tags: string[];
+    title: string;
+    vid_last_refresh: string;
+    vid_thumb_base64: boolean;
+    vid_thumb_url: string;
+    vid_type: string;
+    youtube_id: string;
+};
 
 export type DownloadsType = {
-    limit_speed: boolean
-    sleep_interval: number
-    autodelete_days: boolean
-    format: boolean
-    format_sort: boolean
-    add_metadata: boolean
-    add_thumbnail: boolean
-    subtitle: boolean
-    subtitle_source: boolean
-    subtitle_index: boolean
-    comment_max: boolean
-    comment_sort: string
-    cookie_import: boolean
-    throttledratelimit: boolean
-    extractor_lang: boolean
-    integrate_ryd: boolean
-    integrate_sponsorblock: boolean
-}
+    limit_speed: boolean;
+    sleep_interval: number;
+    autodelete_days: boolean;
+    format: boolean;
+    format_sort: boolean;
+    add_metadata: boolean;
+    add_thumbnail: boolean;
+    subtitle: boolean;
+    subtitle_source: boolean;
+    subtitle_index: boolean;
+    comment_max: boolean;
+    comment_sort: string;
+    cookie_import: boolean;
+    throttledratelimit: boolean;
+    extractor_lang: boolean;
+    integrate_ryd: boolean;
+    integrate_sponsorblock: boolean;
+};
 
 export type ConfigType = {
-    enable_cast: boolean
-    downloads: DownloadsType
-}
+    enable_cast: boolean;
+    downloads: DownloadsType;
+};
 
 export type VideoResponseType = {
-    data?: VideoType[]
-    config?: ConfigType
-    paginate?: PaginationType
-}
+    data?: VideoType[];
+    config?: ConfigType;
+    paginate?: PaginationType;
+};
 
 type HomeLoaderDataType = {
-    userConfig: UserConfig
-}
+    userConfig: UserConfig;
+};
 
 export type SortBy =
     | 'published'
@@ -142,66 +142,66 @@ export type SortBy =
     | 'views'
     | 'likes'
     | 'duration'
-    | 'filesize'
-export type SortOrder = 'asc' | 'desc'
-export type ViewLayout = 'grid' | 'list'
+    | 'filesize';
+export type SortOrder = 'asc' | 'desc';
+export type ViewLayout = 'grid' | 'list';
 
 const Home = () => {
-    const { userConfig } = useLoaderData() as HomeLoaderDataType
+    const { userConfig } = useLoaderData() as HomeLoaderDataType;
     const [currentPage, setCurrentPage] =
-        useOutletContext() as OutletContextType
+        useOutletContext() as OutletContextType;
 
     const [hideWatched, setHideWatched] = useState(
         userConfig.hide_watched || false
-    )
+    );
     const [sortBy, setSortBy] = useState<SortBy>(
         userConfig.sort_by || 'published'
-    )
+    );
     const [sortOrder, setSortOrder] = useState<SortOrder>(
         userConfig.sort_order || 'asc'
-    )
+    );
     const [view, setView] = useState<ViewLayout>(
         userConfig.view_style_home || 'grid'
-    )
-    const [gridItems, setGridItems] = useState(userConfig.grid_items || 3)
-    const [showHidden, setShowHidden] = useState(false)
-    const [refreshVideoList, setRefreshVideoList] = useState(false)
+    );
+    const [gridItems, setGridItems] = useState(userConfig.grid_items || 3);
+    const [showHidden, setShowHidden] = useState(false);
+    const [refreshVideoList, setRefreshVideoList] = useState(false);
 
     const [videoResponse, setVideoReponse] = useState<VideoResponseType>({
         data: [],
         paginate: {},
-    })
+    });
 
-    const videoList = videoResponse.data
-    const pagination = videoResponse.paginate
+    const videoList = videoResponse.data;
+    const pagination = videoResponse.paginate;
 
-    const hasVideos = videoResponse?.data?.length !== 0
+    const hasVideos = videoResponse?.data?.length !== 0;
 
-    const isGridView = view === 'grid'
-    const gridView = isGridView ? `boxed-${gridItems}` : ''
-    const gridViewGrid = isGridView ? `grid-${gridItems}` : ''
+    const isGridView = view === 'grid';
+    const gridView = isGridView ? `boxed-${gridItems}` : '';
+    const gridViewGrid = isGridView ? `grid-${gridItems}` : '';
 
     useEffect(() => {
-        ;(async () => {
+        (async () => {
             const userConfig = {
                 hide_watched: hideWatched,
                 view_style_home: view,
                 grid_items: gridItems,
                 sort_by: sortBy,
                 sort_order: sortOrder,
-            }
+            };
 
-            await updateUserConfig(userConfig)
-        })()
-    }, [hideWatched, view, gridItems, sortBy, sortOrder])
+            await updateUserConfig(userConfig);
+        })();
+    }, [hideWatched, view, gridItems, sortBy, sortOrder]);
 
     useEffect(() => {
-        ;(async () => {
-            const videos = await loadVideoListByPage(currentPage)
+        (async () => {
+            const videos = await loadVideoListByPage(currentPage);
 
-            setVideoReponse(videos)
-            setRefreshVideoList(false)
-        })()
+            setVideoReponse(videos);
+            setRefreshVideoList(false);
+        })();
     }, [
         refreshVideoList,
         currentPage,
@@ -210,7 +210,7 @@ const Home = () => {
         gridItems,
         sortBy,
         sortOrder,
-    ])
+    ]);
 
     return (
         <>
@@ -229,7 +229,7 @@ const Home = () => {
                                 type="checkbox"
                                 checked={hideWatched}
                                 onChange={() => {
-                                    setHideWatched(!hideWatched)
+                                    setHideWatched(!hideWatched);
                                 }}
                             />
 
@@ -255,7 +255,7 @@ const Home = () => {
                                     id="sort"
                                     value={sortBy}
                                     onChange={(event) => {
-                                        setSortBy(event.target.value as SortBy)
+                                        setSortBy(event.target.value as SortBy);
                                     }}
                                 >
                                     <option value="published">
@@ -276,7 +276,7 @@ const Home = () => {
                                     onChange={(event) => {
                                         setSortOrder(
                                             event.target.value as SortOrder
-                                        )
+                                        );
                                     }}
                                 >
                                     <option value="asc">asc</option>
@@ -291,7 +291,7 @@ const Home = () => {
                             src={iconSort}
                             alt="sort-icon"
                             onClick={() => {
-                                setShowHidden(!showHidden)
+                                setShowHidden(!showHidden);
                             }}
                             id="animate-icon"
                         />
@@ -302,7 +302,7 @@ const Home = () => {
                                     <img
                                         src={iconAdd}
                                         onClick={() => {
-                                            setGridItems(gridItems + 1)
+                                            setGridItems(gridItems + 1);
                                         }}
                                         alt="grid plus row"
                                     />
@@ -311,7 +311,7 @@ const Home = () => {
                                     <img
                                         src={iconSubstract}
                                         onClick={() => {
-                                            setGridItems(gridItems - 1)
+                                            setGridItems(gridItems - 1);
                                         }}
                                         alt="grid minus row"
                                     />
@@ -321,7 +321,7 @@ const Home = () => {
                         <img
                             src={iconGridView}
                             onClick={() => {
-                                setView('grid')
+                                setView('grid');
                             }}
                             data-origin="home"
                             data-value="grid"
@@ -330,7 +330,7 @@ const Home = () => {
                         <img
                             src={iconListView}
                             onClick={() => {
-                                setView('list')
+                                setView('list');
                             }}
                             data-origin="home"
                             data-value="list"
@@ -370,7 +370,7 @@ const Home = () => {
                 <Pagination pagination={pagination} setPage={setCurrentPage} />
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;

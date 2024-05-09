@@ -1,17 +1,17 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 export type TaUpdate = {
-    version: string
-    is_breaking: boolean
-}
+    version: string;
+    is_breaking: boolean;
+};
 
 interface Props {
-    version: string
-    taUpdate?: TaUpdate
+    version: string;
+    taUpdate?: TaUpdate;
 }
 
 const Footer = ({ version, taUpdate }: Props) => {
-    const currentYear = new Date().getFullYear()
+    const currentYear = new Date().getFullYear();
 
     return (
         <div className="footer">
@@ -67,7 +67,7 @@ const Footer = ({ version, taUpdate }: Props) => {
                 </span>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Footer
+export default Footer;

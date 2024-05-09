@@ -1,92 +1,92 @@
-import { Link, useLoaderData, useOutletContext } from 'react-router-dom'
-import loadChannelList from '../loader/loadChannelList'
-import Routes from '../configuration/routes/RouteList'
-import iconGridView from '/img/icon-gridview.svg'
-import iconListView from '/img/icon-listview.svg'
-import iconAdd from '/img/icon-add.svg'
-import { useEffect, useState } from 'react'
-import Pagination, { PaginationType } from '../components/Pagination'
-import { ConfigType, ViewLayout } from './Home'
-import updateUserConfig, { UserConfig } from '../action/updateUserConfig'
-import { OutletContextType } from '../Base'
-import updateChannelSubscription from '../action/updateChannelSubscription'
+import { Link, useLoaderData, useOutletContext } from 'react-router-dom';
+import loadChannelList from '../loader/loadChannelList';
+import Routes from '../configuration/routes/RouteList';
+import iconGridView from '/img/icon-gridview.svg';
+import iconListView from '/img/icon-listview.svg';
+import iconAdd from '/img/icon-add.svg';
+import { useEffect, useState } from 'react';
+import Pagination, { PaginationType } from '../components/Pagination';
+import { ConfigType, ViewLayout } from './Home';
+import updateUserConfig, { UserConfig } from '../action/updateUserConfig';
+import { OutletContextType } from '../Base';
+import updateChannelSubscription from '../action/updateChannelSubscription';
 
 export type ChannelType = {
-    channel_active: boolean
-    channel_banner_url: string
-    channel_description: string
-    channel_id: string
-    channel_last_refresh: string
-    channel_name: string
-    channel_subs: number
-    channel_subscribed: boolean
-    channel_tags: string[]
-    channel_thumb_url: string
-    channel_tvart_url: string
-    channel_views: number
-}
+    channel_active: boolean;
+    channel_banner_url: string;
+    channel_description: string;
+    channel_id: string;
+    channel_last_refresh: string;
+    channel_name: string;
+    channel_subs: number;
+    channel_subscribed: boolean;
+    channel_tags: string[];
+    channel_thumb_url: string;
+    channel_tvart_url: string;
+    channel_views: number;
+};
 
 type ChannelsListResponse = {
-    data: ChannelType[]
-    paginate: PaginationType
-    config?: ConfigType
-}
+    data: ChannelType[];
+    paginate: PaginationType;
+    config?: ConfigType;
+};
 
 type ChannelsLoaderDataType = {
-    userConfig: UserConfig
-}
+    userConfig: UserConfig;
+};
 
 const Channels = () => {
-    const { userConfig } = useLoaderData() as ChannelsLoaderDataType
+    const { userConfig } = useLoaderData() as ChannelsLoaderDataType;
     const [currentPage, setCurrentPage] =
-        useOutletContext() as OutletContextType
+        useOutletContext() as OutletContextType;
 
     const [channelListResponse, setChannelListResponse] =
-        useState<ChannelsListResponse>()
+        useState<ChannelsListResponse>();
     const [showSubscribedOnly, setShowSubscribedOnly] = useState(
         userConfig.show_subed_only || false
-    )
+    );
     const [view, setView] = useState<ViewLayout>(
         userConfig.view_style_channel || 'grid'
-    )
-    const [showAddForm, setShowAddForm] = useState(false)
-    const [refreshChannelList, setRefreshChannelList] = useState(false)
+    );
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [refreshChannelList, setRefreshChannelList] = useState(false);
 
     useEffect(() => {
-        ;(async () => {
+        (async () => {
             const userConfig = {
                 show_subed_only: showSubscribedOnly,
                 view_style_channel: view,
-            }
+            };
 
-            await updateUserConfig(userConfig)
-        })()
-    }, [showSubscribedOnly, view])
+            await updateUserConfig(userConfig);
+        })();
+    }, [showSubscribedOnly, view]);
 
     useEffect(() => {
-        ;(async () => {
+        (async () => {
             //TODO: take showSubscribedOnly into account when loading channels
-            const channelListResponse = await loadChannelList(currentPage)
+            const channelListResponse = await loadChannelList(currentPage);
 
-            setChannelListResponse(channelListResponse)
-            setRefreshChannelList(false)
-        })()
-    }, [currentPage, showSubscribedOnly, refreshChannelList])
+            setChannelListResponse(channelListResponse);
+            setRefreshChannelList(false);
+        })();
+    }, [currentPage, showSubscribedOnly, refreshChannelList]);
 
-    const channels = channelListResponse?.data
-    const pagination = channelListResponse?.paginate
-    const channelCount = channels?.length
+    const channels = channelListResponse?.data;
+    const pagination = channelListResponse?.paginate;
+    const channelCount = channels?.length;
 
     // TODO: get from api
-    const request = { user: { groups: [], is_staff: false } }
+    const request = { user: { groups: [], is_staff: false } };
 
-    const isAdmin = true
+    const isAdmin = true;
 
     request &&
         (request.user.groups.some((group) => {
-            group === 'admin'
+            group === 'admin';
         }) ||
-            request.user.is_staff)
+            request.user.is_staff);
 
     return (
         <div className="boxed-content">
@@ -99,7 +99,7 @@ const Channels = () => {
                         <img
                             id="animate-icon"
                             onClick={() => {
-                                setShowAddForm(!showAddForm)
+                                setShowAddForm(!showAddForm);
                             }}
                             src={iconAdd}
                             alt="add-icon"
@@ -129,7 +129,7 @@ const Channels = () => {
                         <input
                             id="show_subed_only"
                             onClick={() => {
-                                setShowSubscribedOnly(!showSubscribedOnly)
+                                setShowSubscribedOnly(!showSubscribedOnly);
                             }}
                             type="checkbox"
                             checked={showSubscribedOnly}
@@ -150,7 +150,7 @@ const Channels = () => {
                     <img
                         src={iconGridView}
                         onClick={() => {
-                            setView('grid')
+                            setView('grid');
                         }}
                         data-origin="channel"
                         data-value="grid"
@@ -159,7 +159,7 @@ const Channels = () => {
                     <img
                         src={iconListView}
                         onClick={() => {
-                            setView('list')
+                            setView('list');
                         }}
                         data-origin="channel"
                         data-value="list"
@@ -240,10 +240,10 @@ const Channels = () => {
                                                         await updateChannelSubscription(
                                                             channel.channel_id,
                                                             false
-                                                        )
+                                                        );
                                                         setRefreshChannelList(
                                                             true
-                                                        )
+                                                        );
                                                     }}
                                                     title={`Unsubscribe from ${channel.channel_name}`}
                                                 >
@@ -259,10 +259,10 @@ const Channels = () => {
                                                         await updateChannelSubscription(
                                                             channel.channel_id,
                                                             true
-                                                        )
+                                                        );
                                                         setRefreshChannelList(
                                                             true
-                                                        )
+                                                        );
                                                     }}
                                                     title={`Subscribe to ${channel.channel_name}`}
                                                 >
@@ -273,14 +273,14 @@ const Channels = () => {
                                     </div>
                                 </div>
                             </div>
-                        )
+                        );
                     })}
             </div>
             <div className="boxed-content">
                 <Pagination pagination={pagination} setPage={setCurrentPage} />
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Channels
+export default Channels;

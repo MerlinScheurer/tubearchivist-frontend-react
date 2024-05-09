@@ -1,56 +1,56 @@
-import { useState } from 'react'
-import Routes from '../configuration/routes/RouteList'
-import getCookie from '../components/getCookie'
-import { useNavigate } from 'react-router-dom'
-import importColours from '../configuration/colours/getColours'
+import { useState } from 'react';
+import Routes from '../configuration/routes/RouteList';
+import getCookie from '../components/getCookie';
+import { useNavigate } from 'react-router-dom';
+import importColours from '../configuration/colours/getColours';
 
 const Login = () => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [saveLogin, setSaveLogin] = useState(false)
-    const navigate = useNavigate()
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [saveLogin, setSaveLogin] = useState(false);
+    const navigate = useNavigate();
 
-    importColours('dark.css')
+    importColours('dark.css');
 
-    const form_error = false
+    const form_error = false;
 
     const handleSubmit = async (event: { preventDefault: () => void }) => {
-        event.preventDefault()
+        event.preventDefault();
 
         const responseHead = await fetch('/api/csrf/', {
             method: 'HEAD',
-        })
+        });
 
-        console.log(responseHead)
+        console.log(responseHead);
 
-        const body = new FormData()
-        body.set('username', username)
-        body.set('password', password)
-        body.set('remember_me', saveLogin ? 'on' : 'off')
+        const body = new FormData();
+        body.set('username', username);
+        body.set('password', password);
+        body.set('remember_me', saveLogin ? 'on' : 'off');
 
-        const header = new Headers()
+        const header = new Headers();
 
-        const csrfCookie = getCookie('csrftoken')
+        const csrfCookie = getCookie('csrftoken');
         if (csrfCookie) {
-            header.append('X-CSRFToken', csrfCookie)
-            body.set('csrfmiddlewaretoken', csrfCookie)
+            header.append('X-CSRFToken', csrfCookie);
+            body.set('csrfmiddlewaretoken', csrfCookie);
         }
 
         const response = await fetch('http://localhost:8000/login/', {
             method: 'POST',
             body,
             credentials: 'include',
-        })
+        });
 
         // TODO: replace with proper Api based handling?
-        const signedIn = response.status === 200
+        const signedIn = response.status === 200;
 
         if (signedIn) {
-            navigate(Routes.Home)
+            navigate(Routes.Home);
         } else {
-            navigate(Routes.Login)
+            navigate(Routes.Login);
         }
-    }
+    };
 
     return (
         <>
@@ -91,7 +91,7 @@ const Login = () => {
                             id="id_remember_me"
                             checked={saveLogin}
                             onChange={() => {
-                                setSaveLogin(!saveLogin)
+                                setSaveLogin(!saveLogin);
                             }}
                         />
                     </p>
@@ -123,7 +123,7 @@ const Login = () => {
                 <div className="col-3"></div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

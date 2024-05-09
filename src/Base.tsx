@@ -4,79 +4,79 @@ import {
     useLoaderData,
     useLocation,
     useSearchParams,
-} from 'react-router-dom'
-import Routes from './configuration/routes/RouteList'
-import Footer from './components/Footer'
-import iconSearch from '/img/icon-search.svg'
-import iconGear from '/img/icon-gear.svg'
-import iconExit from '/img/icon-exit.svg'
-import importColours from './configuration/colours/getColours'
-import { UserConfig } from './action/updateUserConfig'
-import { useEffect, useState } from 'react'
+} from 'react-router-dom';
+import Routes from './configuration/routes/RouteList';
+import Footer from './components/Footer';
+import iconSearch from '/img/icon-search.svg';
+import iconGear from '/img/icon-gear.svg';
+import iconExit from '/img/icon-exit.svg';
+import importColours from './configuration/colours/getColours';
+import { UserConfig } from './action/updateUserConfig';
+import { useEffect, useState } from 'react';
 
 type User = {
-    is_staff: boolean
-    groups: string[]
-}
+    is_staff: boolean;
+    groups: string[];
+};
 
 type BaseLoaderData = {
-    userConfig: UserConfig
-}
+    userConfig: UserConfig;
+};
 
-export type OutletContextType = [number, () => void]
+export type OutletContextType = [number, () => void];
 
 const Base = () => {
-    const { userConfig } = useLoaderData() as BaseLoaderData
-    const location = useLocation()
+    const { userConfig } = useLoaderData() as BaseLoaderData;
+    const location = useLocation();
 
-    const searchParams2 = new URLSearchParams(location.search)
+    const searchParams2 = new URLSearchParams(location.search);
 
-    const currentPageFromUrl = Number(searchParams2.get('page'))
+    const currentPageFromUrl = Number(searchParams2.get('page'));
 
-    const [currentPage, setCurrentPage] = useState(currentPageFromUrl)
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    console.log(currentPageFromUrl, currentPage)
+    console.log(currentPageFromUrl, currentPage);
 
     useEffect(() => {
-        console.log('location')
+        console.log('location');
         if (currentPageFromUrl !== currentPage) {
-            setCurrentPage(0)
+            setCurrentPage(0);
         }
-    }, [location.pathname])
+    }, [location.pathname]);
 
     useEffect(() => {
         if (currentPageFromUrl !== currentPage) {
-            console.log('url')
-            setCurrentPage(currentPageFromUrl)
+            console.log('url');
+            setCurrentPage(currentPageFromUrl);
         }
-    }, [currentPageFromUrl])
+    }, [currentPageFromUrl]);
 
     useEffect(() => {
         if (currentPageFromUrl !== currentPage) {
-            console.log('currentpage')
+            console.log('currentpage');
             setSearchParams((params) => {
-                params.set('page', currentPage.toString())
+                params.set('page', currentPage.toString());
 
-                return params
-            })
+                return params;
+            });
         }
-    }, [currentPage])
+    }, [currentPage]);
 
-    importColours(userConfig.stylesheet)
+    importColours(userConfig.stylesheet);
 
-    const version = 'v0.4.8-unstable'
+    const version = 'v0.4.8-unstable';
     // const ta_update: TaUpdate = { version: "testing v2", is_breaking: false };
 
     // TODO: get from api
-    const request = { user: { groups: [], is_staff: false } }
+    const request = { user: { groups: [], is_staff: false } };
 
     const isAdmin =
         request &&
         (request.user.groups.some((group) => {
-            group === 'admin'
+            group === 'admin';
         }) ||
-            request.user.is_staff)
+            request.user.is_staff);
 
     return (
         <>
@@ -135,7 +135,7 @@ const Base = () => {
             </div>
             <Footer version={version} />
         </>
-    )
-}
+    );
+};
 
-export default Base
+export default Base;

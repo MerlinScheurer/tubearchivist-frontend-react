@@ -1,17 +1,17 @@
-import { Link } from 'react-router-dom'
-import Routes from '../configuration/routes/RouteList'
-import { VideoType, ViewLayout } from '../pages/Home'
-import iconPlay from '/img/icon-play.svg'
-import iconSeen from '/img/icon-seen.svg'
-import iconUnseen from '/img/icon-unseen.svg'
-import defaultVideoThumb from '/img/default-video-thumb.jpg'
-import updateWatchedState from '../action/updateWatchedState'
+import { Link } from 'react-router-dom';
+import Routes from '../configuration/routes/RouteList';
+import { VideoType, ViewLayout } from '../pages/Home';
+import iconPlay from '/img/icon-play.svg';
+import iconSeen from '/img/icon-seen.svg';
+import iconUnseen from '/img/icon-unseen.svg';
+import defaultVideoThumb from '/img/default-video-thumb.jpg';
+import updateWatchedState from '../action/updateWatchedState';
 
 type VideoOverviewProps = {
-    videoList: VideoType[] | undefined
-    viewLayout: ViewLayout
-    refreshVideoList: (refresh: boolean) => void
-}
+    videoList: VideoType[] | undefined;
+    viewLayout: ViewLayout;
+    refreshVideoList: (refresh: boolean) => void;
+};
 
 const VideoOverview = ({
     videoList,
@@ -19,7 +19,7 @@ const VideoOverview = ({
     refreshVideoList,
 }: VideoOverviewProps) => {
     if (!videoList) {
-        return 'No similar videos found.'
+        return 'No similar videos found.';
     }
 
     return (
@@ -75,9 +75,9 @@ const VideoOverview = ({
                                             await updateWatchedState({
                                                 id: video.youtube_id,
                                                 is_watched: false,
-                                            })
+                                            });
 
-                                            refreshVideoList(true)
+                                            refreshVideoList(true);
                                         }}
                                         className="watch-button"
                                         title="Mark as unwatched"
@@ -93,9 +93,9 @@ const VideoOverview = ({
                                             await updateWatchedState({
                                                 id: video.youtube_id,
                                                 is_watched: true,
-                                            })
+                                            });
 
-                                            refreshVideoList(true)
+                                            refreshVideoList(true);
                                         }}
                                         className="watch-button"
                                         title="Mark as watched"
@@ -123,10 +123,10 @@ const VideoOverview = ({
                             </div>
                         </div>
                     </div>
-                )
+                );
             })}
         </>
-    )
-}
+    );
+};
 
-export default VideoOverview
+export default VideoOverview;

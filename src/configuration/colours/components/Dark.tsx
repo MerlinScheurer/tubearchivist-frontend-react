@@ -1,7 +1,7 @@
-import './css/dark.css'
+import './css/dark.css';
 
 const DarkStylesheet = () => {
-    return <></>
-}
+    return <></>;
+};
 
-export default DarkStylesheet
+export default DarkStylesheet;

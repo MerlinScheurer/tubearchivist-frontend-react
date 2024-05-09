@@ -15,6 +15,6 @@ const Routes = {
     Logout: '/logout/',
     Video: (id: string) => `/video/${id}`,
     About: '/about/',
-}
+};
 
-export default Routes
+export default Routes;
