@@ -9,6 +9,7 @@ import Pagination, { PaginationType } from "../components/Pagination";
 import { ConfigType, ViewLayout } from "./Home";
 import updateUserConfig, { UserConfig } from "../action/updateUserConfig";
 import { OutletContextType } from "../Base";
+import updateChannelSubscription from "../action/updateChannelSubscription";
 
 export type ChannelType = {
   channel_active: boolean;
@@ -48,6 +49,7 @@ const Channels = () => {
     userConfig.view_style_channel || "grid"
   );
   const [showAddForm, setShowAddForm] = useState(false);
+  const [refreshChannelList, setRefreshChannelList] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -66,8 +68,9 @@ const Channels = () => {
       const channelListResponse = await loadChannelList(currentPage);
 
       setChannelListResponse(channelListResponse);
+      setRefreshChannelList(false);
     })();
-  }, [currentPage, showSubscribedOnly]);
+  }, [currentPage, showSubscribedOnly, refreshChannelList]);
 
   const channels = channelListResponse?.data;
   const pagination = channelListResponse?.paginate;
@@ -211,9 +214,14 @@ const Channels = () => {
                           className="unsubscribe"
                           type="button"
                           data-type="channel"
-                          data-subscribe=""
                           data-id={channel.channel_id}
-                          onclick="subscribeStatus(this)"
+                          onClick={async () => {
+                            await updateChannelSubscription(
+                              channel.channel_id,
+                              false
+                            );
+                            setRefreshChannelList(true);
+                          }}
                           title={`Unsubscribe from ${channel.channel_name}`}
                         >
                           Unsubscribe
@@ -223,9 +231,14 @@ const Channels = () => {
                         <button
                           type="button"
                           data-type="channel"
-                          data-subscribe="true"
                           data-id={channel.channel_id}
-                          onclick="subscribeStatus(this)"
+                          onClick={async () => {
+                            await updateChannelSubscription(
+                              channel.channel_id,
+                              true
+                            );
+                            setRefreshChannelList(true);
+                          }}
                           title={`Subscribe to ${channel.channel_name}`}
                         >
                           Subscribe

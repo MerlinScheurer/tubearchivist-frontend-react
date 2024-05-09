@@ -126,7 +126,7 @@ export type ConfigType = {
   downloads: DownloadsType;
 };
 
-export type VideoListType = {
+export type VideoResponseType = {
   data?: VideoType[];
   config?: ConfigType;
   paginate?: PaginationType;
@@ -164,13 +164,17 @@ const Home = () => {
   );
   const [gridItems, setGridItems] = useState(userConfig.grid_items || 3);
   const [showHidden, setShowHidden] = useState(false);
+  const [refreshVideoList, setRefreshVideoList] = useState(false);
 
-  const [video, setVideo] = useState<VideoListType>({ data: [], paginate: {} });
+  const [videoResponse, setVideoReponse] = useState<VideoResponseType>({
+    data: [],
+    paginate: {},
+  });
 
-  const videoList = video.data;
-  const pagination = video.paginate;
+  const videoList = videoResponse.data;
+  const pagination = videoResponse.paginate;
 
-  const hasVideos = video?.data?.length !== 0;
+  const hasVideos = videoResponse?.data?.length !== 0;
 
   const isGridView = view === "grid";
   const gridView = isGridView ? `boxed-${gridItems}` : "";
@@ -192,11 +196,20 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const video = await loadVideoListByPage(currentPage);
+      const videos = await loadVideoListByPage(currentPage);
 
-      setVideo(video);
+      setVideoReponse(videos);
+      setRefreshVideoList(false);
     })();
-  }, [currentPage, hideWatched, view, gridItems, sortBy, sortOrder]);
+  }, [
+    refreshVideoList,
+    currentPage,
+    hideWatched,
+    view,
+    gridItems,
+    sortBy,
+    sortOrder,
+  ]);
 
   return (
     <>
@@ -335,7 +348,11 @@ const Home = () => {
             </>
           )}
 
-          <VideoOverview videoList={videoList} viewLayout={view} />
+          <VideoOverview
+            videoList={videoList}
+            viewLayout={view}
+            refreshVideoList={setRefreshVideoList}
+          />
         </div>
       </div>
 

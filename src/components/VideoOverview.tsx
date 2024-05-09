@@ -10,9 +10,14 @@ import updateWatchedState from "../action/updateWatchedState";
 type VideoOverviewProps = {
   videoList: VideoType[] | undefined;
   viewLayout: ViewLayout;
+  refreshVideoList: (refresh: boolean) => void;
 };
 
-const VideoOverview = ({ videoList, viewLayout }: VideoOverviewProps) => {
+const VideoOverview = ({
+  videoList,
+  viewLayout,
+  refreshVideoList,
+}: VideoOverviewProps) => {
   if (!videoList) {
     return "No similar videos found.";
   }
@@ -62,12 +67,12 @@ const VideoOverview = ({ videoList, viewLayout }: VideoOverviewProps) => {
                     data-id={video.youtube_id}
                     data-status="watched"
                     onClick={async () => {
-                      // TODO: set ui as unwatched for video in list
-
                       await updateWatchedState({
                         id: video.youtube_id,
                         is_watched: false,
                       });
+
+                      refreshVideoList(true);
                     }}
                     className="watch-button"
                     title="Mark as unwatched"
@@ -80,12 +85,12 @@ const VideoOverview = ({ videoList, viewLayout }: VideoOverviewProps) => {
                     data-id={video.youtube_id}
                     data-status="unwatched"
                     onClick={async () => {
-                      // TODO: set ui as watched for video in list
-
                       await updateWatchedState({
                         id: video.youtube_id,
                         is_watched: true,
                       });
+
+                      refreshVideoList(true);
                     }}
                     className="watch-button"
                     title="Mark as watched"
