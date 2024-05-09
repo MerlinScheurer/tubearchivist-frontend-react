@@ -1,4 +1,4 @@
-import getCookie from "../components/getCookie";
+import getCookie from "../../components/getCookie";
 
 const loadSimmilarVideosById = async (youtubeId: string) => {
   const headers = new Headers();

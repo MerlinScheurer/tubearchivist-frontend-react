@@ -1,4 +1,4 @@
-import getCookie from "../components/getCookie";
+import getCookie from "../../components/getCookie";
 
 const loadVideoList = async () => {
   const params = new URL(document.location).searchParams;

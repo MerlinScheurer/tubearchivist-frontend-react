@@ -14,11 +14,11 @@ import iconGridView from "/img/icon-gridview.svg";
 import iconListView from "/img/icon-listview.svg";
 
 import Pagination, { PaginationType } from "../components/Pagination";
-import loadVideoListByPage from "../loader/loadVideoListByPage";
-import updateUserConfig, { UserConfig } from "../action/updateUserConfig";
+import loadVideoListByPage from "../api/loader/loadVideoListByPage";
+import updateUserConfig, { UserConfig } from "../api/actions/updateUserConfig";
 import VideoOverview from "../components/VideoOverview";
 import { ChannelType } from "./Channels";
-import { OutletContextType } from "../Base";
+import { OutletContextType } from "./Base";
 
 /*
 

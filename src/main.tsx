@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Routes from "./configuration/routes/RouteList";
 import "./style.css";
-import Base from "./Base";
+import Base from "./pages/Base";
 import About from "./pages/About";
 import Channel from "./pages/Channel";
 import Channels from "./pages/Channels";
@@ -24,9 +24,8 @@ import SettingsActions from "./pages/SettingsActions";
 import SettingsApplication from "./pages/SettingsApplication";
 import SettingsScheduling from "./pages/SettingsScheduling";
 import SettingsUser from "./pages/SettingsUser";
-
-import loadUserConfig from "./loader/loadUserConfig";
-import loadAuth from "./loader/loadAuth";
+import loadUserConfig from "./api/loader/loadUserConfig";
+import loadAuth from "./api/loader/loadAuth";
 
 const router = createBrowserRouter(
   [

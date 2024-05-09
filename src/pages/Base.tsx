@@ -5,13 +5,13 @@ import {
   useLocation,
   useSearchParams,
 } from "react-router-dom";
-import Routes from "./configuration/routes/RouteList";
-import Footer from "./components/Footer";
+import Routes from "../configuration/routes/RouteList";
+import Footer from "../components/Footer";
 import iconSearch from "/img/icon-search.svg";
 import iconGear from "/img/icon-gear.svg";
 import iconExit from "/img/icon-exit.svg";
-import importColours from "./configuration/colours/getColours";
-import { UserConfig } from "./action/updateUserConfig";
+import importColours from "../configuration/colours/getColours";
+import { UserConfig } from "../api/actions/updateUserConfig";
 import { useEffect, useState } from "react";
 
 type User = {
@@ -123,6 +123,7 @@ const Base = () => {
             </div>
           </div>
         </div>
+        {/** Outlet: https://reactrouter.com/en/main/components/outlet */}
         <Outlet context={[currentPage, setCurrentPage]} />
       </div>
       <Footer version={version} />

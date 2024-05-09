@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import loadVideoById from "../loader/loadVideoById";
+import loadVideoById from "../api/loader/loadVideoById";
 import { useEffect, useState } from "react";
 import { ConfigType, VideoType } from "./Home";
 import VideoPlayer, { VideoProgressType } from "../components/VideoPlayer";
@@ -12,12 +12,12 @@ import iconStarEmpty from "/img/icon-star-empty.svg";
 import iconStarHalf from "/img/icon-star-half.svg";
 import Routes from "../configuration/routes/RouteList";
 import Linkify from "../components/Linkify";
-import loadSimmilarVideosById from "../loader/loadSimmilarVideosById";
+import loadSimmilarVideosById from "../api/loader/loadSimmilarVideosById";
 import VideoOverview from "../components/VideoOverview";
-import updateWatchedState from "../action/updateWatchedState";
+import updateWatchedState from "../api/actions/updateWatchedState";
 import humanFileSize from "../components/humanFileSize";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
-import loadVideoProgressById from "../loader/loadVideoProgressById";
+import loadVideoProgressById from "../api/loader/loadVideoProgressById";
 
 type VideoParams = {
   videoId: string;

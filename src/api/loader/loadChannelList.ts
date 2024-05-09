@@ -1,4 +1,4 @@
-import getCookie from "../components/getCookie";
+import getCookie from "../../components/getCookie";
 
 const loadChannelList = async (page: number) => {
   const params = new URL(document.location).searchParams;

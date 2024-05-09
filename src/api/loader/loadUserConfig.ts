@@ -1,5 +1,5 @@
-import { UserConfig } from "../action/updateUserConfig";
-import getCookie from "../components/getCookie";
+import { UserConfig } from "../actions/updateUserConfig";
+import getCookie from "../../components/getCookie";
 
 const loadUserConfig = async (): Promise<UserConfig> => {
   const headers = new Headers();

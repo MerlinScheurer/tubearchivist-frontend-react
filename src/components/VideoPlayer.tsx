@@ -1,5 +1,5 @@
-import updateVideoProgressById from "../action/updateVideoProgressById";
-import updateWatchedState from "../action/updateWatchedState";
+import updateVideoProgressById from "../api/actions/updateVideoProgressById";
+import updateWatchedState from "../api/actions/updateWatchedState";
 import { VideoResponseType } from "../pages/Video";
 import watchedThreshold from "./watchedThreshold";
 

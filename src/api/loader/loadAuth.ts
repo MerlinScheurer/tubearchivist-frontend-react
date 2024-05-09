@@ -1,4 +1,4 @@
-import getCookie from "../components/getCookie";
+import getCookie from "../../components/getCookie";
 
 const loadAuth = async () => {
   const headers = new Headers();

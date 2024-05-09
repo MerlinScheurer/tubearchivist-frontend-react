@@ -1,6 +1,6 @@
-import getCookie from "../components/getCookie";
+import getCookie from "../../components/getCookie";
 
-const loadVideoById = async (youtubeId: string) => {
+const loadVideoListByPage = async (page: number) => {
   const headers = new Headers();
 
   const csrfCookie = getCookie("csrftoken");
@@ -8,15 +8,15 @@ const loadVideoById = async (youtubeId: string) => {
     headers.append("X-CSRFToken", csrfCookie);
   }
 
-  const response = await fetch(`/api/video/${youtubeId}/`, {
+  const response = await fetch(`/api/video/?page=${page}`, {
     headers,
     credentials: "include",
   });
 
   const videos = await response.json();
-  console.log("loadVideoById", videos);
+  console.log("loadVideoListByPage", videos);
 
   return videos;
 };
 
-export default loadVideoById;
+export default loadVideoListByPage;

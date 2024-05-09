@@ -1,4 +1,4 @@
-import getCookie from "../components/getCookie";
+import getCookie from "../../components/getCookie";
 import deleteVideoProgressById from "./deleteVideoProgressById";
 
 export type Watched = {

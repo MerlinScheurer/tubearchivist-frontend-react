@@ -1,5 +1,5 @@
 import { Link, useLoaderData, useOutletContext } from "react-router-dom";
-import loadChannelList from "../loader/loadChannelList";
+import loadChannelList from "../api/loader/loadChannelList";
 import Routes from "../configuration/routes/RouteList";
 import iconGridView from "/img/icon-gridview.svg";
 import iconListView from "/img/icon-listview.svg";
@@ -7,9 +7,9 @@ import iconAdd from "/img/icon-add.svg";
 import { useEffect, useState } from "react";
 import Pagination, { PaginationType } from "../components/Pagination";
 import { ConfigType, ViewLayout } from "./Home";
-import updateUserConfig, { UserConfig } from "../action/updateUserConfig";
-import { OutletContextType } from "../Base";
-import updateChannelSubscription from "../action/updateChannelSubscription";
+import updateUserConfig, { UserConfig } from "../api/actions/updateUserConfig";
+import { OutletContextType } from "./Base";
+import updateChannelSubscription from "../api/actions/updateChannelSubscription";
 
 export type ChannelType = {
   channel_active: boolean;

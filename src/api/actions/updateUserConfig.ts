@@ -1,6 +1,6 @@
-import getCookie from "../components/getCookie";
-import { ColourVariants } from "../configuration/colours/getColours";
-import { SortBy, SortOrder, ViewLayout } from "../pages/Home";
+import getCookie from "../../components/getCookie";
+import { ColourVariants } from "../../configuration/colours/getColours";
+import { SortBy, SortOrder, ViewLayout } from "../../pages/Home";
 
 export type UserConfig = {
   stylesheet?: ColourVariants;

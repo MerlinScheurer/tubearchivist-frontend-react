@@ -5,7 +5,7 @@ import iconPlay from "/img/icon-play.svg";
 import iconSeen from "/img/icon-seen.svg";
 import iconUnseen from "/img/icon-unseen.svg";
 import defaultVideoThumb from "/img/default-video-thumb.jpg";
-import updateWatchedState from "../action/updateWatchedState";
+import updateWatchedState from "../api/actions/updateWatchedState";
 
 type VideoOverviewProps = {
   videoList: VideoType[] | undefined;

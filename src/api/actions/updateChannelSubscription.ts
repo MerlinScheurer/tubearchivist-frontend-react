@@ -1,4 +1,4 @@
-import getCookie from "../components/getCookie";
+import getCookie from "../../components/getCookie";
 
 const updateChannelSubscription = async (
   channelId: string,
