@@ -1,36 +1,36 @@
-import getCookie from "../components/getCookie";
+import getCookie from '../components/getCookie'
 
 type VideoProgressProp = {
-  youtubeId: string;
-  currentProgress: number;
-};
+    youtubeId: string
+    currentProgress: number
+}
 
 const updateVideoProgressById = async ({
-  youtubeId,
-  currentProgress,
+    youtubeId,
+    currentProgress,
 }: VideoProgressProp) => {
-  const headers = new Headers();
+    const headers = new Headers()
 
-  headers.append("Content-Type", "application/json");
+    headers.append('Content-Type', 'application/json')
 
-  const csrfCookie = getCookie("csrftoken");
-  if (csrfCookie) {
-    headers.append("X-CSRFToken", csrfCookie);
-  }
+    const csrfCookie = getCookie('csrftoken')
+    if (csrfCookie) {
+        headers.append('X-CSRFToken', csrfCookie)
+    }
 
-  const response = await fetch(`/api/video/${youtubeId}/progress/`, {
-    method: "POST",
-    headers,
-    credentials: "same-origin",
-    body: JSON.stringify({
-      position: currentProgress,
-    }),
-  });
+    const response = await fetch(`/api/video/${youtubeId}/progress/`, {
+        method: 'POST',
+        headers,
+        credentials: 'same-origin',
+        body: JSON.stringify({
+            position: currentProgress,
+        }),
+    })
 
-  const userConfig = await response.json();
-  console.log("updateVideoProgressById", userConfig);
+    const userConfig = await response.json()
+    console.log('updateVideoProgressById', userConfig)
 
-  return userConfig;
-};
+    return userConfig
+}
 
-export default updateVideoProgressById;
+export default updateVideoProgressById

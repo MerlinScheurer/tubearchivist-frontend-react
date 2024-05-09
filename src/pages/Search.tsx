@@ -1,5 +1,5 @@
 function Search() {
-  return <>Search</>;
+    return <>Search</>
 }
 
-export default Search;
+export default Search

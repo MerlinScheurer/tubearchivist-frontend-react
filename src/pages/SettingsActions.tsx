@@ -1,5 +1,5 @@
 function SettingsActions() {
-  return <>SettingsActions</>;
+    return <>SettingsActions</>
 }
 
-export default SettingsActions;
+export default SettingsActions

@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom'
 
 function Channel() {
-  const { channelId } = useParams();
+    const { channelId } = useParams()
 
-  return <>Channel {channelId}</>;
+    return <>Channel {channelId}</>
 }
 
-export default Channel;
+export default Channel

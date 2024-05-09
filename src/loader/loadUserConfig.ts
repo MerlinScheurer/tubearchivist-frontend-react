@@ -1,25 +1,25 @@
-import { UserConfig } from "../action/updateUserConfig";
-import getCookie from "../components/getCookie";
+import { UserConfig } from '../action/updateUserConfig'
+import getCookie from '../components/getCookie'
 
 const loadUserConfig = async (): Promise<UserConfig> => {
-  const headers = new Headers();
+    const headers = new Headers()
 
-  headers.append("Content-Type", "application/json");
+    headers.append('Content-Type', 'application/json')
 
-  const csrfCookie = getCookie("csrftoken");
-  if (csrfCookie) {
-    headers.append("X-CSRFToken", csrfCookie);
-  }
+    const csrfCookie = getCookie('csrftoken')
+    if (csrfCookie) {
+        headers.append('X-CSRFToken', csrfCookie)
+    }
 
-  const response = await fetch("/api/config/user/", {
-    headers,
-    credentials: "include",
-  });
+    const response = await fetch('/api/config/user/', {
+        headers,
+        credentials: 'include',
+    })
 
-  const userConfig = await response.json();
-  console.log("userConfig", userConfig);
+    const userConfig = await response.json()
+    console.log('userConfig', userConfig)
 
-  return userConfig;
-};
+    return userConfig
+}
 
-export default loadUserConfig;
+export default loadUserConfig
