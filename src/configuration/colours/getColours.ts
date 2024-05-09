@@ -1,26 +1,26 @@
 export type ColourVariants =
-    | 'dark.css'
-    | 'light.css'
-    | 'matrix.css'
-    | 'midnight.css';
+  | "dark.css"
+  | "light.css"
+  | "matrix.css"
+  | "midnight.css";
 
 const importColours = (stylesheet: ColourVariants | undefined) => {
-    switch (stylesheet) {
-        case 'dark.css':
-            return import('./components/Dark');
+  switch (stylesheet) {
+    case "dark.css":
+      return import("./components/Dark");
 
-        case 'matrix.css':
-            return import('./components/Matrix');
+    case "matrix.css":
+      return import("./components/Matrix");
 
-        case 'midnight.css':
-            return import('./components/Midnight');
+    case "midnight.css":
+      return import("./components/Midnight");
 
-        case 'light.css':
-            return import('./components/Light');
+    case "light.css":
+      return import("./components/Light");
 
-        default:
-            return import('./components/Dark');
-    }
+    default:
+      return import("./components/Dark");
+  }
 };
 
 export default importColours;

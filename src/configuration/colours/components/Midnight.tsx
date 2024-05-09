@@ -1,7 +1,7 @@
-import './css/midnight.css';
+import "./css/midnight.css";
 
 const MidnightStylesheet = () => {
-    return <></>;
+  return <></>;
 };
 
 export default MidnightStylesheet;

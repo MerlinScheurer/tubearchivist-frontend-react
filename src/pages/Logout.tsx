@@ -1,9 +1,9 @@
-import importColours from '../configuration/colours/getColours';
+import importColours from "../configuration/colours/getColours";
 
 function Logout() {
-    importColours('dark.css');
+  importColours("dark.css");
 
-    return <>Logout</>;
+  return <>Logout</>;
 }
 
 export default Logout;

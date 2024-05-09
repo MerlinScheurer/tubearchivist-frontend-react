@@ -1,5 +1,5 @@
 const SettingsScheduling = () => {
-    return <>SettingsScheduling</>;
+  return <>SettingsScheduling</>;
 };
 
 export default SettingsScheduling;

@@ -1,5 +1,5 @@
 function SettingsApplication() {
-    return <>SettingsApplication</>;
+  return <>SettingsApplication</>;
 }
 
 export default SettingsApplication;

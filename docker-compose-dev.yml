@@ -1,21 +1,21 @@
 services:
-    tubearchivist-frontend:
-        container_name: tubearchivist-frontend
-        build:
-            context: .
-            dockerfile: ./Dockerfile-dev
-        expose:
-            - '8000'
-        working_dir: /srv/app
-        entrypoint: ['npm', 'run', 'dev']
-        volumes:
-            - type: bind
-              source: ./
-              target: /srv/app
-        networks:
-            - tubearchivist
+  tubearchivist-frontend:
+    container_name: tubearchivist-frontend
+    build:
+      context: .
+      dockerfile: ./Dockerfile-dev
+    expose:
+      - "8000"
+    working_dir: /srv/app
+    entrypoint: ["npm", "run", "dev"]
+    volumes:
+      - type: bind
+        source: ./
+        target: /srv/app
+    networks:
+      - tubearchivist
 
 networks:
-    tubearchivist:
-        name: tubearchivist
-        external: true
+  tubearchivist:
+    name: tubearchivist
+    external: true
