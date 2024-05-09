@@ -62,7 +62,6 @@ const Login = () => {
         {form_error && <p className="danger-zone">Failed to login.</p>}
 
         <form onSubmit={handleSubmit}>
-          {/** TODO: csrf_token? */}
           <input
             type="text"
             name="username"
