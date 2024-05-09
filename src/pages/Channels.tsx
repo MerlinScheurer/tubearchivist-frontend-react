@@ -62,7 +62,7 @@ const Channels = () => {
 
   useEffect(() => {
     (async () => {
-      //TODO: take showAddForm into account when loading channels
+      //TODO: take showSubscribedOnly into account when loading channels
       const channelListResponse = await loadChannelList(currentPage);
 
       setChannelListResponse(channelListResponse);
