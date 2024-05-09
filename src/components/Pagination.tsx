@@ -9,7 +9,7 @@ export type PaginationType = {
   current_page: number;
   max_hits?: boolean;
   params?: string;
-  last_page?: boolean;
+  last_page?: number;
   next_pages?: [];
   total_hits?: number;
 };
@@ -20,14 +20,16 @@ interface Props {
 }
 
 const Pagination = ({ pagination, setPage }: Props) => {
-  const hasParams = pagination?.params?.length > 0;
+  let hasParams = false;
 
-  // console.log("pagination", pagination);
+  if (pagination?.params) {
+    hasParams = pagination.params.length > 0;
+  }
 
   return (
     <div className="pagination">
       <br />
-      {pagination && pagination.total_hits > 1 && (
+      {pagination && pagination.total_hits && pagination.total_hits > 1 && (
         <>
           {pagination.current_page > 1 && (
             <>
@@ -45,7 +47,7 @@ const Pagination = ({ pagination, setPage }: Props) => {
           )}
 
           {pagination.prev_pages &&
-            pagination.prev_pages.map((page, index) => {
+            pagination.prev_pages.map((page: number, index: number) => {
               if (hasParams) {
                 return (
                   <Fragment key={index}>
@@ -83,7 +85,7 @@ const Pagination = ({ pagination, setPage }: Props) => {
             <span>{`< Page ${pagination.current_page} `}</span>
           )}
 
-          {pagination?.next_pages?.length > 0 && (
+          {pagination.next_pages && pagination.next_pages.length > 0 && (
             <>
               <span>{">"}</span>{" "}
               {pagination.next_pages.map((page, index) => {
@@ -122,7 +124,7 @@ const Pagination = ({ pagination, setPage }: Props) => {
             </>
           )}
 
-          {pagination.last_page > 0 && (
+          {pagination.last_page && pagination.last_page > 0 && (
             <>
               {hasParams && (
                 <a
@@ -130,7 +132,7 @@ const Pagination = ({ pagination, setPage }: Props) => {
                   href={`?page=${pagination.last_page}&${pagination.params}`}
                   onClick={(event) => {
                     event.preventDefault();
-                    setPage(pagination.last_page);
+                    setPage(pagination.last_page || 0);
                   }}
                 >
                   {pagination.max_hits && `Max (${pagination.last_page})`}
@@ -144,7 +146,7 @@ const Pagination = ({ pagination, setPage }: Props) => {
                   href={`?page=${pagination.last_page}`}
                   onClick={(event) => {
                     event.preventDefault();
-                    setPage(pagination.last_page);
+                    setPage(pagination.last_page || 0);
                   }}
                 >
                   {pagination.max_hits && `Max (${pagination.last_page})`}

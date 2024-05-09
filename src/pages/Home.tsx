@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Link,
-  useLoaderData,
-  useOutletContext,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useLoaderData, useOutletContext } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 
 import iconSort from "/img/icon-sort.svg";
@@ -168,7 +163,7 @@ const Home = () => {
 
   const [videoResponse, setVideoReponse] = useState<VideoResponseType>({
     data: [],
-    paginate: {},
+    paginate: { current_page: 0 },
   });
 
   const videoList = videoResponse.data;
