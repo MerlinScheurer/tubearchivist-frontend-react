@@ -371,30 +371,40 @@ const Video = () => {
           <>
             {playlistNav.map((playlistItem) => {
               <div className="playlist-wrap">
-                <a href="{% url 'playlist_id' playlist_item.playlist_meta.playlist_id %}">
+                <Link
+                  to={Routes.Playlist(playlistItem.playlist_meta.playlist_id)}
+                >
                   <h3>
                     Playlist [{playlistItem.playlist_meta.current_idx + 1}]:{" "}
                     {playlistItem.playlist_meta.playlist_name}
                   </h3>
-                </a>
+                </Link>
                 <div className="playlist-nav">
                   <div className="playlist-nav-item">
                     {playlistItem.playlist_previous && (
                       <>
-                        <a href="{% url 'video' playlist_item.playlist_previous.youtube_id %}">
+                        <Link
+                          to={Routes.Playlist(
+                            playlistItem.playlist_previous.youtube_id
+                          )}
+                        >
                           <img
-                            src="/cache/{{ playlist_item.playlist_previous.vid_thumb }}"
+                            src={`/cache/${playlistItem.playlist_previous.vid_thumb}`}
                             alt="previous thumbnail"
                           />
-                        </a>
+                        </Link>
                         <div className="playlist-desc">
                           <p>Previous:</p>
-                          <a href="{% url 'video' playlist_item.playlist_previous.youtube_id %}">
+                          <Link
+                            to={Routes.Playlist(
+                              playlistItem.playlist_previous.youtube_id
+                            )}
+                          >
                             <h3>
                               [{playlistItem.playlist_previous.idx + 1}]{" "}
                               {playlistItem.playlist_previous.title}
                             </h3>
-                          </a>
+                          </Link>
                         </div>
                       </>
                     )}
@@ -404,19 +414,27 @@ const Video = () => {
                       <>
                         <div className="playlist-desc">
                           <p>Next:</p>
-                          <a href="{% url 'video' playlist_item.playlist_next.youtube_id %}">
+                          <Link
+                            to={Routes.Playlist(
+                              playlistItem.playlist_next.youtube_id
+                            )}
+                          >
                             <h3>
                               [{playlistItem.playlist_next.idx + 1}]{" "}
                               {playlistItem.playlist_next.title}
                             </h3>
-                          </a>
+                          </Link>
                         </div>
-                        <a href="{% url 'video' playlist_item.playlist_next.youtube_id %}">
+                        <Link
+                          to={Routes.Playlist(
+                            playlistItem.playlist_next.youtube_id
+                          )}
+                        >
                           <img
                             src={`/cache/${playlistItem.playlist_next.vid_thumb}`}
                             alt="previous thumbnail"
                           />
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
