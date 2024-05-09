@@ -15,9 +15,6 @@ const Login = () => {
   const form_error = false;
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
-    // action="http://localhost:8000/login/"
-    // method="POST"
-    // name="login"
     event.preventDefault();
 
     const responseHead = await fetch("/api/csrf/", {
