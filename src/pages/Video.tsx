@@ -44,6 +44,7 @@ const Video = () => {
   const [videoProgress, setVideoProgress] = useState<VideoProgressType>();
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [watched, setWatched] = useState(false);
+  const [refreshVideoList, setRefreshVideoList] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -55,8 +56,9 @@ const Video = () => {
       setSimmilarVideos(simmilarVideos);
       setWatched(videoResponse.data.player.watched);
       setVideoProgress(videoProgress);
+      setRefreshVideoList(false);
     })();
-  }, [videoId]);
+  }, [videoId, refreshVideoList]);
 
   if (videoResponse === undefined) {
     return [];
@@ -450,7 +452,7 @@ const Video = () => {
             <VideoOverview
               videoList={simmilarVideos?.data}
               viewLayout="grid"
-              hasBeenWatched={watched}
+              refreshVideoList={setRefreshVideoList}
             />
           </div>
         </div>
