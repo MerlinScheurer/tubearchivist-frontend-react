@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 
-function Channel() {
+function ChannelShorts() {
   const { channelId } = useParams();
 
-  return <>Channel {channelId}</>;
+  return <></>;
 }
 
-export default Channel;
+export default ChannelShorts;

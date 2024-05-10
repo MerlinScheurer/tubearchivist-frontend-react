@@ -9,7 +9,6 @@ import Routes from "./configuration/routes/RouteList";
 import "./style.css";
 import Base from "./pages/Base";
 import About from "./pages/About";
-import Channel from "./pages/Channel";
 import Channels from "./pages/Channels";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
@@ -26,6 +25,11 @@ import SettingsScheduling from "./pages/SettingsScheduling";
 import SettingsUser from "./pages/SettingsUser";
 import loadUserConfig from "./api/loader/loadUserConfig";
 import loadAuth from "./api/loader/loadAuth";
+import ChannelBase from "./pages/ChannelBase";
+import ChannelVideo from "./pages/ChannelVideo";
+import ChannelPlaylist from "./pages/ChannelPlaylist";
+import ChannelAbout from "./pages/ChannelAbout";
+import ChannelStream from "./pages/ChannelStream";
 
 const router = createBrowserRouter(
   [
@@ -83,7 +87,7 @@ const router = createBrowserRouter(
         },
         {
           path: Routes.Channel(":channelId"),
-          element: <Channel />,
+          element: <ChannelBase />,
           loader: async () => {
             const authResponse = await loadAuth();
             if (authResponse.status === 403) {
@@ -92,6 +96,71 @@ const router = createBrowserRouter(
 
             return {};
           },
+          children: [
+            {
+              index: true,
+              path: Routes.ChannelVideo(":channelId"),
+              element: <ChannelVideo />,
+              loader: async () => {
+                const authResponse = await loadAuth();
+                if (authResponse.status === 403) {
+                  return redirect(Routes.Login);
+                }
+
+                const userConfig = await loadUserConfig();
+
+                return { userConfig };
+              },
+            },
+            {
+              path: Routes.ChannelStream(":channelId"),
+              element: <ChannelStream />,
+              loader: async () => {
+                const authResponse = await loadAuth();
+                if (authResponse.status === 403) {
+                  return redirect(Routes.Login);
+                }
+
+                return {};
+              },
+            },
+            {
+              path: Routes.ChannelShort(":channelId"),
+              element: <ChannelStream />,
+              loader: async () => {
+                const authResponse = await loadAuth();
+                if (authResponse.status === 403) {
+                  return redirect(Routes.Login);
+                }
+
+                return {};
+              },
+            },
+            {
+              path: Routes.ChannelPlaylist(":channelId"),
+              element: <ChannelPlaylist />,
+              loader: async () => {
+                const authResponse = await loadAuth();
+                if (authResponse.status === 403) {
+                  return redirect(Routes.Login);
+                }
+
+                return {};
+              },
+            },
+            {
+              path: Routes.ChannelAbout(":channelId"),
+              element: <ChannelAbout />,
+              loader: async () => {
+                const authResponse = await loadAuth();
+                if (authResponse.status === 403) {
+                  return redirect(Routes.Login);
+                }
+
+                return {};
+              },
+            },
+          ],
         },
         {
           path: Routes.Playlists,

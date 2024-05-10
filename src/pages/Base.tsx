@@ -11,11 +11,12 @@ import iconSearch from "/img/icon-search.svg";
 import iconGear from "/img/icon-gear.svg";
 import iconExit from "/img/icon-exit.svg";
 import importColours from "../configuration/colours/getColours";
-import { UserConfig } from "../api/actions/updateUserConfig";
+import { UserConfigType } from "../api/actions/updateUserConfig";
 import { useEffect, useState } from "react";
+import getIsAdmin from "../components/getIsAdmin";
 
 type BaseLoaderData = {
-  userConfig: UserConfig;
+  userConfig: UserConfigType;
 };
 
 export type OutletContextType = [number, () => void];
@@ -63,15 +64,7 @@ const Base = () => {
   const version = "v0.4.8-unstable";
   // const ta_update: TaUpdate = { version: "testing v2", is_breaking: false };
 
-  // TODO: get from api
-  const request = { user: { groups: [], is_staff: false } };
-
-  const isAdmin =
-    request &&
-    (request.user.groups.some((group) => {
-      group === "admin";
-    }) ||
-      request.user.is_staff);
+  const isAdmin = getIsAdmin();
 
   return (
     <>

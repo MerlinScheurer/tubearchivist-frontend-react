@@ -1,7 +1,7 @@
-import { UserConfig } from "../actions/updateUserConfig";
+import { UserConfigType } from "../actions/updateUserConfig";
 import getCookie from "../../components/getCookie";
 
-const loadUserConfig = async (): Promise<UserConfig> => {
+const loadUserConfig = async (): Promise<UserConfigType> => {
   const headers = new Headers();
 
   headers.append("Content-Type", "application/json");

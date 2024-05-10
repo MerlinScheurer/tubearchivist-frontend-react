@@ -2,7 +2,7 @@ import getCookie from "../../components/getCookie";
 import { ColourVariants } from "../../configuration/colours/getColours";
 import { SortBy, SortOrder, ViewLayout } from "../../pages/Home";
 
-export type UserConfig = {
+export type UserConfigType = {
   stylesheet?: ColourVariants;
   page_size?: number;
   sort_by?: SortBy;
@@ -18,7 +18,7 @@ export type UserConfig = {
   sponsorblock_id?: number;
 };
 
-const updateUserConfig = async (config: UserConfig) => {
+const updateUserConfig = async (config: UserConfigType) => {
   const headers = new Headers();
 
   headers.append("Content-Type", "application/json");

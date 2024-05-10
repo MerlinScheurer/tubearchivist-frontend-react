@@ -18,6 +18,7 @@ import updateWatchedState from "../api/actions/updateWatchedState";
 import humanFileSize from "../components/humanFileSize";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import loadVideoProgressById from "../api/loader/loadVideoProgressById";
+import getIsAdmin from "../components/getIsAdmin";
 
 type VideoParams = {
   videoId: string;
@@ -78,15 +79,7 @@ const Video = () => {
 
   const cast = false;
 
-  // TODO: get from api
-  const request = { user: { groups: [], is_staff: false } };
-
-  const isAdmin =
-    request &&
-    (request.user.groups.some((group) => {
-      group === "admin";
-    }) ||
-      request.user.is_staff);
+  const isAdmin = getIsAdmin();
 
   const reindex = false;
 

@@ -1,9 +1,7 @@
 import getCookie from "../../components/getCookie";
 
 const loadVideoList = async () => {
-  const params = new URL(document.location).searchParams;
-
-  console.log(params);
+  const params = new URL(document.URL).searchParams;
 
   const headers = new Headers();
 

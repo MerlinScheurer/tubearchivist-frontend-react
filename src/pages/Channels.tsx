@@ -7,9 +7,12 @@ import iconAdd from "/img/icon-add.svg";
 import { useEffect, useState } from "react";
 import Pagination, { PaginationType } from "../components/Pagination";
 import { ConfigType, ViewLayout } from "./Home";
-import updateUserConfig, { UserConfig } from "../api/actions/updateUserConfig";
+import updateUserConfig, {
+  UserConfigType,
+} from "../api/actions/updateUserConfig";
 import { OutletContextType } from "./Base";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
+import getIsAdmin from "../components/getIsAdmin";
 
 export type ChannelType = {
   channel_active: boolean;
@@ -33,7 +36,7 @@ type ChannelsListResponse = {
 };
 
 type ChannelsLoaderDataType = {
-  userConfig: UserConfig;
+  userConfig: UserConfigType;
 };
 
 const Channels = () => {
@@ -76,16 +79,7 @@ const Channels = () => {
   const pagination = channelListResponse?.paginate;
   const channelCount = channels?.length;
 
-  // TODO: get from api
-  const request = { user: { groups: [], is_staff: false } };
-
-  const isAdmin = true;
-
-  request &&
-    (request.user.groups.some((group) => {
-      group === "admin";
-    }) ||
-      request.user.is_staff);
+  const isAdmin = getIsAdmin();
 
   return (
     <div className="boxed-content">
