@@ -1,10 +1,6 @@
 import getCookie from "../../components/getCookie";
 
 const loadChannelList = async (page: number) => {
-  const params = new URL(document.URL).searchParams;
-
-  console.log(params);
-
   const headers = new Headers();
 
   const csrfCookie = getCookie("csrftoken");
