@@ -30,6 +30,7 @@ import ChannelVideo from "./pages/ChannelVideo";
 import ChannelPlaylist from "./pages/ChannelPlaylist";
 import ChannelAbout from "./pages/ChannelAbout";
 import ChannelStream from "./pages/ChannelStream";
+import Download from "./pages/Download";
 
 const router = createBrowserRouter(
   [
@@ -179,6 +180,18 @@ const router = createBrowserRouter(
         {
           path: Routes.Playlist(":playlistId"),
           element: <Playlist />,
+          loader: async () => {
+            const authResponse = await loadAuth();
+            if (authResponse.status === 403) {
+              return redirect(Routes.Login);
+            }
+
+            return {};
+          },
+        },
+        {
+          path: Routes.Downloads,
+          element: <Download />,
           loader: async () => {
             const authResponse = await loadAuth();
             if (authResponse.status === 403) {
