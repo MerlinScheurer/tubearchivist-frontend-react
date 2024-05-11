@@ -39,6 +39,7 @@ export type VideoResponseType = {
 
 const Video = () => {
   const { videoId } = useParams() as VideoParams;
+
   const [videoResponse, setVideoResponse] = useState<VideoResponseType>();
   const [simmilarVideos, setSimmilarVideos] =
     useState<SimilarVideoResponseType>();

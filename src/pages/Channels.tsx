@@ -114,7 +114,7 @@ const Channels = () => {
           </div>
         )}
       </div>
-      <div id="notifications" data="subscription"></div>
+      <div id="notifications"></div>
       <div className="view-controls">
         <div className="toggle">
           <span>Show subscribed only:</span>

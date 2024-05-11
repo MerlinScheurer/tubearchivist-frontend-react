@@ -1,6 +1,6 @@
 const getIsAdmin = () => {
   // TODO: get from api
-  const request = { user: { groups: [], is_staff: false } };
+  const request = { user: { groups: [], is_staff: true } };
 
   const isAdmin =
     request &&

@@ -19,7 +19,7 @@ const VideoOverview = ({
   refreshVideoList,
 }: VideoOverviewProps) => {
   if (!videoList) {
-    return "No similar videos found.";
+    return "No videos found.";
   }
 
   return (
