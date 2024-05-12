@@ -7,17 +7,17 @@ import iconUnseen from "/img/icon-unseen.svg";
 import defaultVideoThumb from "/img/default-video-thumb.jpg";
 import updateWatchedState from "../api/actions/updateWatchedState";
 
-type VideoOverviewProps = {
+type VideoListProps = {
   videoList: VideoType[] | undefined;
   viewLayout: ViewLayout;
   refreshVideoList: (refresh: boolean) => void;
 };
 
-const VideoOverview = ({
+const VideoList = ({
   videoList,
   viewLayout,
   refreshVideoList,
-}: VideoOverviewProps) => {
+}: VideoListProps) => {
   if (!videoList) {
     return "No videos found.";
   }
@@ -121,4 +121,4 @@ const VideoOverview = ({
   );
 };
 
-export default VideoOverview;
+export default VideoList;
