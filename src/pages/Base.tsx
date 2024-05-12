@@ -32,8 +32,6 @@ const Base = () => {
   const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
   const [, setSearchParams] = useSearchParams();
 
-  console.log(currentPageFromUrl, currentPage);
-
   useEffect(() => {
     console.log("location");
     if (currentPageFromUrl !== currentPage) {
