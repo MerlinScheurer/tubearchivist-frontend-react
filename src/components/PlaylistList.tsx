@@ -1,17 +1,14 @@
 import { Link } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import { ViewLayout } from "../pages/Home";
-import { PlaylistType } from "../pages/Playlists";
+import { PlaylistType } from "../pages/Playlist";
 
-type PlaylistOverviewProps = {
+type PlaylistListProps = {
   playlistList: PlaylistType[] | undefined;
   viewLayout: ViewLayout;
 };
 
-const PlaylistOverview = ({
-  playlistList,
-  viewLayout,
-}: PlaylistOverviewProps) => {
+const PlaylistList = ({ playlistList, viewLayout }: PlaylistListProps) => {
   if (!playlistList) {
     return "No playlists found.";
   }
@@ -58,7 +55,7 @@ const PlaylistOverview = ({
                     </button>
                   )}
 
-                  {playlist.playlist_subscribed && (
+                  {!playlist.playlist_subscribed && (
                     <button
                       type="button"
                       data-type="playlist"
@@ -80,4 +77,4 @@ const PlaylistOverview = ({
   );
 };
 
-export default PlaylistOverview;
+export default PlaylistList;
