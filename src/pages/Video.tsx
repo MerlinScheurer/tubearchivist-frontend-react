@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import loadVideoById from "../api/loader/loadVideoById";
 import { useEffect, useState } from "react";
 import { ConfigType, VideoType } from "./Home";
@@ -20,6 +20,8 @@ import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import loadVideoProgressById from "../api/loader/loadVideoProgressById";
 import getIsAdmin from "../components/getIsAdmin";
 import ChannelOverview from "../components/ChannelOverview";
+import deleteVideo from "../api/actions/deleteVideo";
+import capitalizeFirstLetter from "../components/capitalizeFirstLetter";
 
 type VideoParams = {
   videoId: string;
@@ -40,6 +42,7 @@ export type VideoResponseType = {
 
 const Video = () => {
   const { videoId } = useParams() as VideoParams;
+  const navigate = useNavigate();
 
   const [videoResponse, setVideoResponse] = useState<VideoResponseType>();
   const [simmilarVideos, setSimmilarVideos] =
@@ -47,6 +50,7 @@ const Video = () => {
   const [videoProgress, setVideoProgress] = useState<VideoProgressType>();
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [watched, setWatched] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [refreshVideoList, setRefreshVideoList] = useState(false);
 
   useEffect(() => {
@@ -263,27 +267,39 @@ const Video = () => {
                   )}
                 </>
               )}
-
               <a download="" href={video.media_url}>
                 <button id="download-item">Download File</button>
-              </a>
+              </a>{" "}
               {isAdmin && (
                 <>
-                  <button onclick="deleteConfirm()" id="delete-item">
-                    Delete Video
-                  </button>
-                  <div className="delete-confirm" id="delete-button">
-                    <span>Are you sure? </span>
+                  {!showDeleteConfirm && (
                     <button
-                      className="danger-button"
-                      onclick="deleteVideo(this)"
-                      data-id={video.youtube_id}
-                      data-redirect={video.channel.channel_id}
+                      onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                      id="delete-item"
                     >
-                      Delete
-                    </button>{" "}
-                    <button onclick="cancelDelete()">Cancel</button>
-                  </div>
+                      Delete Video
+                    </button>
+                  )}
+
+                  {showDeleteConfirm && (
+                    <div className="delete-confirm" id="delete-button">
+                      <span>Are you sure? </span>
+                      <button
+                        className="danger-button"
+                        onClick={async () => {
+                          await deleteVideo(videoId);
+                          navigate(Routes.Channel(video.channel.channel_id));
+                        }}
+                      >
+                        Delete
+                      </button>{" "}
+                      <button
+                        onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
               <button
@@ -305,7 +321,7 @@ const Video = () => {
               video.streams.map((stream) => {
                 return (
                   <p>
-                    {stream.type}: {stream.codec}{" "}
+                    {capitalizeFirstLetter(stream.type)}: {stream.codec}{" "}
                     {humanFileSize(stream.bitrate, true)}/s
                     {stream.width && (
                       <>

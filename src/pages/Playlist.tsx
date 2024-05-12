@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { useLoaderData, useOutletContext, useParams } from "react-router-dom";
+import {
+  useLoaderData,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 import { UserConfigType } from "../api/actions/updateUserConfig";
 import loadPlaylistById from "../api/loader/loadPlaylistById";
 import { OutletContextType } from "./Base";
@@ -17,6 +22,7 @@ import Linkify from "../components/Linkify";
 import { ViewStyleNames } from "../configuration/constants/ViewStyle";
 import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
 import deletePlaylist from "../api/actions/deletePlaylist";
+import Routes from "../configuration/routes/RouteList";
 
 export type PlaylistType = {
   playlist_active: boolean;
@@ -56,6 +62,7 @@ export type VideoResponseType = {
 
 const Playlist = () => {
   const { playlistId } = useParams();
+  const navigate = useNavigate();
 
   const { userConfig } = useLoaderData() as PlaylistLoaderDataType;
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
@@ -202,16 +209,18 @@ const Playlist = () => {
                   <button
                     onClick={async () => {
                       await deletePlaylist(playlistId, false);
+                      navigate(Routes.Playlists);
                     }}
                   >
                     Delete metadata
                   </button>
 
                   <button
+                    className="danger-button"
                     onClick={async () => {
                       await deletePlaylist(playlistId, true);
+                      navigate(Routes.Playlists);
                     }}
-                    className="danger-button"
                   >
                     Delete all
                   </button>
