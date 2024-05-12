@@ -13,7 +13,8 @@ import loadPlaylistList from "../api/loader/loadPlaylistList";
 import { ConfigType, ViewLayout } from "./Home";
 import Pagination, { PaginationType } from "../components/Pagination";
 import getIsAdmin from "../components/getIsAdmin";
-import PlaylistOverview from "../components/PlaylistOverview";
+import PlaylistList from "../components/PlaylistList";
+import { PlaylistType } from "./Playlist";
 
 export type PlaylistEntryType = {
   youtube_id: string;
@@ -21,22 +22,6 @@ export type PlaylistEntryType = {
   uploader: string;
   idx: number;
   downloaded: boolean;
-};
-
-export type PlaylistType = {
-  playlist_active: boolean;
-  playlist_channel: string;
-  playlist_channel_id: string;
-  playlist_description: boolean;
-  playlist_entries: PlaylistEntryType[];
-  playlist_id: string;
-  playlist_last_refresh: string;
-  playlist_name: string;
-  playlist_subscribed: boolean;
-  playlist_thumbnail: string;
-  playlist_type: string;
-  _index: string;
-  _score: number;
 };
 
 export type PlaylistResponseType = {
@@ -186,7 +171,7 @@ const Playlists = () => {
         <div className={`playlist-list ${view}`}>
           {!hasPlaylists && <h2>No playlists found...</h2>}
 
-          <PlaylistOverview playlistList={playlistList} viewLayout={view} />
+          <PlaylistList playlistList={playlistList} viewLayout={view} />
         </div>
       </div>
 

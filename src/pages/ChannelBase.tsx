@@ -6,6 +6,7 @@ import { ChannelType } from "./Channels";
 import { ConfigType } from "./Home";
 import getIsAdmin from "../components/getIsAdmin";
 import { OutletContextType } from "./Base";
+import ChannelOverview from "../components/ChannelOverview";
 
 type ChannelParams = {
   channelId: string;
@@ -21,14 +22,16 @@ function ChannelBase() {
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
 
   const [channelResponse, setChannelResponse] = useState<ChannelResponseType>();
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     (async () => {
       const channelResponse = await loadChannelById(channelId);
 
       setChannelResponse(channelResponse);
+      setRefresh(false);
     })();
-  }, [channelId]);
+  }, [channelId, refresh]);
 
   const channel = channelResponse?.data;
 
@@ -87,58 +90,14 @@ function ChannelBase() {
         <div id="notifications" data="channel reindex" />
 
         <div className="info-box info-box-2">
-          <div className="info-box-item">
-            <div className="round-img">
-              <Link to={Routes.Channel(channel.channel_id)}>
-                <img
-                  src={`/cache/channels/${channel.channel_id}_thumb.jpg`}
-                  alt="channel-thumb"
-                />
-              </Link>
-            </div>
-            <div>
-              <h3>
-                <Link to={Routes.ChannelVideo(channel.channel_id)}>
-                  {channel.channel_name}
-                </Link>
-              </h3>
-
-              {channel.channel_subs >= 1000000 && (
-                <p>Subscribers: {channel.channel_subs}</p>
-              )}
-
-              {channel.channel_subs < 1000000 && (
-                <p>Subscribers: {channel.channel_subs}</p>
-              )}
-
-              {channel.channel_subscribed && isAdmin && (
-                <button
-                  className="unsubscribe"
-                  type="button"
-                  data-type="channel"
-                  data-subscribe=""
-                  data-id={channel.channel_id}
-                  onclick="subscribeStatus(this)"
-                  title="Unsubscribe from {{ channel_info.channel_name }}"
-                >
-                  Unsubscribe
-                </button>
-              )}
-
-              {!channel.channel_subscribed && (
-                <button
-                  type="button"
-                  data-type="channel"
-                  data-subscribe="true"
-                  data-id={channel.channel_id}
-                  onclick="subscribeStatus(this)"
-                  title="Subscribe to {{ channel_info.channel_name }}"
-                >
-                  Subscribe
-                </button>
-              )}
-            </div>
-          </div>
+          <ChannelOverview
+            channelId={channel.channel_id}
+            channelname={channel.channel_name}
+            channelSubs={channel.channel_subs}
+            channelSubscribed={channel.channel_subscribed}
+            showSubscribeButton={true}
+            setRefresh={setRefresh}
+          />
           <div className="info-box-item">
             {aggs && (
               <>

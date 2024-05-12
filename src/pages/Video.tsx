@@ -13,12 +13,13 @@ import iconStarHalf from "/img/icon-star-half.svg";
 import Routes from "../configuration/routes/RouteList";
 import Linkify from "../components/Linkify";
 import loadSimmilarVideosById from "../api/loader/loadSimmilarVideosById";
-import VideoOverview from "../components/VideoOverview";
+import VideoList from "../components/VideoList";
 import updateWatchedState from "../api/actions/updateWatchedState";
 import humanFileSize from "../components/humanFileSize";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import loadVideoProgressById from "../api/loader/loadVideoProgressById";
 import getIsAdmin from "../components/getIsAdmin";
+import ChannelOverview from "../components/ChannelOverview";
 
 type VideoParams = {
   videoId: string;
@@ -143,29 +144,14 @@ const Video = () => {
           <h1 id="video-title">{video.title}</h1>
         </div>
         <div className="info-box info-box-3">
-          <div className="info-box-item">
-            <div className="round-img">
-              <Link to={Routes.Channel(video.channel.channel_id)}>
-                <img
-                  src={`/cache/channels/${video.channel.channel_id}_thumb.jpg`}
-                  alt="channel-thumb"
-                />
-              </Link>
-            </div>
-            <div>
-              <h3>
-                <Link to={Routes.Channel(video.channel.channel_id)}>
-                  {video.channel.channel_name}
-                </Link>
-              </h3>
-              {video.channel.channel_subs >= 1000000 && (
-                <p>Subscribers: {video.channel.channel_subs}</p>
-              )}
-              {video.channel.channel_subs < 1000000 && (
-                <p>Subscribers: {video.channel.channel_subs}</p>
-              )}
-            </div>
-          </div>
+          <ChannelOverview
+            channelId={video.channel.channel_id}
+            channelname={video.channel.channel_name}
+            channelSubs={video.channel.channel_subs}
+            channelSubscribed={video.channel.channel_subscribed}
+            setRefresh={setRefreshVideoList}
+          />
+
           <div className="info-box-item">
             <div>
               <p>Published: {video.published}</p>
@@ -235,12 +221,8 @@ const Video = () => {
               </p>
               {video.stats.dislike_count > 0 && (
                 <p className="thumb-icon">
-                  <img
-                    className="dislike"
-                    src="{% static 'img/icon-thumb.svg' %}"
-                    alt="thumbs-down"
-                  />
-                  : {video.stats.dislike_count}
+                  <img className="dislike" src={iconThumb} alt="thumbs-down" />:{" "}
+                  {video.stats.dislike_count}
                 </p>
               )}
               {video.stats.average_rating && (
@@ -443,13 +425,14 @@ const Video = () => {
         <div className="description-box">
           <h3>Similar Videos</h3>
           <div className="video-list grid grid-3" id="similar-videos">
-            <VideoOverview
+            <VideoList
               videoList={simmilarVideos?.data}
               viewLayout="grid"
               refreshVideoList={setRefreshVideoList}
             />
           </div>
         </div>
+
         {video.comment_count == 0 && (
           <div className="comments-section">
             <span>Video has no comments</span>

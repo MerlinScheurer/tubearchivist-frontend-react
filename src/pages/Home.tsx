@@ -2,20 +2,14 @@ import { useEffect, useState } from "react";
 import { Link, useLoaderData, useOutletContext } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 
-import iconSort from "/img/icon-sort.svg";
-import iconAdd from "/img/icon-add.svg";
-import iconSubstract from "/img/icon-substract.svg";
-import iconGridView from "/img/icon-gridview.svg";
-import iconListView from "/img/icon-listview.svg";
-
 import Pagination, { PaginationType } from "../components/Pagination";
 import loadVideoListByPage from "../api/loader/loadVideoListByPage";
-import updateUserConfig, {
-  UserConfigType,
-} from "../api/actions/updateUserConfig";
-import VideoOverview from "../components/VideoOverview";
+import { UserConfigType } from "../api/actions/updateUserConfig";
+import VideoList from "../components/VideoList";
 import { ChannelType } from "./Channels";
 import { OutletContextType } from "./Base";
+import Filterbar from "../components/Filterbar";
+import { ViewStyleNames } from "../configuration/constants/ViewStyle";
 
 /*
 
@@ -179,20 +173,6 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const userConfig = {
-        hide_watched: hideWatched,
-        view_style_home: view,
-        grid_items: gridItems,
-        sort_by: sortBy,
-        sort_order: sortOrder,
-      };
-
-      await updateUserConfig(userConfig);
-    })();
-  }, [hideWatched, view, gridItems, sortBy, sortOrder]);
-
-  useEffect(() => {
-    (async () => {
       const videos = await loadVideoListByPage(currentPage);
 
       setVideoReponse(videos);
@@ -216,118 +196,23 @@ const Home = () => {
           <h1>Recent Videos</h1>
         </div>
 
-        <div className="view-controls three">
-          <div className="toggle">
-            <span>Hide watched:</span>
-            <div className="toggleBox">
-              <input
-                id="hide_watched"
-                type="checkbox"
-                checked={hideWatched}
-                onChange={() => {
-                  setHideWatched(!hideWatched);
-                }}
-              />
-
-              {!hideWatched && (
-                <label htmlFor="" className="ofbtn">
-                  Off
-                </label>
-              )}
-              {hideWatched && (
-                <label htmlFor="" className="onbtn">
-                  On
-                </label>
-              )}
-            </div>
-          </div>
-
-          {showHidden && (
-            <div className="sort">
-              <div id="form">
-                <span>Sort by:</span>
-                <select
-                  name="sort_by"
-                  id="sort"
-                  value={sortBy}
-                  onChange={(event) => {
-                    setSortBy(event.target.value as SortBy);
-                  }}
-                >
-                  <option value="published">date published</option>
-                  <option value="downloaded">date downloaded</option>
-                  <option value="views">views</option>
-                  <option value="likes">likes</option>
-                  <option value="duration">duration</option>
-                  <option value="filesize">file size</option>
-                </select>
-                <select
-                  name="sort_order"
-                  id="sort-order"
-                  value={sortOrder}
-                  onChange={(event) => {
-                    setSortOrder(event.target.value as SortOrder);
-                  }}
-                >
-                  <option value="asc">asc</option>
-                  <option value="desc">desc</option>
-                </select>
-              </div>
-            </div>
-          )}
-
-          <div className="view-icons">
-            <img
-              src={iconSort}
-              alt="sort-icon"
-              onClick={() => {
-                setShowHidden(!showHidden);
-              }}
-              id="animate-icon"
-            />
-
-            {isGridView && (
-              <div className="grid-count">
-                {gridItems < 7 && (
-                  <img
-                    src={iconAdd}
-                    onClick={() => {
-                      setGridItems(gridItems + 1);
-                    }}
-                    alt="grid plus row"
-                  />
-                )}
-                {gridItems > 3 && (
-                  <img
-                    src={iconSubstract}
-                    onClick={() => {
-                      setGridItems(gridItems - 1);
-                    }}
-                    alt="grid minus row"
-                  />
-                )}
-              </div>
-            )}
-            <img
-              src={iconGridView}
-              onClick={() => {
-                setView("grid");
-              }}
-              data-origin="home"
-              data-value="grid"
-              alt="grid view"
-            />
-            <img
-              src={iconListView}
-              onClick={() => {
-                setView("list");
-              }}
-              data-origin="home"
-              data-value="list"
-              alt="list view"
-            />
-          </div>
-        </div>
+        <Filterbar
+          hideToggleText="Hide watched:"
+          showHidden={showHidden}
+          hideWatched={hideWatched}
+          isGridView={isGridView}
+          view={view}
+          gridItems={gridItems}
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+          setShowHidden={setShowHidden}
+          setHideWatched={setHideWatched}
+          setView={setView}
+          setSortBy={setSortBy}
+          setSortOrder={setSortOrder}
+          setGridItems={setGridItems}
+          viewStyleName={ViewStyleNames.home}
+        />
 
         <div id="player" className="player-wrapper"></div>
       </div>
@@ -345,7 +230,7 @@ const Home = () => {
             </>
           )}
 
-          <VideoOverview
+          <VideoList
             videoList={videoList}
             viewLayout={view}
             refreshVideoList={setRefreshVideoList}
