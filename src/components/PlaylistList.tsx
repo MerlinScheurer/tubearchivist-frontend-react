@@ -2,13 +2,19 @@ import { Link } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import { ViewLayout } from "../pages/Home";
 import { PlaylistType } from "../pages/Playlist";
+import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
 
 type PlaylistListProps = {
   playlistList: PlaylistType[] | undefined;
   viewLayout: ViewLayout;
+  setRefresh: (status: boolean) => void;
 };
 
-const PlaylistList = ({ playlistList, viewLayout }: PlaylistListProps) => {
+const PlaylistList = ({
+  playlistList,
+  viewLayout,
+  setRefresh,
+}: PlaylistListProps) => {
   if (!playlistList) {
     return "No playlists found.";
   }
@@ -45,11 +51,15 @@ const PlaylistList = ({ playlistList, viewLayout }: PlaylistListProps) => {
                     <button
                       className="unsubscribe"
                       type="button"
-                      data-type="playlist"
-                      data-subscribe=""
-                      data-id={playlist.playlist_id}
-                      onclick="subscribeStatus(this)"
                       title={`Unsubscribe from ${playlist.playlist_name}`}
+                      onClick={async () => {
+                        await updatePlaylistSubscription(
+                          playlist.playlist_id,
+                          false,
+                        );
+
+                        setRefresh(true);
+                      }}
                     >
                       Unsubscribe
                     </button>
@@ -58,11 +68,15 @@ const PlaylistList = ({ playlistList, viewLayout }: PlaylistListProps) => {
                   {!playlist.playlist_subscribed && (
                     <button
                       type="button"
-                      data-type="playlist"
-                      data-subscribe="true"
-                      data-id={playlist.playlist_id}
-                      onclick="subscribeStatus(this)"
                       title={`Subscribe to ${playlist.playlist_name}`}
+                      onClick={async () => {
+                        await updatePlaylistSubscription(
+                          playlist.playlist_id,
+                          true,
+                        );
+
+                        setRefresh(true);
+                      }}
                     >
                       Subscribe
                     </button>
