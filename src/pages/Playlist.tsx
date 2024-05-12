@@ -15,6 +15,8 @@ import loadPlaylistVideosById from "../api/loader/loadPlaylistVideosById";
 import ChannelOverview from "../components/ChannelOverview";
 import Linkify from "../components/Linkify";
 import { ViewStyleNames } from "../configuration/constants/ViewStyle";
+import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
+import deletePlaylist from "../api/actions/deletePlaylist";
 
 export type PlaylistType = {
   playlist_active: boolean;
@@ -67,6 +69,7 @@ const Playlist = () => {
   const [gridItems, setGridItems] = useState(userConfig.grid_items || 3);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [refreshPlaylist, setRefreshPlaylist] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const [playlistResponse, setPlaylistResponse] =
     useState<PlaylistResponseType>();
@@ -105,7 +108,7 @@ const Playlist = () => {
 
   const isAdmin = getIsAdmin();
 
-  if (!playlist) {
+  if (!playlistId || !playlist) {
     return `Playlist ${playlistId} not found!`;
   }
 
@@ -139,7 +142,14 @@ const Playlist = () => {
                           <button
                             className="unsubscribe"
                             type="button"
-                            onclick="subscribeStatus(this)"
+                            onClick={async () => {
+                              await updatePlaylistSubscription(
+                                playlistId,
+                                false,
+                              );
+
+                              setRefreshPlaylist(true);
+                            }}
                             title={`Unsubscribe from ${playlist.playlist_name}`}
                           >
                             Unsubscribe
@@ -150,7 +160,11 @@ const Playlist = () => {
                     {!playlist.playlist_subscribed && (
                       <button
                         type="button"
-                        onclick="subscribeStatus(this)"
+                        onClick={async () => {
+                          await updatePlaylistSubscription(playlistId, true);
+
+                          setRefreshPlaylist(true);
+                        }}
                         title={`Subscribe to ${playlist.playlist_name}`}
                       >
                         Subscribe
@@ -171,29 +185,45 @@ const Playlist = () => {
                   {!playlist.playlist_active && <p>Youtube: Deactivated</p>}
                 </>
               )}
-              <button onclick="deleteConfirm()" id="delete-item">
-                Delete Playlist
-              </button>
-              <div className="delete-confirm" id="delete-button">
-                <span>Delete {playlist.playlist_name}?</span>
+
+              {!showDeleteConfirm && (
                 <button
-                  onclick="deletePlaylist(this)"
-                  data-action=""
-                  data-id="{ playlist.playlist_id }"
+                  onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                  id="delete-item"
                 >
-                  Delete metadata
+                  Delete Playlist
                 </button>
-                <button
-                  onclick="deletePlaylist(this)"
-                  data-action="delete-videos"
-                  className="danger-button"
-                  data-id="{ playlist.playlist_id }"
-                >
-                  Delete all
-                </button>
-                <br />
-                <button onclick="cancelDelete()">Cancel</button>
-              </div>
+              )}
+
+              {showDeleteConfirm && (
+                <div className="delete-confirm" id="delete-button">
+                  <span>Delete {playlist.playlist_name}?</span>
+
+                  <button
+                    onClick={async () => {
+                      await deletePlaylist(playlistId, false);
+                    }}
+                  >
+                    Delete metadata
+                  </button>
+
+                  <button
+                    onClick={async () => {
+                      await deletePlaylist(playlistId, true);
+                    }}
+                    className="danger-button"
+                  >
+                    Delete all
+                  </button>
+
+                  <br />
+                  <button
+                    onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           <div className="info-box-item">

@@ -267,10 +267,6 @@ button:hover {
 }
 
 /* delete button */
-.delete-confirm {
-  display: none;
-}
-
 .delete-confirm button {
   margin: 3px 0;
 }
