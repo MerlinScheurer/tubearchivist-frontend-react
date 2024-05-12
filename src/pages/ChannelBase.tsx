@@ -96,6 +96,7 @@ function ChannelBase() {
             channelSubs={channel.channel_subs}
             channelSubscribed={channel.channel_subscribed}
             showSubscribeButton={true}
+            isUserAdmin={isAdmin}
             setRefresh={setRefresh}
           />
           <div className="info-box-item">
