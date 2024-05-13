@@ -56,7 +56,7 @@ const Channels = () => {
 
   useEffect(() => {
     (async () => {
-      const userConfig = {
+      const userConfig: UserConfigType = {
         show_subed_only: showSubscribedOnly,
         view_style_channel: view,
       };

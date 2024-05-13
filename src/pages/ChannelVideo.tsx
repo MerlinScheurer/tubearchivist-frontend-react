@@ -58,7 +58,7 @@ function ChannelVideo() {
 
   useEffect(() => {
     (async () => {
-      const userConfig = {
+      const userConfig: UserConfigType = {
         hide_watched: hideWatched,
         view_style_channel: view,
         grid_items: gridItems,

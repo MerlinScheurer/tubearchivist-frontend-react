@@ -63,7 +63,7 @@ const Playlists = () => {
 
   useEffect(() => {
     (async () => {
-      const userConfig = {
+      const userConfig: UserConfigType = {
         show_subed_only: showSubedOnly,
         view_style_playlist: view,
       };

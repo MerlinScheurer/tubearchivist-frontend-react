@@ -81,10 +81,9 @@ function ChannelBase() {
             <h3>About</h3>
           </Link>
           {has_pending && isAdmin && (
-            <a href="{% url 'downloads' %}?channel={{ channel_info.channel_id }}">
-              {/** TODO: link to Downloads with channel filter */}
+            <Link to={Routes.DownloadsByChannelId(channel.channel_id)}>
               <h3>Downloads</h3>
-            </a>
+            </Link>
           )}
         </div>
         <div id="notifications" data="channel reindex" />

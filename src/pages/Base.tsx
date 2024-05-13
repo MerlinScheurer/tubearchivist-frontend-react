@@ -25,9 +25,9 @@ const Base = () => {
   const { userConfig } = useLoaderData() as BaseLoaderData;
   const location = useLocation();
 
-  const searchParams2 = new URLSearchParams(location.search);
+  const searchParams = new URLSearchParams(location.search);
 
-  const currentPageFromUrl = Number(searchParams2.get("page"));
+  const currentPageFromUrl = Number(searchParams.get("page"));
 
   const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
   const [, setSearchParams] = useSearchParams();

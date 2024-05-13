@@ -44,7 +44,7 @@ const Filterbar = ({
 }: FilterbarProps) => {
   useEffect(() => {
     (async () => {
-      const userConfig = {
+      const userConfig: UserConfigType = {
         hide_watched: hideWatched,
         [viewStyleName.toString()]: view,
         grid_items: gridItems,

@@ -10,6 +10,8 @@ const Routes = {
   Playlists: "/playlist/",
   Playlist: (id: string) => `/playlist/${id}`,
   Downloads: "/downloads/",
+  DownloadsByChannelId: (channelId: string) =>
+    `/downloads/?channel=${channelId}`,
   Search: "/search/",
   Settings: "/settings/",
   SettingsUser: "/settings/user/",
