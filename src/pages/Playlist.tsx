@@ -23,6 +23,7 @@ import { ViewStyleNames } from "../configuration/constants/ViewStyle";
 import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
 import deletePlaylist from "../api/actions/deletePlaylist";
 import Routes from "../configuration/routes/RouteList";
+import { ChannelResponseType } from "./ChannelBase";
 
 export type PlaylistType = {
   playlist_active: boolean;
@@ -46,11 +47,6 @@ type PlaylistLoaderDataType = {
 
 export type PlaylistResponseType = {
   data?: PlaylistType;
-  config?: ConfigType;
-};
-
-export type ChannelResponseType = {
-  data?: ChannelType;
   config?: ConfigType;
 };
 

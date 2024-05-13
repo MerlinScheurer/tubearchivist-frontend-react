@@ -16,13 +16,21 @@ import Pagination from "../components/Pagination";
 import loadChannelVideosById from "../api/loader/loadChannelVideosById";
 import Filterbar from "../components/Filterbar";
 import { ViewStyleNames } from "../configuration/constants/ViewStyle";
+import ChannelOverview from "../components/ChannelOverview";
+import getIsAdmin from "../components/getIsAdmin";
+import loadChannelById from "../api/loader/loadChannelById";
+import { ChannelResponseType } from "./ChannelBase";
+
+type ChannelParams = {
+  channelId: string;
+};
 
 type ChannelVideoDataType = {
   userConfig: UserConfigType;
 };
 
 function ChannelVideo() {
-  const { channelId } = useParams();
+  const { channelId } = useParams() as ChannelParams;
   const { userConfig } = useLoaderData() as ChannelVideoDataType;
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
 
@@ -40,13 +48,15 @@ function ChannelVideo() {
   );
   const [gridItems, setGridItems] = useState(userConfig.grid_items || 3);
   const [showHidden, setShowHidden] = useState(false);
-  const [refreshVideoList, setRefreshVideoList] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
+  const [channelResponse, setChannelResponse] = useState<ChannelResponseType>();
   const [videoResponse, setVideoReponse] = useState<VideoResponseType>({
     data: [],
     paginate: { current_page: 0 },
   });
 
+  const channel = channelResponse?.data;
   const videoList = videoResponse.data;
   const pagination = videoResponse.paginate;
 
@@ -67,29 +77,76 @@ function ChannelVideo() {
       };
 
       await updateUserConfig(userConfig);
+      setRefresh(true);
     })();
   }, [hideWatched, view, gridItems, sortBy, sortOrder]);
 
   useEffect(() => {
     (async () => {
+      const channelResponse = await loadChannelById(channelId);
       const videos = await loadChannelVideosById(channelId, currentPage);
 
+      setChannelResponse(channelResponse);
       setVideoReponse(videos);
-      setRefreshVideoList(false);
+      setRefresh(false);
     })();
-  }, [
-    refreshVideoList,
-    currentPage,
-    hideWatched,
-    view,
-    gridItems,
-    sortBy,
-    sortOrder,
-    channelId,
-  ]);
+  }, [refresh, currentPage, channelId]);
+
+  const aggs = false;
+  const isAdmin = getIsAdmin();
+
+  if (!channel) {
+    return "Channel not found!";
+  }
 
   return (
     <>
+      <div className="boxed-content">
+        <div className="info-box info-box-2">
+          <ChannelOverview
+            channelId={channel.channel_id}
+            channelname={channel.channel_name}
+            channelSubs={channel.channel_subs}
+            channelSubscribed={channel.channel_subscribed}
+            showSubscribeButton={true}
+            isUserAdmin={isAdmin}
+            setRefresh={setRefresh}
+          />
+          <div className="info-box-item">
+            {aggs && (
+              <>
+                <p>
+                  {aggs.total_items.value} videos{" "}
+                  <span className="space-carrot">|</span>{" "}
+                  {aggs.total_duration.value_str} playback{" "}
+                  <span className="space-carrot">|</span> Total size{" "}
+                  {aggs.total_size.value}
+                </p>
+                <div className="button-box">
+                  <button
+                    title={`Mark all videos from ${channel.channel_name} as watched`}
+                    type="button"
+                    id="watched-button"
+                    data-id="{{ channel_info.channel_id }}"
+                    onclick="isWatchedButton(this)"
+                  >
+                    Mark as watched
+                  </button>
+                  <button
+                    title={`Mark all videos from ${channel.channel_name} as unwatched`}
+                    type="button"
+                    id="unwatched-button"
+                    data-id="{{ channel_info.channel_id }}"
+                    onclick="isUnwatchedButton(this)"
+                  >
+                    Mark as unwatched
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
       <div className={`boxed-content ${gridView}`}>
         <Filterbar
           hideToggleText={"Hide watched videos:"}
@@ -128,7 +185,7 @@ function ChannelVideo() {
           <VideoList
             videoList={videoList}
             viewLayout={view}
-            refreshVideoList={setRefreshVideoList}
+            refreshVideoList={setRefresh}
           />
         </div>
       </div>
