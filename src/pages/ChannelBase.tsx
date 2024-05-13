@@ -7,6 +7,7 @@ import { ConfigType } from "./Home";
 import getIsAdmin from "../components/getIsAdmin";
 import { OutletContextType } from "./Base";
 import ChannelOverview from "../components/ChannelOverview";
+import Notifications from "../components/Notifications";
 
 type ChannelParams = {
   channelId: string;
@@ -86,7 +87,8 @@ function ChannelBase() {
             </Link>
           )}
         </div>
-        <div id="notifications" data="channel reindex" />
+
+        <Notifications pageName="channel" />
 
         <div className="info-box info-box-2">
           <ChannelOverview

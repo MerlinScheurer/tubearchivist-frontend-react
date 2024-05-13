@@ -19,6 +19,7 @@ import updateDownloadQueue from "../api/actions/updateDownloadQueue";
 import updateDownloadQueueStatusById from "../api/actions/updateDownloadQueueStatusById";
 import deleteDownloadById from "../api/actions/deleteDownloadById";
 import updateTaskByName from "../api/actions/updateTaskByName";
+import Notifications from "../components/Notifications";
 
 type Download = {
   auto_start: boolean;
@@ -126,7 +127,14 @@ const Download = () => {
             Downloads {channelFilterFromUrl && ` for ${channel_filter_name}`}
           </h1>
         </div>
-        <div id="notifications"></div>
+        <Notifications
+          pageName="download"
+          update={rescanPending || downloadPending}
+          setIsDone={() => {
+            setRescanPending(false);
+            setDownloadPending(false);
+          }}
+        />
         <div id="downloadControl"></div>
         <div className="info-box info-box-3">
           <div className="icon-text">
