@@ -178,15 +178,7 @@ const Home = () => {
       setVideoReponse(videos);
       setRefreshVideoList(false);
     })();
-  }, [
-    refreshVideoList,
-    currentPage,
-    hideWatched,
-    view,
-    gridItems,
-    sortBy,
-    sortOrder,
-  ]);
+  }, [refreshVideoList, currentPage]);
 
   return (
     <>
@@ -212,6 +204,7 @@ const Home = () => {
           setSortOrder={setSortOrder}
           setGridItems={setGridItems}
           viewStyleName={ViewStyleNames.home}
+          setRefresh={setRefreshVideoList}
         />
 
         <div id="player" className="player-wrapper"></div>

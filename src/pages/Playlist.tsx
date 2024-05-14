@@ -13,7 +13,6 @@ import getIsAdmin from "../components/getIsAdmin";
 import Filterbar from "../components/Filterbar";
 import { PlaylistEntryType } from "./Playlists";
 import loadChannelById from "../api/loader/loadChannelById";
-import { ChannelType } from "./Channels";
 import VideoList from "../components/VideoList";
 import Pagination, { PaginationType } from "../components/Pagination";
 import loadPlaylistVideosById from "../api/loader/loadPlaylistVideosById";
@@ -107,7 +106,7 @@ const Playlist = () => {
       setVideoResponse(video);
       setRefreshPlaylist(false);
     })();
-  }, [playlistId, refreshPlaylist, currentPage, hideWatched, view, gridItems]);
+  }, [playlistId, refreshPlaylist, currentPage]);
 
   const isAdmin = getIsAdmin();
 
@@ -316,6 +315,7 @@ const Playlist = () => {
           setView={setView}
           setGridItems={setGridItems}
           viewStyleName={ViewStyleNames.playlist}
+          setRefresh={setRefreshPlaylist}
         />
       </div>
 

@@ -7,9 +7,7 @@ import {
 } from "react-router-dom";
 import { SortBy, SortOrder, VideoResponseType, ViewLayout } from "./Home";
 import { OutletContextType } from "./Base";
-import updateUserConfig, {
-  UserConfigType,
-} from "../api/actions/updateUserConfig";
+import { UserConfigType } from "../api/actions/updateUserConfig";
 import VideoList from "../components/VideoList";
 import Routes from "../configuration/routes/RouteList";
 import Pagination from "../components/Pagination";
@@ -65,21 +63,6 @@ function ChannelVideo() {
   const isGridView = view === "grid";
   const gridView = isGridView ? `boxed-${gridItems}` : "";
   const gridViewGrid = isGridView ? `grid-${gridItems}` : "";
-
-  useEffect(() => {
-    (async () => {
-      const userConfig: UserConfigType = {
-        hide_watched: hideWatched,
-        view_style_channel: view,
-        grid_items: gridItems,
-        sort_by: sortBy,
-        sort_order: sortOrder,
-      };
-
-      await updateUserConfig(userConfig);
-      setRefresh(true);
-    })();
-  }, [hideWatched, view, gridItems, sortBy, sortOrder]);
 
   useEffect(() => {
     (async () => {
@@ -164,6 +147,7 @@ function ChannelVideo() {
           setView={setView}
           setGridItems={setGridItems}
           viewStyleName={ViewStyleNames.channel}
+          setRefresh={setRefresh}
         />
       </div>
 

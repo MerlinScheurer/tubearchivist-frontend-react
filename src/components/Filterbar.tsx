@@ -5,7 +5,9 @@ import iconSubstract from "/img/icon-substract.svg";
 import iconGridView from "/img/icon-gridview.svg";
 import iconListView from "/img/icon-listview.svg";
 import { SortBy, SortOrder, ViewLayout } from "../pages/Home";
-import updateUserConfig from "../api/actions/updateUserConfig";
+import updateUserConfig, {
+  UserConfigType,
+} from "../api/actions/updateUserConfig";
 
 type FilterbarProps = {
   hideToggleText: string;
@@ -23,6 +25,7 @@ type FilterbarProps = {
   setSortBy?: (sortBy: SortBy) => void;
   setSortOrder?: (sortOrder: SortOrder) => void;
   setGridItems: (gridItems: number) => void;
+  setRefresh?: (status: boolean) => void;
 };
 
 const Filterbar = ({
@@ -41,6 +44,7 @@ const Filterbar = ({
   setSortBy,
   setSortOrder,
   setGridItems,
+  setRefresh,
 }: FilterbarProps) => {
   useEffect(() => {
     (async () => {
@@ -53,8 +57,17 @@ const Filterbar = ({
       };
 
       await updateUserConfig(userConfig);
+      setRefresh?.(true);
     })();
-  }, [hideWatched, view, gridItems, sortBy, sortOrder, viewStyleName]);
+  }, [
+    hideWatched,
+    view,
+    gridItems,
+    sortBy,
+    sortOrder,
+    viewStyleName,
+    setRefresh,
+  ]);
 
   return (
     <div className="view-controls three">
