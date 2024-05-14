@@ -21,6 +21,8 @@ const Routes = {
   Login: "/Login/",
   Logout: "/logout/",
   Video: (id: string) => `/video/${id}`,
+  VideoAtTimestamp: (id: string, timestamp: string) =>
+    `/video/${id}/?t=${timestamp}`,
   About: "/about/",
 };
 

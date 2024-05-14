@@ -214,7 +214,9 @@ const router = createBrowserRouter(
               return redirect(Routes.Login);
             }
 
-            return {};
+            const userConfig = await loadUserConfig();
+
+            return { userConfig };
           },
         },
         {

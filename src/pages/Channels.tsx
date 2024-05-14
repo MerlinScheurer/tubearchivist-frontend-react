@@ -1,6 +1,5 @@
-import { Link, useLoaderData, useOutletContext } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import loadChannelList from "../api/loader/loadChannelList";
-import Routes from "../configuration/routes/RouteList";
 import iconGridView from "/img/icon-gridview.svg";
 import iconListView from "/img/icon-listview.svg";
 import iconAdd from "/img/icon-add.svg";
@@ -11,8 +10,8 @@ import updateUserConfig, {
   UserConfigType,
 } from "../api/actions/updateUserConfig";
 import { OutletContextType } from "./Base";
-import updateChannelSubscription from "../api/actions/updateChannelSubscription";
 import getIsAdmin from "../components/getIsAdmin";
+import ChannelList from "../components/ChannelList";
 
 export type ChannelType = {
   channel_active: boolean;
@@ -164,86 +163,11 @@ const Channels = () => {
       <div className={`channel-list ${view}`}>
         {!channels && <h2>No channels found...</h2>}
 
-        {channels &&
-          channels.map((channel, index) => {
-            return (
-              <div key={index} className={`channel-item ${view}`}>
-                <div className={`channel-banner ${view}`}>
-                  <Link to={Routes.Channel(channel.channel_id)}>
-                    <img
-                      src={`/cache/channels/${channel.channel_id}_banner.jpg`}
-                      alt={`${channel.channel_id}-banner`}
-                    />
-                  </Link>
-                </div>
-                <div className={`info-box info-box-2 ${view}`}>
-                  <div className="info-box-item">
-                    <div className="round-img">
-                      <Link to={Routes.Channel(channel.channel_id)}>
-                        <img
-                          src={`/cache/channels/${channel.channel_id}_thumb.jpg`}
-                          alt="channel-thumb"
-                        />
-                      </Link>
-                    </div>
-                    <div>
-                      <h3>
-                        <Link to={Routes.Channel(channel.channel_id)}>
-                          {channel.channel_name}
-                        </Link>
-                      </h3>
-                      {channel.channel_subs >= 1000000 && (
-                        <p>Subscribers: {channel.channel_subs}</p>
-                      )}
-                      {channel.channel_subs < 1000000 && (
-                        <p>Subscribers: {channel.channel_subs}</p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="info-box-item">
-                    <div>
-                      <p>Last refreshed: {channel.channel_last_refresh}</p>
-                      {channel.channel_subscribed && (
-                        <button
-                          className="unsubscribe"
-                          type="button"
-                          data-type="channel"
-                          data-id={channel.channel_id}
-                          onClick={async () => {
-                            await updateChannelSubscription(
-                              channel.channel_id,
-                              false,
-                            );
-                            setRefreshChannelList(true);
-                          }}
-                          title={`Unsubscribe from ${channel.channel_name}`}
-                        >
-                          Unsubscribe
-                        </button>
-                      )}
-                      {!channel.channel_subscribed && (
-                        <button
-                          type="button"
-                          data-type="channel"
-                          data-id={channel.channel_id}
-                          onClick={async () => {
-                            await updateChannelSubscription(
-                              channel.channel_id,
-                              true,
-                            );
-                            setRefreshChannelList(true);
-                          }}
-                          title={`Subscribe to ${channel.channel_name}`}
-                        >
-                          Subscribe
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        <ChannelList
+          channelList={channels}
+          viewLayout={view}
+          refreshChannelList={setRefreshChannelList}
+        />
       </div>
 
       {pagination && (

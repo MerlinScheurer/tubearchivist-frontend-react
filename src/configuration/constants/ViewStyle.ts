@@ -4,3 +4,8 @@ export const ViewStyleNames = {
   downloads: "view_style_downloads",
   playlist: "view_style_playlist",
 };
+
+export const ViewStyles = {
+  grid: "grid",
+  list: "list",
+};

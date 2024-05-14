@@ -14,7 +14,10 @@ import loadDownloadQueue from "../api/loader/loadDownloadQueue";
 import { OutletContextType } from "./Base";
 import Pagination, { PaginationType } from "../components/Pagination";
 import Routes from "../configuration/routes/RouteList";
-import { ViewStyleNames } from "../configuration/constants/ViewStyle";
+import {
+  ViewStyleNames,
+  ViewStyles,
+} from "../configuration/constants/ViewStyle";
 import updateDownloadQueue from "../api/actions/updateDownloadQueue";
 import updateDownloadQueueStatusById from "../api/actions/updateDownloadQueueStatusById";
 import deleteDownloadById from "../api/actions/deleteDownloadById";
@@ -87,7 +90,7 @@ const Download = () => {
 
   const channel_agg_list = [];
 
-  const isGridView = view === "grid";
+  const isGridView = view === ViewStyles.grid;
   const gridView = isGridView ? `boxed-${gridItems}` : "";
   const gridViewGrid = isGridView ? `grid-${gridItems}` : "";
 
@@ -187,6 +190,7 @@ const Download = () => {
                   <button
                     onClick={async () => {
                       await updateDownloadQueue(downloadQueueText, false);
+                      setRefreshDownloadList(true);
                     }}
                   >
                     Add to queue
@@ -194,6 +198,7 @@ const Download = () => {
                   <button
                     onClick={async () => {
                       await updateDownloadQueue(downloadQueueText, true);
+                      setRefreshDownloadList(true);
                     }}
                   >
                     Download now

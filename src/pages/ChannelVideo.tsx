@@ -13,7 +13,10 @@ import Routes from "../configuration/routes/RouteList";
 import Pagination from "../components/Pagination";
 import loadChannelVideosById from "../api/loader/loadChannelVideosById";
 import Filterbar from "../components/Filterbar";
-import { ViewStyleNames } from "../configuration/constants/ViewStyle";
+import {
+  ViewStyleNames,
+  ViewStyles,
+} from "../configuration/constants/ViewStyle";
 import ChannelOverview from "../components/ChannelOverview";
 import getIsAdmin from "../components/getIsAdmin";
 import loadChannelById from "../api/loader/loadChannelById";
@@ -60,7 +63,7 @@ function ChannelVideo() {
 
   const hasVideos = videoResponse?.data?.length !== 0;
 
-  const isGridView = view === "grid";
+  const isGridView = view === ViewStyles.grid;
   const gridView = isGridView ? `boxed-${gridItems}` : "";
   const gridViewGrid = isGridView ? `grid-${gridItems}` : "";
 

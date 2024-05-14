@@ -18,8 +18,8 @@ const VideoList = ({
   viewLayout,
   refreshVideoList,
 }: VideoListProps) => {
-  if (!videoList) {
-    return "No videos found.";
+  if (!videoList || videoList.length === 0) {
+    return <p>No videos found.</p>;
   }
 
   return (

@@ -15,14 +15,22 @@ type SubtitlesProp = {
 };
 
 const Subtitles = ({ subtitles }: SubtitlesProp) => {
-  return subtitles.map((subtitle: Subtitle) => {
+  return subtitles.map((subtitle: Subtitle, index) => {
     let label = subtitle.name;
 
     if (subtitle.source === "auto") {
       label += " - auto";
     }
 
-    return `<track label="${label}" kind="subtitles" srclang="${subtitle.lang}" src="${subtitle.media_url}">`;
+    return (
+      <track
+        key={index}
+        label={label}
+        kind="subtitles"
+        srcLang={subtitle.lang}
+        src={subtitle.media_url}
+      />
+    );
   });
 };
 
@@ -81,7 +89,7 @@ export type VideoProgressType = {
 
 type VideoPlayerProps = {
   video: VideoResponseType;
-  videoProgress: VideoProgressType;
+  videoProgress?: VideoProgressType;
 };
 
 const VideoPlayer = ({ video, videoProgress }: VideoPlayerProps) => {
@@ -90,10 +98,9 @@ const VideoPlayer = ({ video, videoProgress }: VideoPlayerProps) => {
   const videoThumbUrl = video.data.vid_thumb_url;
   const watched = video.data.player.watched;
   const duration = video.data.player.duration;
+  const videoSubtitles = video.data.subtitles;
 
   const autoplay = false;
-
-  const videoSubtitles = video.data.subtitles; // Array of subtitles
 
   return (
     <video
@@ -124,7 +131,9 @@ const VideoPlayer = ({ video, videoProgress }: VideoPlayerProps) => {
     >
       <source
         src={`${videoUrl}#t=${
-          videoProgress.position > 0 ? videoProgress.position : ""
+          Number(videoProgress?.position) > 0
+            ? Number(videoProgress?.position)
+            : ""
         }`}
         type="video/mp4"
         id="video-source"

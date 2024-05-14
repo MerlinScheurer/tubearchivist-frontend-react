@@ -18,7 +18,10 @@ import Pagination, { PaginationType } from "../components/Pagination";
 import loadPlaylistVideosById from "../api/loader/loadPlaylistVideosById";
 import ChannelOverview from "../components/ChannelOverview";
 import Linkify from "../components/Linkify";
-import { ViewStyleNames } from "../configuration/constants/ViewStyle";
+import {
+  ViewStyleNames,
+  ViewStyles,
+} from "../configuration/constants/ViewStyle";
 import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
 import deletePlaylist from "../api/actions/deletePlaylist";
 import Routes from "../configuration/routes/RouteList";
@@ -91,7 +94,7 @@ const Playlist = () => {
 
   const reindex = false;
 
-  const isGridView = view === "grid";
+  const isGridView = view === ViewStyles.grid;
   const gridView = isGridView ? `boxed-${gridItems}` : "";
   const gridViewGrid = isGridView ? `grid-${gridItems}` : "";
 

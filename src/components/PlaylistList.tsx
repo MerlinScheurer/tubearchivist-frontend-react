@@ -15,8 +15,8 @@ const PlaylistList = ({
   viewLayout,
   setRefresh,
 }: PlaylistListProps) => {
-  if (!playlistList) {
-    return "No playlists found.";
+  if (!playlistList || playlistList.length === 0) {
+    return <p>No playlists found.</p>;
   }
 
   return (

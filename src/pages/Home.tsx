@@ -9,7 +9,10 @@ import VideoList from "../components/VideoList";
 import { ChannelType } from "./Channels";
 import { OutletContextType } from "./Base";
 import Filterbar from "../components/Filterbar";
-import { ViewStyleNames } from "../configuration/constants/ViewStyle";
+import {
+  ViewStyleNames,
+  ViewStyles,
+} from "../configuration/constants/ViewStyle";
 
 /*
 
@@ -71,6 +74,24 @@ export type StatsType = {
   average_rating: number;
 };
 
+export type StreamType = {
+  type: string;
+  index: number;
+  codec: string;
+  width?: number;
+  height?: number;
+  bitrate: number;
+};
+
+export type Subtitles = {
+  ext: string;
+  url: string;
+  name: string;
+  lang: string;
+  source: string;
+  media_url: string;
+};
+
 export type VideoType = {
   active: boolean;
   category: string[];
@@ -82,7 +103,8 @@ export type VideoType = {
   player: PlayerType;
   published: string;
   stats: StatsType;
-  streams: [];
+  streams: StreamType[];
+  subtitles: Subtitles[];
   tags: string[];
   title: string;
   vid_last_refresh: string;
@@ -167,7 +189,7 @@ const Home = () => {
 
   const hasVideos = videoResponse?.data?.length !== 0;
 
-  const isGridView = view === "grid";
+  const isGridView = view === ViewStyles.grid;
   const gridView = isGridView ? `boxed-${gridItems}` : "";
   const gridViewGrid = isGridView ? `grid-${gridItems}` : "";
 
