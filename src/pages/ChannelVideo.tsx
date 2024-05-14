@@ -26,13 +26,13 @@ type ChannelParams = {
   channelId: string;
 };
 
-type ChannelVideoDataType = {
+type ChannelVideoLoaderType = {
   userConfig: UserConfigType;
 };
 
 const ChannelVideo = () => {
   const { channelId } = useParams() as ChannelParams;
-  const { userConfig } = useLoaderData() as ChannelVideoDataType;
+  const { userConfig } = useLoaderData() as ChannelVideoLoaderType;
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
 
   const [hideWatched, setHideWatched] = useState(

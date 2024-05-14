@@ -337,8 +337,12 @@ const Video = () => {
         {video.tags && (
           <div className="description-box">
             <div className="video-tag-box">
-              {video.tags.map((tag) => {
-                return <span className="video-tag">{tag}</span>;
+              {video.tags.map((tag, index) => {
+                return (
+                  <span key={index} className="video-tag">
+                    {tag}
+                  </span>
+                );
               })}
             </div>
           </div>
@@ -352,6 +356,7 @@ const Video = () => {
             >
               <Linkify>{video.description}</Linkify>
             </p>
+
             <button
               onClick={() => setDescriptionExpanded(!descriptionExpanded)}
               id="text-expand-button"
