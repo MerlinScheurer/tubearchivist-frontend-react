@@ -15,7 +15,7 @@ export type ChannelResponseType = {
   config: ConfigType;
 };
 
-function ChannelBase() {
+const ChannelBase = () => {
   const { channelId } = useParams() as ChannelParams;
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
 
@@ -76,6 +76,6 @@ function ChannelBase() {
       <Outlet context={[currentPage, setCurrentPage]} />
     </>
   );
-}
+};
 
 export default ChannelBase;

@@ -30,7 +30,7 @@ type ChannelVideoDataType = {
   userConfig: UserConfigType;
 };
 
-function ChannelVideo() {
+const ChannelVideo = () => {
   const { channelId } = useParams() as ChannelParams;
   const { userConfig } = useLoaderData() as ChannelVideoDataType;
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
@@ -184,6 +184,6 @@ function ChannelVideo() {
       )}
     </>
   );
-}
+};
 
 export default ChannelVideo;
