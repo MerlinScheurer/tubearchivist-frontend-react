@@ -57,8 +57,8 @@ function ChannelVideo() {
   });
 
   const channel = channelResponse?.data;
-  const videoList = videoResponse.data;
-  const pagination = videoResponse.paginate;
+  const videoList = videoResponse?.data;
+  const pagination = videoResponse?.paginate;
 
   const hasVideos = videoResponse?.data?.length !== 0;
 
@@ -190,9 +190,11 @@ function ChannelVideo() {
         </div>
       </div>
 
-      <div className="boxed-content">
-        <Pagination pagination={pagination} setPage={setCurrentPage} />
-      </div>
+      {pagination && (
+        <div className="boxed-content">
+          <Pagination pagination={pagination} setPage={setCurrentPage} />
+        </div>
+      )}
     </>
   );
 }

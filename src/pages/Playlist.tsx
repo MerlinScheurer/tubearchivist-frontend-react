@@ -85,9 +85,9 @@ const Playlist = () => {
   const pagination = videoResponse?.paginate;
 
   const palylistEntries = playlistResponse?.data?.playlist_entries;
-  const videoArchivedCount = palylistEntries?.filter(
-    (video) => video.downloaded,
-  ).length;
+  const videoArchivedCount = Number(
+    palylistEntries?.filter((video) => video.downloaded).length,
+  );
   const videoInPlaylistCount = palylistEntries?.length;
 
   const reindex = false;
@@ -233,7 +233,7 @@ const Playlist = () => {
           </div>
           <div className="info-box-item">
             <div>
-              {videoArchivedCount && (
+              {videoArchivedCount > 0 && (
                 <>
                   <p>
                     Total Videos archived: {videoArchivedCount}/

@@ -15,26 +15,41 @@ export type PaginationType = {
 };
 
 interface Props {
-  pagination?: PaginationType;
+  pagination: PaginationType;
   setPage: (page: number) => void;
 }
 
 const Pagination = ({ pagination, setPage }: Props) => {
+  const {
+    total_hits,
+    params,
+    prev_pages,
+    current_page,
+    next_pages,
+    last_page,
+    max_hits,
+  } = pagination;
+
+  const totalHits = Number(total_hits);
+  const currentPage = Number(current_page);
+  const hasMaxHits = Number(max_hits) > 0;
+  const lastPage = Number(last_page);
+
   let hasParams = false;
 
-  if (pagination?.params) {
-    hasParams = pagination.params.length > 0;
+  if (params) {
+    hasParams = params.length > 0;
   }
 
   return (
     <div className="pagination">
       <br />
-      {pagination && pagination.total_hits && pagination.total_hits > 1 && (
+      {totalHits > 1 && (
         <>
-          {pagination.current_page > 1 && (
+          {currentPage > 1 && (
             <>
               <Link
-                to={`${Routes.Home}?${pagination.params}`}
+                to={`${Routes.Home}?${params}`}
                 className="pagination-item"
                 onClick={(event) => {
                   event.preventDefault();
@@ -46,13 +61,13 @@ const Pagination = ({ pagination, setPage }: Props) => {
             </>
           )}
 
-          {pagination.prev_pages &&
-            pagination.prev_pages.map((page: number, index: number) => {
+          {prev_pages &&
+            prev_pages.map((page: number, index: number) => {
               if (hasParams) {
                 return (
                   <Fragment key={index}>
                     <Link
-                      to={`${Routes.Home}?page=${page}&${pagination.params}`}
+                      to={`${Routes.Home}?page=${page}&${params}`}
                       className="pagination-item"
                       onClick={(event) => {
                         event.preventDefault();
@@ -81,20 +96,18 @@ const Pagination = ({ pagination, setPage }: Props) => {
               }
             })}
 
-          {pagination.current_page > 0 && (
-            <span>{`< Page ${pagination.current_page} `}</span>
-          )}
+          {current_page > 0 && <span>{`< Page ${current_page} `}</span>}
 
-          {pagination.next_pages && pagination.next_pages.length > 0 && (
+          {next_pages && next_pages.length > 0 && (
             <>
               <span>{">"}</span>{" "}
-              {pagination.next_pages.map((page, index) => {
+              {next_pages.map((page, index) => {
                 if (hasParams) {
                   return (
                     <Fragment key={index}>
                       <a
                         className="pagination-item"
-                        href={`?page=${page}&${pagination.params}`}
+                        href={`?page=${page}&${params}`}
                         onClick={(event) => {
                           event.preventDefault();
                           setPage(page);
@@ -124,33 +137,33 @@ const Pagination = ({ pagination, setPage }: Props) => {
             </>
           )}
 
-          {pagination.last_page && pagination.last_page > 0 && (
+          {lastPage > 0 && (
             <>
               {hasParams && (
                 <a
                   className="pagination-item"
-                  href={`?page=${pagination.last_page}&${pagination.params}`}
+                  href={`?page=${lastPage}&${params}`}
                   onClick={(event) => {
                     event.preventDefault();
-                    setPage(pagination.last_page || 0);
+                    setPage(lastPage || 0);
                   }}
                 >
-                  {pagination.max_hits && `Max (${pagination.last_page})`}
-                  {!pagination.max_hits && `Last (${pagination.last_page})`}
+                  {hasMaxHits && `Max (${lastPage})`}
+                  {!hasMaxHits && `Last (${lastPage})`}
                 </a>
               )}
 
               {!hasParams && (
                 <a
                   className="pagination-item"
-                  href={`?page=${pagination.last_page}`}
+                  href={`?page=${lastPage}`}
                   onClick={(event) => {
                     event.preventDefault();
-                    setPage(pagination.last_page || 0);
+                    setPage(lastPage || 0);
                   }}
                 >
-                  {pagination.max_hits && `Max (${pagination.last_page})`}
-                  {!pagination.max_hits && `Last (${pagination.last_page})`}
+                  {hasMaxHits && `Max (${lastPage})`}
+                  {!hasMaxHits && `Last (${lastPage})`}
                 </a>
               )}
             </>

@@ -245,9 +245,12 @@ const Channels = () => {
             );
           })}
       </div>
-      <div className="boxed-content">
-        <Pagination pagination={pagination} setPage={setCurrentPage} />
-      </div>
+
+      {pagination && (
+        <div className="boxed-content">
+          <Pagination pagination={pagination} setPage={setCurrentPage} />
+        </div>
+      )}
     </div>
   );
 };
