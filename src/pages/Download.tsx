@@ -237,9 +237,10 @@ const Download = () => {
                 <option value="all" selected={!channelFilterFromUrl}>
                   all
                 </option>
-                {channel_agg_list.map((channel) => {
+                {channel_agg_list.map((channel, index) => {
                   return (
                     <option
+                      key={index}
                       selected={channelFilterFromUrl == channel.id}
                       value={channel.id}
                     >
@@ -304,110 +305,109 @@ const Download = () => {
       <div className={`boxed-content ${gridView}`}>
         <div className={`video-list ${view} ${gridViewGrid}`}>
           {downloadList &&
-            downloadList?.map((download) => {
+            downloadList?.map((download, index) => {
               return (
-                <>
-                  <div
-                    className={`video-item ${view}`}
-                    id={`dl-${download.youtube_id}`}
-                  >
-                    <div className={`video-thumb-wrap ${view}`}>
-                      <div className="video-thumb">
-                        <img src={download.vid_thumb_url} alt="video_thumb" />
-                        <div className="video-tags">
-                          {showIgnored && <span>ignored</span>}
-                          {!showIgnored && <span>queued</span>}
-                          <span>{download.vid_type}</span>
-                          {download.auto_start && <span>auto</span>}
-                        </div>
-                      </div>
-                    </div>
-                    <div className={`video-desc ${view}`}>
-                      <div>
-                        {download.channel_indexed && (
-                          <Link to={Routes.Channel(download.channel_id)}>
-                            {download.channel_name}
-                          </Link>
-                        )}
-                        {!download.channel_indexed && (
-                          <span>{download.channel_name}</span>
-                        )}
-                        <a
-                          href={`https://www.youtube.com/watch?v=${download.youtube_id}`}
-                          target="_blank"
-                        >
-                          <h3>{download.title}</h3>
-                        </a>
-                      </div>
-                      <p>
-                        Published: {download.published} | Duration:{" "}
-                        {download.duration} | {download.youtube_id}
-                      </p>
-                      {download.message && (
-                        <p className="danger-zone">{download.message}</p>
-                      )}
-                      <div>
-                        {showIgnored && (
-                          <>
-                            <button
-                              onClick={async () => {
-                                await deleteDownloadById(download.youtube_id);
-                                setRefreshDownloadList(true);
-                              }}
-                            >
-                              Forget
-                            </button>{" "}
-                            <button
-                              onClick={async () => {
-                                await updateDownloadQueueStatusById(
-                                  download.youtube_id,
-                                  "pending",
-                                );
-                                setRefreshDownloadList(true);
-                              }}
-                            >
-                              Add to queue
-                            </button>
-                          </>
-                        )}
-                        {!showIgnored && (
-                          <>
-                            <button
-                              onClick={async () => {
-                                await updateDownloadQueueStatusById(
-                                  download.youtube_id,
-                                  "ignore",
-                                );
-                                setRefreshDownloadList(true);
-                              }}
-                            >
-                              Ignore
-                            </button>{" "}
-                            <button
-                              onClick={async () => {
-                                await updateDownloadQueueStatusById(
-                                  download.youtube_id,
-                                  "priority",
-                                );
-                                setRefreshDownloadList(true);
-                              }}
-                            >
-                              Download now
-                            </button>
-                          </>
-                        )}
-                        {download.message && (
-                          <button
-                            className="danger-button"
-                            onclick="forgetIgnore(this)"
-                          >
-                            Delete
-                          </button>
-                        )}
+                <div
+                  key={index}
+                  className={`video-item ${view}`}
+                  id={`dl-${download.youtube_id}`}
+                >
+                  <div className={`video-thumb-wrap ${view}`}>
+                    <div className="video-thumb">
+                      <img src={download.vid_thumb_url} alt="video_thumb" />
+                      <div className="video-tags">
+                        {showIgnored && <span>ignored</span>}
+                        {!showIgnored && <span>queued</span>}
+                        <span>{download.vid_type}</span>
+                        {download.auto_start && <span>auto</span>}
                       </div>
                     </div>
                   </div>
-                </>
+                  <div className={`video-desc ${view}`}>
+                    <div>
+                      {download.channel_indexed && (
+                        <Link to={Routes.Channel(download.channel_id)}>
+                          {download.channel_name}
+                        </Link>
+                      )}
+                      {!download.channel_indexed && (
+                        <span>{download.channel_name}</span>
+                      )}
+                      <a
+                        href={`https://www.youtube.com/watch?v=${download.youtube_id}`}
+                        target="_blank"
+                      >
+                        <h3>{download.title}</h3>
+                      </a>
+                    </div>
+                    <p>
+                      Published: {download.published} | Duration:{" "}
+                      {download.duration} | {download.youtube_id}
+                    </p>
+                    {download.message && (
+                      <p className="danger-zone">{download.message}</p>
+                    )}
+                    <div>
+                      {showIgnored && (
+                        <>
+                          <button
+                            onClick={async () => {
+                              await deleteDownloadById(download.youtube_id);
+                              setRefreshDownloadList(true);
+                            }}
+                          >
+                            Forget
+                          </button>{" "}
+                          <button
+                            onClick={async () => {
+                              await updateDownloadQueueStatusById(
+                                download.youtube_id,
+                                "pending",
+                              );
+                              setRefreshDownloadList(true);
+                            }}
+                          >
+                            Add to queue
+                          </button>
+                        </>
+                      )}
+                      {!showIgnored && (
+                        <>
+                          <button
+                            onClick={async () => {
+                              await updateDownloadQueueStatusById(
+                                download.youtube_id,
+                                "ignore",
+                              );
+                              setRefreshDownloadList(true);
+                            }}
+                          >
+                            Ignore
+                          </button>{" "}
+                          <button
+                            onClick={async () => {
+                              await updateDownloadQueueStatusById(
+                                download.youtube_id,
+                                "priority",
+                              );
+                              setRefreshDownloadList(true);
+                            }}
+                          >
+                            Download now
+                          </button>
+                        </>
+                      )}
+                      {download.message && (
+                        <button
+                          className="danger-button"
+                          onclick="forgetIgnore(this)"
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
               );
             })}
         </div>

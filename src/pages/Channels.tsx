@@ -165,9 +165,9 @@ const Channels = () => {
         {!channels && <h2>No channels found...</h2>}
 
         {channels &&
-          channels.map((channel) => {
+          channels.map((channel, index) => {
             return (
-              <div className={`channel-item ${view}`}>
+              <div key={index} className={`channel-item ${view}`}>
                 <div className={`channel-banner ${view}`}>
                   <Link to={Routes.Channel(channel.channel_id)}>
                     <img
