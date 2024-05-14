@@ -64,6 +64,11 @@ const Pagination = ({ pagination, setPage }: Props) => {
           return;
         }
 
+        if (currentPage === 2) {
+          setPage(0);
+          return;
+        }
+
         setPage(currentPage - 1);
       }
     },
