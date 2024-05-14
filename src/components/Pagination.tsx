@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
 import Routes from "../configuration/routes/RouteList";
+import { useCallback, useEffect } from "react";
 
 export type PaginationType = {
   page_size?: number;
@@ -40,6 +41,42 @@ const Pagination = ({ pagination, setPage }: Props) => {
   if (params) {
     hasParams = params.length > 0;
   }
+
+  const handleKeyEvent = useCallback(
+    (event: KeyboardEvent) => {
+      const { code } = event;
+
+      if (code === "ArrowRight") {
+        if (currentPage === 0) {
+          setPage(2);
+          return;
+        }
+
+        if (currentPage > lastPage) {
+          return;
+        }
+
+        setPage(currentPage + 1);
+      }
+
+      if (code === "ArrowLeft") {
+        if (currentPage === 0) {
+          return;
+        }
+
+        setPage(currentPage - 1);
+      }
+    },
+    [currentPage, setPage],
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyEvent);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyEvent);
+    };
+  }, [handleKeyEvent]);
 
   return (
     <div className="pagination">
@@ -96,7 +133,7 @@ const Pagination = ({ pagination, setPage }: Props) => {
               }
             })}
 
-          {current_page > 0 && <span>{`< Page ${current_page} `}</span>}
+          {currentPage > 0 && <span>{`< Page ${currentPage} `}</span>}
 
           {next_pages && next_pages.length > 0 && (
             <>
