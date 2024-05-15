@@ -15,7 +15,7 @@ import { UserConfigType } from "../api/actions/updateUserConfig";
 import { useEffect, useState } from "react";
 import getIsAdmin from "../components/getIsAdmin";
 
-type AuthenticationType = {
+export type AuthenticationType = {
   response: string;
   user: number;
   version: string;

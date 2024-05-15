@@ -281,12 +281,16 @@ const router = createBrowserRouter(
           path: Routes.SettingsUser,
           element: <SettingsUser />,
           loader: async () => {
-            const authResponse = await loadAuth();
-            if (authResponse.status === 403) {
+            const auth = await loadAuth();
+            if (auth.status === 403) {
               return redirect(Routes.Login);
             }
 
-            return {};
+            const authData = await auth.json();
+
+            const userConfig = await loadUserConfig();
+
+            return { userConfig, auth: authData };
           },
         },
         {
