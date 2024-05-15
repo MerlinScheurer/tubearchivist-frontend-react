@@ -1,6 +1,6 @@
 import getCookie from "../../components/getCookie";
 
-const loadChannelList = async (page: number) => {
+const loadChannelList = async (page: number, showSubscribed: boolean) => {
   const headers = new Headers();
 
   const csrfCookie = getCookie("csrftoken");
@@ -8,7 +8,17 @@ const loadChannelList = async (page: number) => {
     headers.append("X-CSRFToken", csrfCookie);
   }
 
-  const response = await fetch(`/api/channel/?page=${page}`, {
+  const searchParams = new URLSearchParams();
+
+  if (page) {
+    searchParams.append("page", page.toString());
+  }
+
+  if (showSubscribed) {
+    searchParams.append("filter", "subscribed");
+  }
+
+  const response = await fetch(`/api/channel/?${searchParams.toString()}`, {
     headers,
     credentials: "same-origin",
   });

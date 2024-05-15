@@ -75,7 +75,10 @@ const Channels = () => {
   useEffect(() => {
     (async () => {
       //TODO: take showSubscribedOnly into account when loading channels
-      const channelListResponse = await loadChannelList(currentPage);
+      const channelListResponse = await loadChannelList(
+        currentPage,
+        showSubscribedOnly,
+      );
 
       setChannelListResponse(channelListResponse);
       setRefreshChannelList(false);
