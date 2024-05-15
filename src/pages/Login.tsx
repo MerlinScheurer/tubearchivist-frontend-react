@@ -3,6 +3,7 @@ import Routes from "../configuration/routes/RouteList";
 import getCookie from "../components/getCookie";
 import { useNavigate } from "react-router-dom";
 import importColours from "../configuration/colours/getColours";
+import loadSignIn from "../api/loader/loadSignIn";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -17,33 +18,10 @@ const Login = () => {
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
-    const responseHead = await fetch("/api/csrf/", {
-      method: "HEAD",
-    });
-
-    console.log(responseHead);
-
-    const body = new FormData();
-    body.set("username", username);
-    body.set("password", password);
-    body.set("remember_me", saveLogin ? "on" : "off");
-
-    const header = new Headers();
-
-    const csrfCookie = getCookie("csrftoken");
-    if (csrfCookie) {
-      header.append("X-CSRFToken", csrfCookie);
-      body.set("csrfmiddlewaretoken", csrfCookie);
-    }
-
-    const response = await fetch("http://localhost:8000/login/", {
-      method: "POST",
-      body,
-      credentials: "include",
-    });
+    const loginResponse = await loadSignIn(username, password, saveLogin);
 
     // TODO: replace with proper Api based handling?
-    const signedIn = response.status === 200;
+    const signedIn = loginResponse.status === 200;
 
     if (signedIn) {
       navigate(Routes.Home);
