@@ -6,7 +6,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
-import Footer from "../components/Footer";
+import Footer, { TaUpdateType } from "../components/Footer";
 import iconSearch from "/img/icon-search.svg";
 import iconGear from "/img/icon-gear.svg";
 import iconExit from "/img/icon-exit.svg";
@@ -15,14 +15,22 @@ import { UserConfigType } from "../api/actions/updateUserConfig";
 import { useEffect, useState } from "react";
 import getIsAdmin from "../components/getIsAdmin";
 
+type AuthenticationType = {
+  response: string;
+  user: number;
+  version: string;
+  ta_update: TaUpdateType;
+};
+
 type BaseLoaderData = {
   userConfig: UserConfigType;
+  auth: AuthenticationType;
 };
 
 export type OutletContextType = [number, () => void];
 
 const Base = () => {
-  const { userConfig } = useLoaderData() as BaseLoaderData;
+  const { userConfig, auth } = useLoaderData() as BaseLoaderData;
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location.search);
@@ -31,6 +39,9 @@ const Base = () => {
 
   const [currentPage, setCurrentPage] = useState(currentPageFromUrl);
   const [, setSearchParams] = useSearchParams();
+
+  const version = auth.version;
+  const taUpdate = auth.ta_update;
 
   useEffect(() => {
     console.log("location");
@@ -58,9 +69,6 @@ const Base = () => {
   }, [currentPage]);
 
   importColours(userConfig.stylesheet);
-
-  const version = "v0.4.8-unstable";
-  // const ta_update: TaUpdate = { version: "testing v2", is_breaking: false };
 
   const isAdmin = getIsAdmin();
 
@@ -112,7 +120,7 @@ const Base = () => {
         {/** Outlet: https://reactrouter.com/en/main/components/outlet */}
         <Outlet context={[currentPage, setCurrentPage]} />
       </div>
-      <Footer version={version} />
+      <Footer version={version} taUpdate={taUpdate} />
     </>
   );
 };

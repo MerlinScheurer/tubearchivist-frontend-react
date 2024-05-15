@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 
-export type TaUpdate = {
-  version: string;
-  is_breaking: boolean;
+export type TaUpdateType = {
+  version?: string;
+  is_breaking?: boolean;
 };
 
 interface Props {
   version: string;
-  taUpdate?: TaUpdate;
+  taUpdate?: TaUpdateType;
 }
 
 const Footer = ({ version, taUpdate }: Props) => {
@@ -19,7 +19,7 @@ const Footer = ({ version, taUpdate }: Props) => {
         <span>© 2021 - {currentYear} </span>
         <span>TubeArchivist </span>
         <span>{version} </span>
-        {taUpdate && (
+        {taUpdate?.version && (
           <>
             <span className="danger-zone">
               {taUpdate.version} available

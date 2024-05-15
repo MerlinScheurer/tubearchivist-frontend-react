@@ -39,9 +39,16 @@ const router = createBrowserRouter(
       loader: async () => {
         console.log("------------ after reload");
 
+        const auth = await loadAuth();
+        if (auth.status === 403) {
+          return redirect(Routes.Login);
+        }
+
+        const authData = await auth.json();
+
         const userConfig = await loadUserConfig();
 
-        return { userConfig };
+        return { userConfig, auth: authData };
       },
       element: <Base />,
       errorElement: <ErrorPage />,
