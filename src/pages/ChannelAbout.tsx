@@ -1,4 +1,4 @@
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import ChannelOverview from "../components/ChannelOverview";
 import { useEffect, useState } from "react";
 import loadChannelById from "../api/loader/loadChannelById";
@@ -6,6 +6,8 @@ import { UserConfigType } from "../api/actions/updateUserConfig";
 import { ChannelResponseType } from "./ChannelBase";
 import getIsAdmin from "../components/getIsAdmin";
 import Linkify from "../components/Linkify";
+import deleteChannel from "../api/actions/deleteChannel";
+import Routes from "../configuration/routes/RouteList";
 
 const handleSponsorBlockIntegrationOverwrite = (integration: string) => {
   if (integration) {
@@ -30,7 +32,9 @@ type ChannelAboutLoaderType = {
 const ChannelAbout = () => {
   const { channelId } = useParams() as ChannelAboutParams;
   const { userConfig } = useLoaderData() as ChannelAboutLoaderType;
+  const navigate = useNavigate();
 
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
@@ -106,22 +110,38 @@ const ChannelAbout = () => {
               {isAdmin && (
                 <>
                   <div className="button-box">
-                    <button onclick="deleteConfirm()" id="delete-item">
-                      Delete Channel
-                    </button>
-                    <div className="delete-confirm" id="delete-button">
-                      <span>
-                        Delete {channel.channel_name} including all videos?{" "}
-                      </span>
+                    {!showDeleteConfirm && (
                       <button
-                        className="danger-button"
-                        onclick="deleteChannel(this)"
-                        data-id="{{ channel.channel_id }}"
+                        onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                        id="delete-item"
                       >
-                        Delete
-                      </button>{" "}
-                      <button onclick="cancelDelete()">Cancel</button>
-                    </div>
+                        Delete Channel
+                      </button>
+                    )}
+
+                    {showDeleteConfirm && (
+                      <div className="delete-confirm" id="delete-button">
+                        <span>
+                          Delete {channel.channel_name} including all videos?{" "}
+                        </span>
+                        <button
+                          className="danger-button"
+                          onClick={async () => {
+                            await deleteChannel(channelId);
+                            navigate(Routes.Channels);
+                          }}
+                        >
+                          Delete
+                        </button>{" "}
+                        <button
+                          onClick={() =>
+                            setShowDeleteConfirm(!showDeleteConfirm)
+                          }
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
                   </div>
                   {reindex && <p>Reindex scheduled</p>}
 
