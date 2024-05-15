@@ -42,13 +42,8 @@ type ChannelAboutParams = {
   channelId: string;
 };
 
-type ChannelAboutLoaderType = {
-  userConfig: UserConfigType;
-};
-
 const ChannelAbout = () => {
   const { channelId } = useParams() as ChannelAboutParams;
-  const { userConfig } = useLoaderData() as ChannelAboutLoaderType;
   const [currentPage, setCurrentPage, startNotification, setStartNotification] =
     useOutletContext() as ChannelBaseOutletContextType;
   const navigate = useNavigate();

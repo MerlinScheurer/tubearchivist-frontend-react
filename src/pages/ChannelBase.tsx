@@ -54,7 +54,7 @@ const ChannelBase = () => {
             </Link>
           )}
           {has_shorts && (
-            <Link to={Routes.ChannelShort(channelId)}>
+            <Link to={Routes.ChannelShorts(channelId)}>
               <h3>Shorts</h3>
             </Link>
           )}

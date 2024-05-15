@@ -4,7 +4,7 @@ const Routes = {
   Channel: (id: string) => `/channel/${id}`,
   ChannelVideo: (id: string) => `/channel/${id}`,
   ChannelStream: (id: string) => `/channel/${id}/streams/`,
-  ChannelShort: (id: string) => `/channel/${id}/shorts/`,
+  ChannelShorts: (id: string) => `/channel/${id}/shorts/`,
   ChannelPlaylist: (id: string) => `/channel/${id}/playlist/`,
   ChannelAbout: (id: string) => `/channel/${id}/about/`,
   Playlists: "/playlist/",
