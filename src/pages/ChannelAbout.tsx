@@ -57,7 +57,7 @@ const ChannelAbout = () => {
 
   const channel = channelResponse?.data;
 
-  const channel_overwrites = channel?.channel_overwrites;
+  const channelOverwrites = channel?.channel_overwrites;
   const channel_overwrite_form = {
     download_format: "",
     autodelete_days: 0,
@@ -245,7 +245,7 @@ const ChannelAbout = () => {
                   <p>
                     Download format:{" "}
                     <span className="settings-current">
-                      {channel_overwrites?.download_format || "False"}
+                      {channelOverwrites?.download_format || "False"}
                     </span>
                   </p>
                   <input
@@ -260,7 +260,7 @@ const ChannelAbout = () => {
                   <p>
                     Auto delete watched videos after x days:{" "}
                     <span className="settings-current">
-                      {channel_overwrites?.autodelete_days || "False"}
+                      {channelOverwrites?.autodelete_days || "False"}
                     </span>
                   </p>
                   <input
@@ -277,7 +277,7 @@ const ChannelAbout = () => {
                   <p>
                     Index playlists:{" "}
                     <span className="settings-current">
-                      {channel_overwrites?.index_playlists || "False"}
+                      {channelOverwrites?.index_playlists || "False"}
                     </span>
                   </p>
 
@@ -303,7 +303,7 @@ const ChannelAbout = () => {
                     :{" "}
                     <span className="settings-current">
                       {handleSponsorBlockIntegrationOverwrite(
-                        channel_overwrites?.integrate_sponsorblock,
+                        channelOverwrites?.integrate_sponsorblock,
                       )}
                     </span>
                   </p>
