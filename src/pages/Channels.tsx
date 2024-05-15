@@ -13,6 +13,13 @@ import { OutletContextType } from "./Base";
 import getIsAdmin from "../components/getIsAdmin";
 import ChannelList from "../components/ChannelList";
 
+type ChannelOverwritesType = {
+  download_format?: string;
+  autodelete_days?: number;
+  index_playlists?: boolean;
+  integrate_sponsorblock?: boolean;
+};
+
 export type ChannelType = {
   channel_active: boolean;
   channel_banner_url: string;
@@ -20,6 +27,7 @@ export type ChannelType = {
   channel_id: string;
   channel_last_refresh: string;
   channel_name: string;
+  channel_overwrites?: ChannelOverwritesType;
   channel_subs: number;
   channel_subscribed: boolean;
   channel_tags: string[];
@@ -76,7 +84,7 @@ const Channels = () => {
 
   const channels = channelListResponse?.data;
   const pagination = channelListResponse?.paginate;
-  const channelCount = channels?.length;
+  const channelCount = pagination?.total_hits;
 
   const isAdmin = getIsAdmin();
 
