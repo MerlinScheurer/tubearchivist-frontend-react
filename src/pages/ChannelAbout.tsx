@@ -70,6 +70,13 @@ const ChannelAbout = () => {
     integrate_sponsorblock: false,
   };
 
+  const handleSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+
+    //TODO: implement request to about api endpoint ( when implemented )
+    // `/api/channel/${channel.channel_id}/about/`
+  };
+
   useEffect(() => {
     (async () => {
       const channelResponse = await loadChannelById(channelId);
@@ -238,11 +245,7 @@ const ChannelAbout = () => {
           <div id="overwrite-form" className="info-box">
             <div className="info-box-item">
               <h2>Customize {channel.channel_name}</h2>
-              <form
-                className="overwrite-form"
-                action="/channel/{ channel.channel_id }/about/"
-                method="POST"
-              >
+              <form className="overwrite-form" onSubmit={handleSubmit}>
                 <div className="overwrite-form-item">
                   <p>
                     Download format:{" "}
@@ -283,10 +286,12 @@ const ChannelAbout = () => {
                     </span>
                   </p>
 
-                  <select name="index_playlists" id="id_index_playlists">
-                    <option value="" selected>
-                      -- change playlist index --
-                    </option>
+                  <select
+                    name="index_playlists"
+                    id="id_index_playlists"
+                    defaultValue=""
+                  >
+                    <option value="">-- change playlist index --</option>
                     <option value="0">Disable playlist index</option>
                     <option value="1">Enable playlist index</option>
                   </select>
@@ -310,8 +315,9 @@ const ChannelAbout = () => {
                   <select
                     name="integrate_sponsorblock"
                     id="id_integrate_sponsorblock"
+                    defaultValue=""
                   >
-                    <option value="" selected>
+                    <option value="">
                       -- change sponsorblock integrations
                     </option>
                     <option value="disable">
@@ -327,6 +333,10 @@ const ChannelAbout = () => {
             </div>
           </div>
         )}
+      </div>
+
+      <div className="boxed-content">
+        <div className="pagination">{/** dummy pagination for padding */}</div>
       </div>
     </>
   );
