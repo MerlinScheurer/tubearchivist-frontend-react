@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Routes from "../configuration/routes/RouteList";
-import getCookie from "../components/getCookie";
 import { useNavigate } from "react-router-dom";
 import importColours from "../configuration/colours/getColours";
 import loadSignIn from "../api/loader/loadSignIn";
