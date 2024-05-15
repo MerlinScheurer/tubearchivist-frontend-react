@@ -234,7 +234,7 @@ const ChannelAbout = () => {
           </div>
         )}
 
-        {isAdmin && channel_overwrites && (
+        {isAdmin && (
           <div id="overwrite-form" className="info-box">
             <div className="info-box-item">
               <h2>Customize {channel.channel_name}</h2>
@@ -247,14 +247,14 @@ const ChannelAbout = () => {
                   <p>
                     Download format:{" "}
                     <span className="settings-current">
-                      {channel_overwrites.download_format || "False"}
+                      {channel_overwrites?.download_format || "False"}
                     </span>
                   </p>
                   <input
                     type="text"
                     name="download_format"
                     id="id_download_format"
-                    value={channel_overwrite_form.download_format || ""}
+                    value={channel_overwrite_form?.download_format || ""}
                   />
                   <br />
                 </div>
@@ -262,14 +262,14 @@ const ChannelAbout = () => {
                   <p>
                     Auto delete watched videos after x days:{" "}
                     <span className="settings-current">
-                      {channel_overwrites.autodelete_days || "False"}
+                      {channel_overwrites?.autodelete_days || "False"}
                     </span>
                   </p>
                   <input
                     type="number"
                     name="autodelete_days"
                     id="id_autodelete_days"
-                    value={channel_overwrite_form.autodelete_days || ""}
+                    value={channel_overwrite_form?.autodelete_days || ""}
                   />
 
                   <br />
@@ -279,7 +279,7 @@ const ChannelAbout = () => {
                   <p>
                     Index playlists:{" "}
                     <span className="settings-current">
-                      {channel_overwrites.index_playlists || "False"}
+                      {channel_overwrites?.index_playlists || "False"}
                     </span>
                   </p>
 
@@ -303,7 +303,7 @@ const ChannelAbout = () => {
                     :{" "}
                     <span className="settings-current">
                       {handleSponsorBlockIntegrationOverwrite(
-                        channel_overwrites.integrate_sponsorblock,
+                        channel_overwrites?.integrate_sponsorblock,
                       )}
                     </span>
                   </p>
