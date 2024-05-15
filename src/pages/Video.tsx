@@ -231,16 +231,16 @@ const Video = () => {
               )}
               {video.stats.average_rating && (
                 <div className="rating-stars">
-                  {video.stats.average_rating.map((star) => {
+                  {video.stats.average_rating.map((star, index) => {
                     if (star === "full") {
-                      return <img src={iconStarFull} alt={star} />;
+                      return <img key={index} src={iconStarFull} alt={star} />;
                     }
 
                     if (star === "half") {
-                      return <img src={iconStarHalf} alt={star} />;
+                      return <img key={index} src={iconStarHalf} alt={star} />;
                     }
 
-                    return <img src={iconStarEmpty} alt={star} />;
+                    return <img key={index} src={iconStarEmpty} alt={star} />;
                   })}
                 </div>
               )}
@@ -318,9 +318,9 @@ const Video = () => {
             )}
 
             {video.streams &&
-              video.streams.map((stream) => {
+              video.streams.map((stream, index) => {
                 return (
-                  <p>
+                  <p key={index}>
                     {capitalizeFirstLetter(stream.type)}: {stream.codec}{" "}
                     {humanFileSize(stream.bitrate, true)}/s
                     {stream.width && (
@@ -368,8 +368,8 @@ const Video = () => {
 
         {playlistNav && (
           <>
-            {playlistNav.map((playlistItem) => {
-              <div className="playlist-wrap">
+            {playlistNav.map((playlistItem, index: number) => {
+              <div key={index} className="playlist-wrap">
                 <Link
                   to={Routes.Playlist(playlistItem.playlist_meta.playlist_id)}
                 >
