@@ -1,4 +1,9 @@
-import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import {
+  useLoaderData,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 import ChannelOverview from "../components/ChannelOverview";
 import { useEffect, useState } from "react";
 import loadChannelById from "../api/loader/loadChannelById";
@@ -8,6 +13,11 @@ import getIsAdmin from "../components/getIsAdmin";
 import Linkify from "../components/Linkify";
 import deleteChannel from "../api/actions/deleteChannel";
 import Routes from "../configuration/routes/RouteList";
+import queueReindex, {
+  ReindexType,
+  ReindexTypeEnum,
+} from "../api/actions/queueReindex";
+import { OutletContextType } from "./Base";
 
 const handleSponsorBlockIntegrationOverwrite = (integration: string) => {
   if (integration) {
@@ -21,6 +31,13 @@ const handleSponsorBlockIntegrationOverwrite = (integration: string) => {
   return "False";
 };
 
+export type ChannelBaseOutletContextType = [
+  number,
+  () => void,
+  boolean,
+  (status: boolean) => void,
+];
+
 type ChannelAboutParams = {
   channelId: string;
 };
@@ -32,10 +49,13 @@ type ChannelAboutLoaderType = {
 const ChannelAbout = () => {
   const { channelId } = useParams() as ChannelAboutParams;
   const { userConfig } = useLoaderData() as ChannelAboutLoaderType;
+  const [currentPage, setCurrentPage, startNotification, setStartNotification] =
+    useOutletContext() as ChannelBaseOutletContextType;
   const navigate = useNavigate();
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+  const [reindex, setReindex] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
   const [channelResponse, setChannelResponse] = useState<ChannelResponseType>();
@@ -60,7 +80,6 @@ const ChannelAbout = () => {
   }, [refresh, channelId]);
 
   const isAdmin = getIsAdmin();
-  const reindex = false;
 
   if (!channel) {
     return "Channel not found!";
@@ -144,23 +163,34 @@ const ChannelAbout = () => {
                     )}
                   </div>
                   {reindex && <p>Reindex scheduled</p>}
-
                   {!reindex && (
                     <div id="reindex-button" className="button-box">
                       <button
-                        data-id="{{ channel.channel_id }}"
-                        data-type="channel"
-                        onclick="reindex(this)"
-                        title="Reindex Channel {{ channel.channel_name }}"
+                        title={`Reindex Channel ${channel.channel_name}`}
+                        onClick={async () => {
+                          await queueReindex(
+                            channelId,
+                            ReindexTypeEnum.channel as ReindexType,
+                          );
+
+                          setReindex(true);
+                          setStartNotification(true);
+                        }}
                       >
                         Reindex
-                      </button>
+                      </button>{" "}
                       <button
-                        data-id="{{ channel.channel_id }}"
-                        data-type="channel"
-                        data-extract-videos="true"
-                        onclick="reindex(this)"
-                        title="Reindex Videos of {{ channel.channel_name }}"
+                        title={`Reindex Videos of ${channel.channel_name}`}
+                        onClick={async () => {
+                          await queueReindex(
+                            channelId,
+                            ReindexTypeEnum.channel as ReindexType,
+                            true,
+                          );
+
+                          setReindex(true);
+                          setStartNotification(true);
+                        }}
                       >
                         Reindex Videos
                       </button>

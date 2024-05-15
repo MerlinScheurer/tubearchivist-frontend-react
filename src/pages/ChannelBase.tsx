@@ -5,6 +5,7 @@ import { ConfigType } from "./Home";
 import getIsAdmin from "../components/getIsAdmin";
 import { OutletContextType } from "./Base";
 import Notifications from "../components/Notifications";
+import { useState } from "react";
 
 type ChannelParams = {
   channelId: string;
@@ -18,6 +19,8 @@ export type ChannelResponseType = {
 const ChannelBase = () => {
   const { channelId } = useParams() as ChannelParams;
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
+
+  const [startNotification, setStartNotification] = useState(false);
 
   const has_streams = false;
   const has_shorts = false;
@@ -70,10 +73,22 @@ const ChannelBase = () => {
           )}
         </div>
 
-        <Notifications pageName="channel" />
+        <Notifications
+          pageName="channel"
+          includeReindex={true}
+          update={startNotification}
+          setIsDone={() => setStartNotification(false)}
+        />
       </div>
 
-      <Outlet context={[currentPage, setCurrentPage]} />
+      <Outlet
+        context={[
+          currentPage,
+          setCurrentPage,
+          startNotification,
+          setStartNotification,
+        ]}
+      />
     </>
   );
 };

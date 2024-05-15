@@ -2,15 +2,19 @@ import getCookie from "../../components/getCookie";
 
 export type NotificationPages = "download" | "settings" | "channel" | "all";
 
-const loadNotifications = async (pageName: NotificationPages) => {
+const loadNotifications = async (
+  pageName: NotificationPages,
+  includeReindex = false,
+) => {
   const headers = new Headers();
 
   const csrfCookie = getCookie("csrftoken");
   if (csrfCookie) {
     headers.append("X-CSRFToken", csrfCookie);
   }
+
   let params = "";
-  if (pageName !== "all") {
+  if (!includeReindex && pageName !== "all") {
     params = `?filter=${pageName}`;
   }
 

@@ -20,17 +20,23 @@ type NotificationResponseType = NotificationType[];
 
 type NotificationsProps = {
   pageName: NotificationPages;
+  includeReindex?: boolean;
   update?: boolean;
   setIsDone?: () => void;
 };
 
-const Notifications = ({ pageName, update, setIsDone }: NotificationsProps) => {
+const Notifications = ({
+  pageName,
+  includeReindex = false,
+  update,
+  setIsDone,
+}: NotificationsProps) => {
   const [notificationResponse, setNotificationResponse] =
     useState<NotificationResponseType>([]);
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
-      const notifications = await loadNotifications(pageName);
+      const notifications = await loadNotifications(pageName, includeReindex);
 
       if (notifications.length === 0) {
         setNotificationResponse(notifications);
