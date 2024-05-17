@@ -24,6 +24,7 @@ import deleteVideo from "../api/actions/deleteVideo";
 import capitalizeFirstLetter from "../functions/capitalizeFirstLetter";
 import formatDate from "../functions/formatDates";
 import formatNumbers from "../functions/formatNumbers";
+import queueReindex from "../api/actions/queueReindex";
 
 type VideoParams = {
   videoId: string;
@@ -54,6 +55,7 @@ const Video = () => {
   const [watched, setWatched] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [refreshVideoList, setRefreshVideoList] = useState(false);
+  const [reindex, setReindex] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -88,8 +90,6 @@ const Video = () => {
   const cast = false;
 
   const isAdmin = getIsAdmin();
-
-  const reindex = false;
 
   return (
     <>
@@ -256,10 +256,11 @@ const Video = () => {
                   {isAdmin && (
                     <div id="reindex-button" className="button-box">
                       <button
-                        data-id={`${video.youtube_id}`}
-                        data-type="video"
-                        onclick="reindex(this)"
                         title={`Reindex ${video.title}`}
+                        onClick={async () => {
+                          await queueReindex(video.youtube_id, "video");
+                          setReindex(true);
+                        }}
                       >
                         Reindex
                       </button>

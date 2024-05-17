@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Link,
   useLoaderData,
   useNavigate,
   useOutletContext,
@@ -27,6 +28,8 @@ import deletePlaylist from "../api/actions/deletePlaylist";
 import Routes from "../configuration/routes/RouteList";
 import { ChannelResponseType } from "./ChannelBase";
 import formatDate from "../functions/formatDates";
+import queueReindex from "../api/actions/queueReindex";
+import updateWatchedState from "../api/actions/updateWatchedState";
 
 export type PlaylistType = {
   playlist_active: boolean;
@@ -76,6 +79,7 @@ const Playlist = () => {
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [refreshPlaylist, setRefreshPlaylist] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [reindex, setReindex] = useState(false);
 
   const [playlistResponse, setPlaylistResponse] =
     useState<PlaylistResponseType>();
@@ -91,9 +95,7 @@ const Playlist = () => {
   const videoArchivedCount = Number(
     palylistEntries?.filter((video) => video.downloaded).length,
   );
-  const videoInPlaylistCount = palylistEntries?.length;
-
-  const reindex = false;
+  const videoInPlaylistCount = videos?.length;
 
   const isGridView = view === ViewStyles.grid;
   const gridView = isGridView ? `boxed-${gridItems}` : "";
@@ -248,16 +250,24 @@ const Playlist = () => {
                     <button
                       title={`Mark all videos from ${playlist.playlist_name} as watched`}
                       type="button"
-                      id="watched-button"
-                      onclick="isWatchedButton(this)"
+                      onClick={async () => {
+                        await updateWatchedState({
+                          id: playlistId,
+                          is_watched: true,
+                        });
+                      }}
                     >
                       Mark as watched
                     </button>{" "}
                     <button
                       title={`Mark all videos from ${playlist.playlist_name} as unwatched`}
                       type="button"
-                      id="unwatched-button"
-                      onclick="isUnwatchedButton(this)"
+                      onClick={async () => {
+                        await updateWatchedState({
+                          id: playlistId,
+                          is_watched: false,
+                        });
+                      }}
                     >
                       Mark as unwatched
                     </button>
@@ -270,18 +280,27 @@ const Playlist = () => {
                 <div id="reindex-button" className="button-box">
                   {playlist.playlist_type != "custom" && (
                     <button
-                      data-type="playlist"
-                      onclick="reindex(this)"
                       title={`Reindex Playlist ${playlist.playlist_name}`}
+                      onClick={async () => {
+                        setReindex(true);
+
+                        await queueReindex(playlist.playlist_id, "playlist");
+                      }}
                     >
                       Reindex
                     </button>
                   )}{" "}
                   <button
-                    data-type="playlist"
-                    data-extract-videos="true"
-                    onclick="reindex(this)"
                     title={`Reindex Videos of ${playlist.playlist_name}`}
+                    onClick={async () => {
+                      setReindex(true);
+
+                      await queueReindex(
+                        playlist.playlist_id,
+                        "playlist",
+                        true,
+                      );
+                    }}
                   >
                     Reindex Videos
                   </button>
@@ -341,18 +360,19 @@ const Playlist = () => {
               {playlist.playlist_type != "custom" && (
                 <p>
                   Try going to the{" "}
-                  <a href="{% url 'downloads' %}">downloads page</a> to start
-                  the scan and download tasks.
+                  <Link to={Routes.Downloads}>downloads page</Link> to start the
+                  scan and download tasks.
                 </p>
               )}
             </>
           )}
-
-          <VideoList
-            videoList={videos}
-            viewLayout={view}
-            refreshVideoList={setRefreshPlaylist}
-          />
+          {videoInPlaylistCount !== 0 && (
+            <VideoList
+              videoList={videos}
+              viewLayout={view}
+              refreshVideoList={setRefreshPlaylist}
+            />
+          )}
         </div>
       </div>
 
