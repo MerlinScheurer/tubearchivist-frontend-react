@@ -1,10 +1,11 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import updateUserConfig, {
   UserConfigType,
 } from "../api/actions/updateUserConfig";
 import { AuthenticationType } from "./Base";
 import { useEffect, useState } from "react";
 import loadUserConfig from "../api/loader/loadUserConfig";
+import { ColourVariants } from "../configuration/colours/getColours";
 
 type SettingsUserLoaderData = {
   userConfig: UserConfigType;
@@ -14,6 +15,7 @@ type SettingsUserLoaderData = {
 const SettingsUser = () => {
   const { userConfig, auth } = useLoaderData() as SettingsUserLoaderData;
   const { stylesheet, page_size } = userConfig;
+  const navigate = useNavigate();
 
   const [selectedStylesheet, setSelectedStylesheet] = useState(
     userConfig.stylesheet || "dark.css",
@@ -30,6 +32,7 @@ const SettingsUser = () => {
     userConfigResponse?.stylesheet || stylesheet || "default";
   const pageSizeOverwritable =
     userConfigResponse?.page_size || page_size || "default";
+
   const isSuperuser = auth?.user?.is_superuser;
 
   useEffect(() => {
@@ -38,11 +41,11 @@ const SettingsUser = () => {
         const userConfigResponse = await loadUserConfig();
 
         setUserConfigResponse(userConfigResponse);
-        //TODO: reload page or figure out how to replace imported css
         setRefresh(false);
+        navigate(0);
       }
     })();
-  }, [refresh]);
+  }, [navigate, refresh]);
 
   return (
     <>
@@ -67,7 +70,7 @@ const SettingsUser = () => {
                 id="id_stylesheet"
                 value={selectedStylesheet}
                 onChange={(event) => {
-                  setSelectedStylesheet(event.target.value);
+                  setSelectedStylesheet(event.target.value as ColourVariants);
                 }}
               >
                 <option value="">-- change stylesheet --</option>
@@ -94,7 +97,7 @@ const SettingsUser = () => {
                 id="id_page_size"
                 value={selectedPageSize}
                 onChange={(event) => {
-                  setSelectedPageSize(event.target.value);
+                  setSelectedPageSize(Number(event.target.value));
                 }}
               ></input>
             </div>
@@ -107,7 +110,7 @@ const SettingsUser = () => {
                 stylesheet: selectedStylesheet,
               });
 
-              setRefresh(false);
+              setRefresh(true);
             }}
           >
             Update User Configurations
