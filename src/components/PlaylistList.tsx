@@ -3,7 +3,7 @@ import Routes from "../configuration/routes/RouteList";
 import { ViewLayout } from "../pages/Home";
 import { PlaylistType } from "../pages/Playlist";
 import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
-import formatDate from "./formatDates";
+import formatDate from "../functions/formatDates";
 
 type PlaylistListProps = {
   playlistList: PlaylistType[] | undefined;

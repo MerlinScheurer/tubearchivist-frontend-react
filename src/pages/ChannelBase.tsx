@@ -2,7 +2,7 @@ import { Link, Outlet, useOutletContext, useParams } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import { ChannelType } from "./Channels";
 import { ConfigType } from "./Home";
-import getIsAdmin from "../components/getIsAdmin";
+import getIsAdmin from "../functions/getIsAdmin";
 import { OutletContextType } from "./Base";
 import Notifications from "../components/Notifications";
 import { useState } from "react";

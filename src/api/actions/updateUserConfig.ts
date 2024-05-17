@@ -1,4 +1,4 @@
-import getCookie from "../../components/getCookie";
+import getCookie from "../../functions/getCookie";
 import { ColourVariants } from "../../configuration/colours/getColours";
 import { SortBy, SortOrder, ViewLayout } from "../../pages/Home";
 

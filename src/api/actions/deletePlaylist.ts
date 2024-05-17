@@ -1,4 +1,4 @@
-import getCookie from "../../components/getCookie";
+import getCookie from "../../functions/getCookie";
 
 const deletePlaylist = async (playlistId: string, allVideos = false) => {
   const headers = new Headers();

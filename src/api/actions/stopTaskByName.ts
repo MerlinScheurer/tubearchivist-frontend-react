@@ -1,4 +1,4 @@
-import getCookie from "../../components/getCookie";
+import getCookie from "../../functions/getCookie";
 
 const stopTaskByName = async (taskId: string) => {
   const headers = new Headers();

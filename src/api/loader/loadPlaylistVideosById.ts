@@ -1,4 +1,4 @@
-import getCookie from "../../components/getCookie";
+import getCookie from "../../functions/getCookie";
 
 const loadPlaylistVideosById = async (
   playlistId: string | undefined,

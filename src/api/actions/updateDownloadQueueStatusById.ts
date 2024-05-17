@@ -1,4 +1,4 @@
-import getCookie from "../../components/getCookie";
+import getCookie from "../../functions/getCookie";
 
 export type DownloadQueueStatus = "ignore" | "pending" | "priority";
 

@@ -1,5 +1,5 @@
 import { UserConfigType } from "../actions/updateUserConfig";
-import getCookie from "../../components/getCookie";
+import getCookie from "../../functions/getCookie";
 
 const loadUserConfig = async (): Promise<UserConfigType> => {
   const headers = new Headers();

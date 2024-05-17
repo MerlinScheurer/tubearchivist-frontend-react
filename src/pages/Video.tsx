@@ -15,15 +15,15 @@ import Linkify from "../components/Linkify";
 import loadSimmilarVideosById from "../api/loader/loadSimmilarVideosById";
 import VideoList from "../components/VideoList";
 import updateWatchedState from "../api/actions/updateWatchedState";
-import humanFileSize from "../components/humanFileSize";
+import humanFileSize from "../functions/humanFileSize";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import loadVideoProgressById from "../api/loader/loadVideoProgressById";
-import getIsAdmin from "../components/getIsAdmin";
+import getIsAdmin from "../functions/getIsAdmin";
 import ChannelOverview from "../components/ChannelOverview";
 import deleteVideo from "../api/actions/deleteVideo";
-import capitalizeFirstLetter from "../components/capitalizeFirstLetter";
-import formatDate from "../components/formatDates";
-import formatNumbers from "../components/formatNumbers";
+import capitalizeFirstLetter from "../functions/capitalizeFirstLetter";
+import formatDate from "../functions/formatDates";
+import formatNumbers from "../functions/formatNumbers";
 
 type VideoParams = {
   videoId: string;

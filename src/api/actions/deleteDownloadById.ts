@@ -1,4 +1,4 @@
-import getCookie from "../../components/getCookie";
+import getCookie from "../../functions/getCookie";
 
 const deleteDownloadById = async (youtubeId: string) => {
   const headers = new Headers();

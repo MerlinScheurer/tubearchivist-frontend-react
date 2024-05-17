@@ -1,6 +1,6 @@
-import humanFileSize from "./humanFileSize";
-import formatDate from "./formatDates";
-import formatNumbers from "./formatNumbers";
+import humanFileSize from "../functions/humanFileSize";
+import formatDate from "../functions/formatDates";
+import formatNumbers from "../functions/formatNumbers";
 import { DownloadHistoryStatsType } from "../pages/SettingsDashboard";
 
 type DownloadHistoryStatsProps = {

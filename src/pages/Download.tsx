@@ -23,7 +23,7 @@ import updateDownloadQueueStatusById from "../api/actions/updateDownloadQueueSta
 import deleteDownloadById from "../api/actions/deleteDownloadById";
 import updateTaskByName from "../api/actions/updateTaskByName";
 import Notifications from "../components/Notifications";
-import formatDate from "../components/formatDates";
+import formatDate from "../functions/formatDates";
 
 type Download = {
   auto_start: boolean;

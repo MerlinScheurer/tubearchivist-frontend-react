@@ -1,7 +1,7 @@
 import updateVideoProgressById from "../api/actions/updateVideoProgressById";
 import updateWatchedState from "../api/actions/updateWatchedState";
 import { VideoResponseType } from "../pages/Video";
-import watchedThreshold from "./watchedThreshold";
+import watchedThreshold from "../functions/watchedThreshold";
 
 type Subtitle = {
   name: string;

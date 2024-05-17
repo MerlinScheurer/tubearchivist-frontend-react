@@ -6,7 +6,7 @@ import iconSeen from "/img/icon-seen.svg";
 import iconUnseen from "/img/icon-unseen.svg";
 import defaultVideoThumb from "/img/default-video-thumb.jpg";
 import updateWatchedState from "../api/actions/updateWatchedState";
-import formatDate from "./formatDates";
+import formatDate from "../functions/formatDates";
 
 type VideoListProps = {
   videoList: VideoType[] | undefined;

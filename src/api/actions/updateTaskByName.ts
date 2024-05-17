@@ -1,4 +1,4 @@
-import getCookie from "../../components/getCookie";
+import getCookie from "../../functions/getCookie";
 
 type TaskNamesType = "download_pending" | "update_subscribed";
 

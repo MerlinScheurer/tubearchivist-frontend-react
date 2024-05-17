@@ -13,7 +13,7 @@ import iconExit from "/img/icon-exit.svg";
 import importColours from "../configuration/colours/getColours";
 import { UserConfigType } from "../api/actions/updateUserConfig";
 import { useEffect, useState } from "react";
-import getIsAdmin from "../components/getIsAdmin";
+import getIsAdmin from "../functions/getIsAdmin";
 
 export type AuthenticationType = {
   response: string;

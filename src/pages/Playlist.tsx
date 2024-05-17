@@ -9,7 +9,7 @@ import { UserConfigType } from "../api/actions/updateUserConfig";
 import loadPlaylistById from "../api/loader/loadPlaylistById";
 import { OutletContextType } from "./Base";
 import { ConfigType, VideoType, ViewLayout } from "./Home";
-import getIsAdmin from "../components/getIsAdmin";
+import getIsAdmin from "../functions/getIsAdmin";
 import Filterbar from "../components/Filterbar";
 import { PlaylistEntryType } from "./Playlists";
 import loadChannelById from "../api/loader/loadChannelById";
@@ -26,7 +26,7 @@ import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscriptio
 import deletePlaylist from "../api/actions/deletePlaylist";
 import Routes from "../configuration/routes/RouteList";
 import { ChannelResponseType } from "./ChannelBase";
-import formatDate from "../components/formatDates";
+import formatDate from "../functions/formatDates";
 
 export type PlaylistType = {
   playlist_active: boolean;

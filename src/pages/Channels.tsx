@@ -10,7 +10,7 @@ import updateUserConfig, {
   UserConfigType,
 } from "../api/actions/updateUserConfig";
 import { OutletContextType } from "./Base";
-import getIsAdmin from "../components/getIsAdmin";
+import getIsAdmin from "../functions/getIsAdmin";
 import ChannelList from "../components/ChannelList";
 
 type ChannelOverwritesType = {

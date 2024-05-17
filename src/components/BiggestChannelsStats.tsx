@@ -1,5 +1,5 @@
-import humanFileSize from "./humanFileSize";
-import formatNumbers from "./formatNumbers";
+import humanFileSize from "../functions/humanFileSize";
+import formatNumbers from "../functions/formatNumbers";
 import { Link } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import { BiggestChannelsStatsType } from "../pages/SettingsDashboard";

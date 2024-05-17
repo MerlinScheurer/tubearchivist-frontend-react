@@ -18,7 +18,7 @@ import {
   ViewStyles,
 } from "../configuration/constants/ViewStyle";
 import ChannelOverview from "../components/ChannelOverview";
-import getIsAdmin from "../components/getIsAdmin";
+import getIsAdmin from "../functions/getIsAdmin";
 import loadChannelById from "../api/loader/loadChannelById";
 import { ChannelResponseType } from "./ChannelBase";
 

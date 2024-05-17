@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import loadChannelById from "../api/loader/loadChannelById";
 import { UserConfigType } from "../api/actions/updateUserConfig";
 import { ChannelResponseType } from "./ChannelBase";
-import getIsAdmin from "../components/getIsAdmin";
+import getIsAdmin from "../functions/getIsAdmin";
 import Linkify from "../components/Linkify";
 import deleteChannel from "../api/actions/deleteChannel";
 import Routes from "../configuration/routes/RouteList";
@@ -18,7 +18,7 @@ import queueReindex, {
   ReindexTypeEnum,
 } from "../api/actions/queueReindex";
 import { OutletContextType } from "./Base";
-import formatDate from "../components/formatDates";
+import formatDate from "../functions/formatDates";
 
 const handleSponsorBlockIntegrationOverwrite = (integration: string) => {
   if (integration) {

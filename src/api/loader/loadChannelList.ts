@@ -1,4 +1,4 @@
-import getCookie from "../../components/getCookie";
+import getCookie from "../../functions/getCookie";
 
 const loadChannelList = async (page: number, showSubscribed: boolean) => {
   const headers = new Headers();

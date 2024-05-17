@@ -12,7 +12,7 @@ import updateUserConfig, {
 import loadPlaylistList from "../api/loader/loadPlaylistList";
 import { ConfigType, ViewLayout } from "./Home";
 import Pagination, { PaginationType } from "../components/Pagination";
-import getIsAdmin from "../components/getIsAdmin";
+import getIsAdmin from "../functions/getIsAdmin";
 import PlaylistList from "../components/PlaylistList";
 import { PlaylistType } from "./Playlist";
 

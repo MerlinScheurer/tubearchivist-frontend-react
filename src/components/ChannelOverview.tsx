@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
-import formatNumbers from "./formatNumbers";
+import formatNumbers from "../functions/formatNumbers";
 
 type ChannelOverviewProps = {
   channelId: string;

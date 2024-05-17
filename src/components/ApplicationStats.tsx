@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import StatsInfoBoxItem from "./StatsInfoBoxItem";
-import formatNumbers from "./formatNumbers";
+import formatNumbers from "../functions/formatNumbers";
 import {
   ChannelStatsType,
   PlaylistStatsType,

@@ -1,4 +1,4 @@
-import getCookie from "../../components/getCookie";
+import getCookie from "../../functions/getCookie";
 
 const loadVideoListByPage = async (page: number) => {
   const headers = new Headers();

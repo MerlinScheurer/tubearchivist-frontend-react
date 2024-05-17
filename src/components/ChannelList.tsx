@@ -3,7 +3,7 @@ import { ChannelType } from "../pages/Channels";
 import { ViewLayout } from "../pages/Home";
 import Routes from "../configuration/routes/RouteList";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
-import formatDate from "./formatDates";
+import formatDate from "../functions/formatDates";
 
 type ChannelListProps = {
   channelList: ChannelType[] | undefined;
