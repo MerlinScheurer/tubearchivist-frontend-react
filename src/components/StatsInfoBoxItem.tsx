@@ -1,9 +1,9 @@
-type DashboardInfoBoxItemType = {
+type StatsInfoBoxItemType = {
   title: string;
   card: Record<string, string | number | undefined>;
 };
 
-const DashboardInfoBoxItem = ({ title, card }: DashboardInfoBoxItemType) => {
+const StatsInfoBoxItem = ({ title, card }: StatsInfoBoxItemType) => {
   return (
     <div className="info-box-item">
       <h3>{title}</h3>
@@ -23,4 +23,4 @@ const DashboardInfoBoxItem = ({ title, card }: DashboardInfoBoxItemType) => {
   );
 };
 
-export default DashboardInfoBoxItem;
+export default StatsInfoBoxItem;
