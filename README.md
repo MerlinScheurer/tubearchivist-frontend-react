@@ -25,6 +25,7 @@ src ┐
     ├───components    // React components to be used in pages
     ├───configuration // Application configuration.
     │   ├───colours   // Css loader for themes
+    │   ├───constants // global constants that have no good place
     │   └───routes    // Routes definitions used in Links and react-router-dom configuration
     ├───functions     // Useful functions
     └───pages         // React components that define a page/route
