@@ -103,7 +103,7 @@ const Base = () => {
               <Link to={Routes.Search}>
                 <img src={iconSearch} alt="search-icon" title="Search" />
               </Link>
-              <Link to={Routes.Settings}>
+              <Link to={Routes.SettingsDashboard}>
                 <img src={iconGear} alt="gear-icon" title="Settings" />
               </Link>
               <Link to={Routes.Logout}>

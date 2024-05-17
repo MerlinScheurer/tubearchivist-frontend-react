@@ -1,7 +1,10 @@
-import importColours from "../configuration/colours/getColours";
+import importColours, {
+  ColourConstant,
+  ColourVariants,
+} from "../configuration/colours/getColours";
 
 const Logout = () => {
-  importColours("dark.css");
+  importColours(ColourConstant.Dark as ColourVariants);
 
   return <>Logout</>;
 };

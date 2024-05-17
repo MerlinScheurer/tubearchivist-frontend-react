@@ -3,6 +3,7 @@ import Routes from "../configuration/routes/RouteList";
 import { ViewLayout } from "../pages/Home";
 import { PlaylistType } from "../pages/Playlist";
 import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
+import formatDate from "./formatDates";
 
 type PlaylistListProps = {
   playlistList: PlaylistType[] | undefined;
@@ -43,7 +44,9 @@ const PlaylistList = ({
                 <h2>{playlist.playlist_name}</h2>
               </Link>
 
-              <p>Last refreshed: {playlist.playlist_last_refresh}</p>
+              <p>
+                Last refreshed: {formatDate(playlist.playlist_last_refresh)}
+              </p>
 
               {playlist.playlist_type != "custom" && (
                 <>

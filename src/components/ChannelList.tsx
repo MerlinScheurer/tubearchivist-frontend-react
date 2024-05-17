@@ -3,6 +3,7 @@ import { ChannelType } from "../pages/Channels";
 import { ViewLayout } from "../pages/Home";
 import Routes from "../configuration/routes/RouteList";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
+import formatDate from "./formatDates";
 
 type ChannelListProps = {
   channelList: ChannelType[] | undefined;
@@ -58,7 +59,9 @@ const ChannelList = ({
               </div>
               <div className="info-box-item">
                 <div>
-                  <p>Last refreshed: {channel.channel_last_refresh}</p>
+                  <p>
+                    Last refreshed: {formatDate(channel.channel_last_refresh)}
+                  </p>
                   {channel.channel_subscribed && (
                     <button
                       className="unsubscribe"

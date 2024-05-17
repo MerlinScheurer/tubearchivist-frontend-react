@@ -13,7 +13,7 @@ const Routes = {
   DownloadsByChannelId: (channelId: string) =>
     `/downloads/?channel=${channelId}`,
   Search: "/search/",
-  Settings: "/settings/",
+  SettingsDashboard: "/settings/",
   SettingsUser: "/settings/user/",
   SettingsApplication: "/settings/application/",
   SettingsScheduling: "/settings/scheduling/",

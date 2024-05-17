@@ -22,6 +22,8 @@ import getIsAdmin from "../components/getIsAdmin";
 import ChannelOverview from "../components/ChannelOverview";
 import deleteVideo from "../api/actions/deleteVideo";
 import capitalizeFirstLetter from "../components/capitalizeFirstLetter";
+import formatDate from "../components/formatDates";
+import formatNumbers from "../components/formatNumbers";
 
 type VideoParams = {
   videoId: string;
@@ -88,8 +90,6 @@ const Video = () => {
   const isAdmin = getIsAdmin();
 
   const reindex = false;
-
-  const formatNumber = Intl.NumberFormat();
 
   return (
     <>
@@ -158,8 +158,8 @@ const Video = () => {
 
           <div className="info-box-item">
             <div>
-              <p>Published: {video.published}</p>
-              <p>Last refreshed: {video.vid_last_refresh}</p>
+              <p>Published: {formatDate(video.published)}</p>
+              <p>Last refreshed: {formatDate(video.vid_last_refresh)}</p>
               <p className="video-info-watched">
                 Watched:
                 {watched && (
@@ -217,11 +217,11 @@ const Video = () => {
             <div>
               <p className="thumb-icon">
                 <img src={iconEye} alt="views" />:{" "}
-                {formatNumber.format(video.stats.view_count)}
+                {formatNumbers(video.stats.view_count)}
               </p>
               <p className="thumb-icon like">
                 <img src={iconThumb} alt="thumbs-up" />:{" "}
-                {formatNumber.format(video.stats.like_count)}
+                {formatNumbers(video.stats.like_count)}
               </p>
               {video.stats.dislike_count > 0 && (
                 <p className="thumb-icon">
@@ -314,7 +314,7 @@ const Video = () => {
           </div>
           <div className="info-box-item">
             {video.media_size && (
-              <p>File size: {humanFileSize(video.media_size, true)}</p>
+              <p>File size: {humanFileSize(video.media_size)}</p>
             )}
 
             {video.streams &&
@@ -322,7 +322,7 @@ const Video = () => {
                 return (
                   <p key={index}>
                     {capitalizeFirstLetter(stream.type)}: {stream.codec}{" "}
-                    {humanFileSize(stream.bitrate, true)}/s
+                    {humanFileSize(stream.bitrate)}/s
                     {stream.width && (
                       <>
                         <span className="space-carrot">|</span> {stream.width}x

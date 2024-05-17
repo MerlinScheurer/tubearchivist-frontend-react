@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
+import formatNumbers from "./formatNumbers";
 
 type ChannelOverviewProps = {
   channelId: string;
@@ -21,8 +22,6 @@ const ChannelOverview = ({
   isUserAdmin,
   setRefresh,
 }: ChannelOverviewProps) => {
-  const formatNumber = Intl.NumberFormat();
-
   return (
     <>
       <div className="info-box-item">
@@ -40,11 +39,11 @@ const ChannelOverview = ({
           </h3>
 
           {channelSubs >= 1000000 && (
-            <p>Subscribers: {formatNumber.format(channelSubs)}</p>
+            <p>Subscribers: {formatNumbers(channelSubs)}</p>
           )}
 
           {channelSubs < 1000000 && (
-            <p>Subscribers: {formatNumber.format(channelSubs)}</p>
+            <p>Subscribers: {formatNumbers(channelSubs)}</p>
           )}
 
           {showSubscribeButton && (

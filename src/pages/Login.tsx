@@ -1,7 +1,10 @@
 import { useState } from "react";
 import Routes from "../configuration/routes/RouteList";
 import { useNavigate } from "react-router-dom";
-import importColours from "../configuration/colours/getColours";
+import importColours, {
+  ColourConstant,
+  ColourVariants,
+} from "../configuration/colours/getColours";
 import loadSignIn from "../api/loader/loadSignIn";
 
 const Login = () => {
@@ -10,7 +13,7 @@ const Login = () => {
   const [saveLogin, setSaveLogin] = useState(false);
   const navigate = useNavigate();
 
-  importColours("dark.css");
+  importColours(ColourConstant.Dark as ColourVariants);
 
   const form_error = false;
 

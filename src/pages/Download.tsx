@@ -23,6 +23,7 @@ import updateDownloadQueueStatusById from "../api/actions/updateDownloadQueueSta
 import deleteDownloadById from "../api/actions/deleteDownloadById";
 import updateTaskByName from "../api/actions/updateTaskByName";
 import Notifications from "../components/Notifications";
+import formatDate from "../components/formatDates";
 
 type Download = {
   auto_start: boolean;
@@ -346,7 +347,7 @@ const Download = () => {
                       </a>
                     </div>
                     <p>
-                      Published: {download.published} | Duration:{" "}
+                      Published: {formatDate(download.published)} | Duration:{" "}
                       {download.duration} | {download.youtube_id}
                     </p>
                     {download.message && (

@@ -16,7 +16,7 @@ import Logout from "./pages/Logout";
 import Playlist from "./pages/Playlist";
 import Playlists from "./pages/Playlists";
 import Search from "./pages/Search";
-import Settings from "./pages/Settings";
+import SettingsDashboard from "./pages/SettingsDashboard";
 import Video from "./pages/Video";
 import Login from "./pages/Login";
 import SettingsActions from "./pages/SettingsActions";
@@ -230,8 +230,8 @@ const router = createBrowserRouter(
           },
         },
         {
-          path: Routes.Settings,
-          element: <Settings />,
+          path: Routes.SettingsDashboard,
+          element: <SettingsDashboard />,
           loader: async () => {
             const authResponse = await loadAuth();
             if (authResponse.status === 403) {

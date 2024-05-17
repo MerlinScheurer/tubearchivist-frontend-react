@@ -26,6 +26,7 @@ import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscriptio
 import deletePlaylist from "../api/actions/deletePlaylist";
 import Routes from "../configuration/routes/RouteList";
 import { ChannelResponseType } from "./ChannelBase";
+import formatDate from "../components/formatDates";
 
 export type PlaylistType = {
   playlist_active: boolean;
@@ -136,7 +137,9 @@ const Playlist = () => {
 
           <div className="info-box-item">
             <div>
-              <p>Last refreshed: {playlist.playlist_last_refresh}</p>
+              <p>
+                Last refreshed: {formatDate(playlist.playlist_last_refresh)}
+              </p>
               {playlist.playlist_type != "custom" && (
                 <>
                   <p>

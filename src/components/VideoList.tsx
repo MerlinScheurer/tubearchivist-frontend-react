@@ -6,6 +6,7 @@ import iconSeen from "/img/icon-seen.svg";
 import iconUnseen from "/img/icon-unseen.svg";
 import defaultVideoThumb from "/img/default-video-thumb.jpg";
 import updateWatchedState from "../api/actions/updateWatchedState";
+import formatDate from "./formatDates";
 
 type VideoListProps = {
   videoList: VideoType[] | undefined;
@@ -99,7 +100,7 @@ const VideoList = ({
                   />
                 )}
                 <span>
-                  {video.published} | {video.player.duration_str}
+                  {formatDate(video.published)} | {video.player.duration_str}
                 </span>
               </div>
               <div>

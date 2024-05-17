@@ -18,6 +18,7 @@ import queueReindex, {
   ReindexTypeEnum,
 } from "../api/actions/queueReindex";
 import { OutletContextType } from "./Base";
+import formatDate from "../components/formatDates";
 
 const handleSponsorBlockIntegrationOverwrite = (integration: string) => {
   if (integration) {
@@ -103,7 +104,7 @@ const ChannelAbout = () => {
 
           <div className="info-box-item">
             <div>
-              <p>Last refreshed: {channel.channel_last_refresh}</p>
+              <p>Last refreshed: {formatDate(channel.channel_last_refresh)}</p>
               {channel.channel_active && (
                 <p>
                   Youtube:{" "}

@@ -5,7 +5,11 @@ import updateUserConfig, {
 import { AuthenticationType } from "./Base";
 import { useEffect, useState } from "react";
 import loadUserConfig from "../api/loader/loadUserConfig";
-import { ColourVariants } from "../configuration/colours/getColours";
+import {
+  ColourConstant,
+  ColourVariants,
+} from "../configuration/colours/getColours";
+import SettingsNavigation from "../components/SettingsNavigation";
 
 type SettingsUserLoaderData = {
   userConfig: UserConfigType;
@@ -18,7 +22,7 @@ const SettingsUser = () => {
   const navigate = useNavigate();
 
   const [selectedStylesheet, setSelectedStylesheet] = useState(
-    userConfig.stylesheet || "dark.css",
+    userConfig.stylesheet || (ColourConstant.Dark as ColourVariants),
   );
   const [selectedPageSize, setSelectedPageSize] = useState(
     userConfig.page_size || 3,
@@ -50,6 +54,7 @@ const SettingsUser = () => {
   return (
     <>
       <div className="boxed-content">
+        <SettingsNavigation />
         <div className="title-bar">
           <h1>User Configurations</h1>
         </div>
@@ -74,10 +79,13 @@ const SettingsUser = () => {
                 }}
               >
                 <option value="">-- change stylesheet --</option>
-                <option value="dark.css">Dark</option>
-                <option value="light.css">Light</option>
-                <option value="matrix.css">Matrix</option>
-                <option value="midnight.css">Midnight</option>
+                {Object.entries(ColourConstant).map(([key, value], index) => {
+                  return (
+                    <option key={index} value={value}>
+                      {key}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>

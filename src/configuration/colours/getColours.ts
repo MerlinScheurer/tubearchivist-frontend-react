@@ -1,3 +1,10 @@
+export const ColourConstant = {
+  Dark: "dark.css",
+  Light: "light.css",
+  Matrix: "matrix.css",
+  Midnight: "midnight.css",
+};
+
 export type ColourVariants =
   | "dark.css"
   | "light.css"
@@ -6,16 +13,16 @@ export type ColourVariants =
 
 const importColours = (stylesheet: ColourVariants | undefined) => {
   switch (stylesheet) {
-    case "dark.css":
+    case ColourConstant.Dark:
       return import("./components/Dark");
 
-    case "matrix.css":
+    case ColourConstant.Matrix:
       return import("./components/Matrix");
 
-    case "midnight.css":
+    case ColourConstant.Midnight:
       return import("./components/Midnight");
 
-    case "light.css":
+    case ColourConstant.Light:
       return import("./components/Light");
 
     default:
