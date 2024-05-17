@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Notifications from "./Notifications";
 import getIsAdmin from "../functions/getIsAdmin";
 import Routes from "../configuration/routes/RouteList";
 
@@ -29,7 +28,6 @@ const SettingsNavigation = () => {
           </>
         )}
       </div>
-      <Notifications pageName={"settings"} />
     </>
   );
 };

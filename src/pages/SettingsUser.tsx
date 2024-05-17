@@ -10,6 +10,7 @@ import {
   ColourVariants,
 } from "../configuration/colours/getColours";
 import SettingsNavigation from "../components/SettingsNavigation";
+import Notifications from "../components/Notifications";
 
 type SettingsUserLoaderData = {
   userConfig: UserConfigType;
@@ -55,6 +56,8 @@ const SettingsUser = () => {
     <>
       <div className="boxed-content">
         <SettingsNavigation />
+        <Notifications pageName={"all"} />
+
         <div className="title-bar">
           <h1>User Configurations</h1>
         </div>

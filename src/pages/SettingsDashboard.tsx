@@ -13,6 +13,7 @@ import ApplicationStats from "../components/ApplicationStats";
 import WatchProgressStats from "../components/WatchProgressStats";
 import DownloadHistoryStats from "../components/DownloadHistoryStats";
 import BiggestChannelsStats from "../components/BiggestChannelsStats";
+import Notifications from "../components/Notifications";
 
 export type VideoStatsType = {
   doc_count: number;
@@ -205,6 +206,8 @@ const SettingsDashboard = () => {
     <>
       <div className="boxed-content">
         <SettingsNavigation />
+        <Notifications pageName={"all"} />
+
         <div className="title-bar">
           <h1>Your Archive</h1>
         </div>

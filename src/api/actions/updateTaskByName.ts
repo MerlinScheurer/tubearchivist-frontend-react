@@ -1,6 +1,11 @@
 import getCookie from "../../functions/getCookie";
 
-type TaskNamesType = "download_pending" | "update_subscribed";
+type TaskNamesType =
+  | "download_pending"
+  | "update_subscribed"
+  | "manual_import"
+  | "resync_thumbs"
+  | "rescan_filesystem";
 
 const updateTaskByName = async (taskName: TaskNamesType) => {
   const headers = new Headers();
