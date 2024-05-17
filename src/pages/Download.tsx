@@ -120,8 +120,8 @@ const Download = () => {
       setRefreshDownloadList(false);
     })();
 
-    // Do not add showIgnored, otherwise it will not update the userconfig first.
-  }, [refreshDownloadList, currentPage, view, gridItems]);
+    // Do not add view & gridItems & showIgnored otherwise it will not update the userconfig first.
+  }, [refreshDownloadList, currentPage, downloadPending]);
 
   return (
     <>
@@ -192,6 +192,7 @@ const Download = () => {
                     onClick={async () => {
                       await updateDownloadQueue(downloadQueueText, false);
                       setRefreshDownloadList(true);
+                      setShowHiddenForm(false);
                     }}
                   >
                     Add to queue
@@ -200,6 +201,7 @@ const Download = () => {
                     onClick={async () => {
                       await updateDownloadQueue(downloadQueueText, true);
                       setRefreshDownloadList(true);
+                      setShowHiddenForm(false);
                     }}
                   >
                     Download now
