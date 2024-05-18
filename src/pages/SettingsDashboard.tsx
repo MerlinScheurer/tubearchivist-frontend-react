@@ -14,6 +14,7 @@ import WatchProgressStats from "../components/WatchProgressStats";
 import DownloadHistoryStats from "../components/DownloadHistoryStats";
 import BiggestChannelsStats from "../components/BiggestChannelsStats";
 import Notifications from "../components/Notifications";
+import PaginationDummy from "../components/PaginationDummy";
 
 export type VideoStatsType = {
   doc_count: number;
@@ -242,9 +243,7 @@ const SettingsDashboard = () => {
         </div>
       </div>
 
-      <div className="boxed-content">
-        <div className="pagination">{/** dummy pagination for padding */}</div>
-      </div>
+      <PaginationDummy />
     </>
   );
 };

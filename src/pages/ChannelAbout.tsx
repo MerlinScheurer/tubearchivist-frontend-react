@@ -19,6 +19,7 @@ import queueReindex, {
 } from "../api/actions/queueReindex";
 import { OutletContextType } from "./Base";
 import formatDate from "../functions/formatDates";
+import PaginationDummy from "../components/PaginationDummy";
 
 const handleSponsorBlockIntegrationOverwrite = (integration: string) => {
   if (integration) {
@@ -331,9 +332,7 @@ const ChannelAbout = () => {
         )}
       </div>
 
-      <div className="boxed-content">
-        <div className="pagination">{/** dummy pagination for padding */}</div>
-      </div>
+      <PaginationDummy />
     </>
   );
 };
