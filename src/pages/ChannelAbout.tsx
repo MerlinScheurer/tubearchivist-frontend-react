@@ -110,7 +110,7 @@ const ChannelAbout = () => {
                 <p>
                   Youtube:{" "}
                   <a
-                    href="https://www.youtube.com/channel/{{ channel.channel_id }}"
+                    href={`https://www.youtube.com/channel/${channel.channel_id}`}
                     target="_blank"
                   >
                     Active
