@@ -245,11 +245,13 @@ const Home = () => {
             </>
           )}
 
-          <VideoList
-            videoList={videoList}
-            viewLayout={view}
-            refreshVideoList={setRefreshVideoList}
-          />
+          {hasVideos && (
+            <VideoList
+              videoList={videoList}
+              viewLayout={view}
+              refreshVideoList={setRefreshVideoList}
+            />
+          )}
         </div>
       </div>
 

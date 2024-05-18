@@ -87,6 +87,7 @@ const Channels = () => {
   const channels = channelListResponse?.data;
   const pagination = channelListResponse?.paginate;
   const channelCount = pagination?.total_hits;
+  const hasChannels = channels?.length !== 0;
 
   const isAdmin = getIsAdmin();
 
@@ -169,15 +170,18 @@ const Channels = () => {
           />
         </div>
       </div>
-      <h2>Total channels: {channelCount}</h2>
-      <div className={`channel-list ${view}`}>
-        {!channels && <h2>No channels found...</h2>}
+      {hasChannels && <h2>Total channels: {channelCount}</h2>}
 
-        <ChannelList
-          channelList={channels}
-          viewLayout={view}
-          refreshChannelList={setRefreshChannelList}
-        />
+      <div className={`channel-list ${view}`}>
+        {channels && <h2>No channels found...</h2>}
+
+        {!channels && (
+          <ChannelList
+            channelList={channels}
+            viewLayout={view}
+            refreshChannelList={setRefreshChannelList}
+          />
+        )}
       </div>
 
       {pagination && (

@@ -171,11 +171,13 @@ const Playlists = () => {
         <div className={`playlist-list ${view}`}>
           {!hasPlaylists && <h2>No playlists found...</h2>}
 
-          <PlaylistList
-            playlistList={playlistList}
-            viewLayout={view}
-            setRefresh={setRefreshPlaylistList}
-          />
+          {hasPlaylists && (
+            <PlaylistList
+              playlistList={playlistList}
+              viewLayout={view}
+              setRefresh={setRefreshPlaylistList}
+            />
+          )}
         </div>
       </div>
 
