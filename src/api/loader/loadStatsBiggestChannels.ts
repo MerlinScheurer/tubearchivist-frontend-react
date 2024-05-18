@@ -1,6 +1,8 @@
 import getCookie from "../../functions/getCookie";
 
-const loadStatsBiggestChannels = async () => {
+type BiggestChannelsOrderType = "doc_count" | "duration" | "media_size";
+
+const loadStatsBiggestChannels = async (order: BiggestChannelsOrderType) => {
   const headers = new Headers();
 
   const csrfCookie = getCookie("csrftoken");
@@ -8,10 +10,16 @@ const loadStatsBiggestChannels = async () => {
     headers.append("X-CSRFToken", csrfCookie);
   }
 
-  const response = await fetch("/api/stats/biggestchannels/", {
-    headers,
-    credentials: "same-origin",
-  });
+  const searchParams = new URLSearchParams();
+  searchParams.append("order", order);
+
+  const response = await fetch(
+    `/api/stats/biggestchannels/?${searchParams.toString()}`,
+    {
+      headers,
+      credentials: "same-origin",
+    },
+  );
 
   const notifications = await response.json();
   console.log("loadStatsBiggestChannels", notifications);

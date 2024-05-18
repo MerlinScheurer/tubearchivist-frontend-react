@@ -118,7 +118,9 @@ type DashboardStatsReponses = {
   downloadStats?: DownloadStatsType;
   watchProgressStats?: WatchProgressStatsType;
   downloadHistoryStats?: DownloadHistoryStatsType;
-  biggestChannelsStats?: BiggestChannelsStatsType;
+  biggestChannelsStatsByCount?: BiggestChannelsStatsType;
+  biggestChannelsStatsByDuration?: BiggestChannelsStatsType;
+  biggestChannelsStatsByMediaSize?: BiggestChannelsStatsType;
 };
 
 const SettingsDashboard = () => {
@@ -134,39 +136,11 @@ const SettingsDashboard = () => {
   const downloadStats = response?.downloadStats;
   const watchProgressStats = response?.watchProgressStats;
   const downloadHistoryStats = response?.downloadHistoryStats;
-  const biggestChannelsStats = response?.biggestChannelsStats;
-
-  const biggestChannelsStatsByCount = biggestChannelsStats?.toSorted((a, b) => {
-    if (a.doc_count > b.doc_count) {
-      return -1;
-    } else if (a.doc_count < b.doc_count) {
-      return 1;
-    }
-
-    return 0;
-  });
-  const biggestChannelsStatsByDuration = biggestChannelsStats?.toSorted(
-    (a, b) => {
-      if (a.duration > b.duration) {
-        return -1;
-      } else if (a.duration < b.duration) {
-        return 1;
-      }
-
-      return 0;
-    },
-  );
-  const biggestChannelsStatsByMediaSize = biggestChannelsStats?.toSorted(
-    (a, b) => {
-      if (a.media_size > b.media_size) {
-        return -1;
-      } else if (a.media_size < b.media_size) {
-        return 1;
-      }
-
-      return 0;
-    },
-  );
+  const biggestChannelsStatsByCount = response?.biggestChannelsStatsByCount;
+  const biggestChannelsStatsByDuration =
+    response?.biggestChannelsStatsByDuration;
+  const biggestChannelsStatsByMediaSize =
+    response?.biggestChannelsStatsByMediaSize;
 
   useEffect(() => {
     (async () => {
@@ -177,7 +151,9 @@ const SettingsDashboard = () => {
         await loadStatsDownload(),
         await loadStatsWatchProgress(),
         await loadStatsDownloadHistory(),
-        await loadStatsBiggestChannels(),
+        await loadStatsBiggestChannels("doc_count"),
+        await loadStatsBiggestChannels("duration"),
+        await loadStatsBiggestChannels("media_size"),
       ]);
 
       const [
@@ -187,7 +163,9 @@ const SettingsDashboard = () => {
         downloadStats,
         watchProgressStats,
         downloadHistoryStats,
-        biggestChannelsStats,
+        biggestChannelsStatsByCount,
+        biggestChannelsStatsByDuration,
+        biggestChannelsStatsByMediaSize,
       ] = all;
 
       setResponse({
@@ -197,7 +175,9 @@ const SettingsDashboard = () => {
         downloadStats,
         watchProgressStats,
         downloadHistoryStats,
-        biggestChannelsStats,
+        biggestChannelsStatsByCount,
+        biggestChannelsStatsByDuration,
+        biggestChannelsStatsByMediaSize,
       });
     })();
   }, []);

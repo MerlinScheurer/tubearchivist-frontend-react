@@ -95,8 +95,8 @@ const BiggestChannelsStats = ({
           </thead>
 
           <tbody>
-            {biggestChannelsStatsByCount &&
-              biggestChannelsStatsByCount.map(
+            {biggestChannelsStatsByMediaSize &&
+              biggestChannelsStatsByMediaSize.map(
                 ({ id, name, media_size }, index) => {
                   return (
                     <tr key={index}>
