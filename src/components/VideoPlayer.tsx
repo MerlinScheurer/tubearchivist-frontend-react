@@ -1,6 +1,11 @@
 import updateVideoProgressById from "../api/actions/updateVideoProgressById";
 import updateWatchedState from "../api/actions/updateWatchedState";
-import { VideoResponseType } from "../pages/Video";
+import {
+  SponsorBlockSegmentType,
+  SponsorBlockType,
+  SponsorSegmentsSkippedType,
+  VideoResponseType,
+} from "../pages/Video";
 import watchedThreshold from "../functions/watchedThreshold";
 
 type Subtitle = {
@@ -35,11 +40,35 @@ const Subtitles = ({ subtitles }: SubtitlesProp) => {
 };
 
 const handleTimeUpdate =
-  (youtubeId: string, duration: number, watched: boolean) =>
+  (
+    youtubeId: string,
+    duration: number,
+    watched: boolean,
+    sponsorBlock?: SponsorBlockType,
+    setSponsorSegmentSkipped?: (fn: unknown) => void,
+  ) =>
   async (videoTag) => {
     const currentTime = Number(videoTag.target.currentTime);
 
-    // TODO: Sponsorblock ( onVideoProgress )
+    if (sponsorBlock && sponsorBlock.segments) {
+      sponsorBlock.segments.forEach((segment: SponsorBlockSegmentType) => {
+        const [from, to] = segment.segment;
+
+        if (currentTime >= from && currentTime <= from + 0.3) {
+          videoTag.target.currentTime = to;
+
+          setSponsorSegmentSkipped?.((segments: SponsorSegmentsSkippedType) => {
+            return { ...segments, [segment.UUID]: { from, to } };
+          });
+        }
+
+        if (currentTime > to + 10) {
+          setSponsorSegmentSkipped?.((segments: SponsorSegmentsSkippedType) => {
+            return { ...segments, [segment.UUID]: { from: 0, to: 0 } };
+          });
+        }
+      });
+    }
 
     if (currentTime < 10) return;
     if (Number((currentTime % 10).toFixed(1)) <= 0.2) {
@@ -62,23 +91,26 @@ const handleTimeUpdate =
   };
 
 const handleVideoEnd =
-  (youtubeId: string, watched: boolean) => async (videoTag) => {
+  (
+    youtubeId: string,
+    watched: boolean,
+    setSponsorSegmentSkipped?: (skipped: SponsorSegmentSkippedType) => void,
+  ) =>
+  async (videoTag) => {
     if (!watched) {
       // Check if video is already marked as watched
       await updateWatchedState({ id: youtubeId, is_watched: true });
     }
 
-    //TODO: Sponsorblock
-    /*
-  for (let i in sponsorBlock.segments) {
-    let notificationsElementUUID = document.getElementById(
-      'notification-' + sponsorBlock.segments[i].UUID
-    );
-    if (notificationsElementUUID) {
-      notificationsElementUUID.outerHTML = '';
-    }
-  }
-  */
+    setSponsorSegmentSkipped?.((segments: SponsorSegmentsSkippedType) => {
+      const keys = Object.keys(segments);
+
+      keys.forEach((uuid) => {
+        segments[uuid] = { from: 0, to: 0 };
+      });
+
+      return segments;
+    });
   };
 
 export type VideoProgressType = {
@@ -90,9 +122,16 @@ export type VideoProgressType = {
 type VideoPlayerProps = {
   video: VideoResponseType;
   videoProgress?: VideoProgressType;
+  sponsorBlock?: SponsorBlockType;
+  setSponsorSegmentSkipped?: (skipped: SponsorSegmentSkippedType) => void;
 };
 
-const VideoPlayer = ({ video, videoProgress }: VideoPlayerProps) => {
+const VideoPlayer = ({
+  video,
+  videoProgress,
+  sponsorBlock,
+  setSponsorSegmentSkipped,
+}: VideoPlayerProps) => {
   const videoId = video.data.youtube_id;
   const videoUrl = video.data.media_url;
   const videoThumbUrl = video.data.vid_thumb_url;
@@ -111,7 +150,13 @@ const VideoPlayer = ({ video, videoProgress }: VideoPlayerProps) => {
       onLoadStart={(videoTag) => {
         videoTag.target.volume = localStorage.getItem("playerVolume") ?? 1;
       }}
-      onTimeUpdate={handleTimeUpdate(videoId, duration, watched)}
+      onTimeUpdate={handleTimeUpdate(
+        videoId,
+        duration,
+        watched,
+        sponsorBlock,
+        setSponsorSegmentSkipped,
+      )}
       onPause={async (videoTag) => {
         const currentTime = Number(videoTag.target.currentTime);
 

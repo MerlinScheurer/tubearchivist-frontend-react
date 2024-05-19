@@ -25,12 +25,39 @@ import capitalizeFirstLetter from "../functions/capitalizeFirstLetter";
 import formatDate from "../functions/formatDates";
 import formatNumbers from "../functions/formatNumbers";
 import queueReindex from "../api/actions/queueReindex";
+import loadSponsorblockByVideoId from "../api/loader/loadSponsorblockByVideoId";
+import Notifications from "../components/Notifications";
+import formatTime from "../functions/formatTime";
 
 type VideoParams = {
   videoId: string;
 };
 
 type PlaylistNavType = {};
+
+export type SkippedSegmentType = {
+  from: number;
+  to: number;
+};
+
+export type SponsorSegmentsSkippedType = Record<string, SkippedSegmentType>;
+
+export type SponsorBlockSegmentType = {
+  category: string;
+  actionType: string;
+  segment: number[];
+  UUID: string;
+  videoDuration: number;
+  locked: number;
+  votes: number;
+};
+
+export type SponsorBlockType = {
+  last_refresh: number;
+  has_unlocked: boolean;
+  is_enabled: boolean;
+  segments: SponsorBlockSegmentType[];
+};
 
 export type SimilarVideoResponseType = {
   data: VideoType;
@@ -47,26 +74,33 @@ const Video = () => {
   const { videoId } = useParams() as VideoParams;
   const navigate = useNavigate();
 
-  const [videoResponse, setVideoResponse] = useState<VideoResponseType>();
-  const [simmilarVideos, setSimmilarVideos] =
-    useState<SimilarVideoResponseType>();
-  const [videoProgress, setVideoProgress] = useState<VideoProgressType>();
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [watched, setWatched] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [refreshVideoList, setRefreshVideoList] = useState(false);
   const [reindex, setReindex] = useState(false);
+  const [skippedSegments, setSkippedSegments] =
+    useState<SponsorSegmentsSkippedType>({});
+
+  const [videoResponse, setVideoResponse] = useState<VideoResponseType>();
+  const [simmilarVideos, setSimmilarVideos] =
+    useState<SimilarVideoResponseType>();
+  const [videoProgress, setVideoProgress] = useState<VideoProgressType>();
+  const [sponsorblockResponse, setSponsorblockResponse] =
+    useState<SponsorBlockType>();
 
   useEffect(() => {
     (async () => {
       const videoResponse = await loadVideoById(videoId);
       const simmilarVideos = await loadSimmilarVideosById(videoId);
       const videoProgress = await loadVideoProgressById(videoId);
+      const sponsorblockReponse = await loadSponsorblockByVideoId(videoId);
 
       setVideoResponse(videoResponse);
       setSimmilarVideos(simmilarVideos);
       setWatched(videoResponse.data.player.watched);
       setVideoProgress(videoProgress);
+      setSponsorblockResponse(sponsorblockReponse);
       setRefreshVideoList(false);
     })();
   }, [videoId, refreshVideoList]);
@@ -78,14 +112,7 @@ const Video = () => {
   const video = videoResponse.data;
   const config = videoResponse.config;
   const playlistNav = videoResponse.playlist_nav;
-
-  // let sponsorblock = video.sponsorblock;
-
-  let sponsorblock = {
-    is_enabled: false,
-    segments: [],
-    has_unlocked: false,
-  };
+  const sponsorBlock = sponsorblockResponse;
 
   const cast = false;
 
@@ -99,14 +126,19 @@ const Video = () => {
           <div className="video-modal">
             <span className="video-modal-text" />
           </div>
-          <VideoPlayer video={videoResponse} videoProgress={videoProgress} />
+          <VideoPlayer
+            video={videoResponse}
+            videoProgress={videoProgress}
+            sponsorBlock={sponsorBlock}
+            setSponsorSegmentSkipped={setSkippedSegments}
+          />
         </div>
       </div>
-      <div className="notifications" id="notifications"></div>
+      <Notifications pageName="all" />
       <div className="sponsorblock" id="sponsorblock">
-        {sponsorblock.is_enabled && (
+        {sponsorBlock?.is_enabled && (
           <>
-            {sponsorblock.segments.length == 0 && (
+            {sponsorBlock.segments.length == 0 && (
               <h4>
                 This video doesn't have any sponsor segments added. To add a
                 segment go to{" "}
@@ -122,7 +154,7 @@ const Video = () => {
                 extension.
               </h4>
             )}
-            {sponsorblock.has_unlocked && (
+            {sponsorBlock.has_unlocked && (
               <h4>
                 This video has unlocked sponsor segments. Go to{" "}
                 <u>
@@ -137,6 +169,19 @@ const Video = () => {
                 extension.
               </h4>
             )}
+
+            {Object.values(skippedSegments).map(({ from, to }) => {
+              return (
+                <>
+                  {from !== 0 && to !== 0 && (
+                    <h3>
+                      Skipped sponsor segment from {formatTime(from)} to{" "}
+                      {formatTime(to)}.
+                    </h3>
+                  )}
+                </>
+              );
+            })}
           </>
         )}
       </div>
@@ -335,7 +380,7 @@ const Video = () => {
               })}
           </div>
         </div>
-        {video.tags && (
+        {video.tags && video.tags.length > 0 && (
           <div className="description-box">
             <div className="video-tag-box">
               {video.tags.map((tag, index) => {
