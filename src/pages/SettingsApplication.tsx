@@ -5,6 +5,7 @@ import PaginationDummy from "../components/PaginationDummy";
 import SettingsNavigation from "../components/SettingsNavigation";
 import restoreSnapshot from "../api/actions/restoreSnapshot";
 import queueSnapshot from "../api/actions/queueSnapshot";
+import updateCookie from "../api/actions/updateCookie";
 
 type SnapshotType = {
   id: string;
@@ -58,6 +59,8 @@ const SettingsApplication = () => {
 
   // Cookie
   const [cookieImport, setCookieImport] = useState(false);
+  const [validatingCookie, setValidatingCookie] = useState(false);
+  const [cookieResponse, setCookieResponse] = useState({});
 
   // Integrations
   const [showApiToken, setShowApiToken] = useState(false);
@@ -702,16 +705,33 @@ const SettingsApplication = () => {
                 <option value="true">import cookie</option>
               </select>
               <br />
-              {config.downloads.cookie_import && (
-                <div id="cookieMessage">
-                  <button
-                    onclick="handleCookieValidate()"
-                    type="button"
-                    id="cookieButton"
-                  >
-                    Validate Cookie File
-                  </button>
-                </div>
+              {validatingCookie && <span>Processing.</span>}
+              {validatingCookie && cookieResponse?.cookie_validated && (
+                <span>The cookie file is valid.</span>
+              )}
+              {validatingCookie && !cookieResponse?.cookie_validated && (
+                <span className="danger-zone">
+                  Warning, the cookie file is invalid.
+                </span>
+              )}
+              {!validatingCookie && (
+                <>
+                  {config.downloads.cookie_import && (
+                    <div id="cookieMessage">
+                      <button
+                        type="button"
+                        id="cookieButton"
+                        onClick={async () => {
+                          setValidatingCookie(true);
+                          const response = await updateCookie();
+                          setCookieResponse(response);
+                        }}
+                      >
+                        Validate Cookie File
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
