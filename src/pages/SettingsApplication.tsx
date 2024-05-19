@@ -6,6 +6,7 @@ import SettingsNavigation from "../components/SettingsNavigation";
 import restoreSnapshot from "../api/actions/restoreSnapshot";
 import queueSnapshot from "../api/actions/queueSnapshot";
 import updateCookie from "../api/actions/updateCookie";
+import deleteApiToken from "../api/actions/deleteApiToken";
 
 type SnapshotType = {
   id: string;
@@ -66,6 +67,7 @@ const SettingsApplication = () => {
   const [showApiToken, setShowApiToken] = useState(false);
   const [downloadDislikes, setDownloadDislikes] = useState(false);
   const [enableSponsorBlock, setEnableSponsorBlock] = useState(false);
+  const [resetTokenResponse, setResetTokenResponse] = useState({});
 
   // Snapshots
   const [enableSnapshots, setEnableSnapshots] = useState(false);
@@ -79,6 +81,7 @@ const SettingsApplication = () => {
   const snapshots = response?.snapshots;
 
   const config = {
+    api_token: "<token>",
     subscriptions: {
       channel_size: 69,
       live_channel_size: 69,
@@ -108,8 +111,6 @@ const SettingsApplication = () => {
       enable_snapshot: true,
     },
   };
-
-  const api_token = "";
 
   useEffect(() => {
     (async () => {
@@ -751,13 +752,19 @@ const SettingsApplication = () => {
                   Show
                 </button>
               </p>
-              {showApiToken && (
+              {resetTokenResponse && resetTokenResponse?.success && (
+                <p>Token revoked</p>
+              )}
+              {showApiToken && !resetTokenResponse?.success && (
                 <div className="description-text">
-                  <p>{api_token}</p>
+                  <p>{config.api_token}</p>
                   <button
                     className="danger-button"
                     type="button"
-                    onclick="resetToken()"
+                    onClick={async () => {
+                      const response = await deleteApiToken();
+                      setResetTokenResponse(response);
+                    }}
                   >
                     Revoke
                   </button>
