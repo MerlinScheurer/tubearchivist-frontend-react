@@ -78,7 +78,11 @@ const ChannelVideo = () => {
     })();
   }, [refresh, currentPage, channelId]);
 
-  const aggs = false;
+  const aggs = {
+    total_items: { value: 0 },
+    total_duration: { value_str: "" },
+    total_size: { value: "" },
+  };
   const isAdmin = getIsAdmin();
 
   if (!channel) {
