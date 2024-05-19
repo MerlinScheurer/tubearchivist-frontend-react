@@ -173,9 +173,9 @@ const Channels = () => {
       {hasChannels && <h2>Total channels: {channelCount}</h2>}
 
       <div className={`channel-list ${view}`}>
-        {channels && <h2>No channels found...</h2>}
+        {!hasChannels && <h2>No channels found...</h2>}
 
-        {!channels && (
+        {hasChannels && (
           <ChannelList
             channelList={channels}
             viewLayout={view}
