@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Routes from "../configuration/routes/RouteList";
 
 export type TaUpdateType = {
   version?: string;
@@ -39,7 +40,7 @@ const Footer = ({ version, taUpdate }: Props) => {
           </>
         )}
         <span>
-          <Link to={`/about/`}>About</Link> |{" "}
+          <Link to={Routes.About}>About</Link> |{" "}
           <a
             href="https://github.com/tubearchivist/tubearchivist"
             target="_blank"
