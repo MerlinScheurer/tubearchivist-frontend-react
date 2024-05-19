@@ -39,7 +39,13 @@ const ChannelOverview = ({
           </h3>
 
           {channelSubs >= 1000000 && (
-            <p>Subscribers: {formatNumbers(channelSubs)}</p>
+            <p>
+              Subscribers:{" "}
+              {formatNumbers(channelSubs, {
+                notation: "compact",
+                compactDisplay: "long",
+              })}
+            </p>
           )}
 
           {channelSubs < 1000000 && (
