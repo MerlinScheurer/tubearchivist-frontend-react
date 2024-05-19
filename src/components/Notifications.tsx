@@ -8,7 +8,7 @@ import stopTaskByName from "../api/actions/stopTaskByName";
 type NotificationType = {
   title: string;
   group: string;
-  "api-stop": boolean;
+  api_stop: boolean;
   level: string;
   id: string;
   command: boolean | string;
@@ -77,7 +77,7 @@ const Notifications = ({
             })}
           </p>
           <div className="task-control-icons">
-            {notification["api-stop"] && notification.command !== "STOP" && (
+            {notification["api_stop"] && notification.command !== "STOP" && (
               <img
                 src={iconStop}
                 id="stop-icon"
