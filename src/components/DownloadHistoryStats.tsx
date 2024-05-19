@@ -16,6 +16,14 @@ const DownloadHistoryStats = ({
     return <p id="loading">Loading...</p>;
   }
 
+  if (downloadHistoryStats.length === 0) {
+    return (
+      <div className="info-box-item">
+        <h3>No recent downloads</h3>
+      </div>
+    );
+  }
+
   return downloadHistoryStats.map(({ date, count, media_size }, index) => {
     const videoText = count === 1 ? "Video" : "Videos";
     const intlDate = formatDate(date);
