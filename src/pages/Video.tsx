@@ -33,7 +33,32 @@ type VideoParams = {
   videoId: string;
 };
 
-type PlaylistNavType = {};
+type PlaylistNavPreviousItemType = {
+  youtube_id: string;
+  vid_thumb: string;
+  idx: number;
+  title: string;
+};
+
+type PlaylistNavNextItemType = {
+  youtube_id: string;
+  vid_thumb: string;
+  idx: number;
+  title: string;
+};
+
+type PlaylistNavItemType = {
+  playlist_meta: {
+    current_idx: string;
+    playlist_id: string;
+    playlist_name: string;
+    playlist_channel: string;
+  };
+  playlist_previous: PlaylistNavPreviousItemType;
+  playlist_next: PlaylistNavNextItemType;
+};
+
+type PlaylistNavType = PlaylistNavItemType[];
 
 export type SkippedSegmentType = {
   from: number;
