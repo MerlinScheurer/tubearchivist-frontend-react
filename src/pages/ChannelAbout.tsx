@@ -13,6 +13,7 @@ import queueReindex, {
 } from "../api/actions/queueReindex";
 import formatDate from "../functions/formatDates";
 import PaginationDummy from "../components/PaginationDummy";
+import FormattedNumber from "../components/FormattedNumber";
 
 const handleSponsorBlockIntegrationOverwrite = (integration: string) => {
   if (integration) {
@@ -110,11 +111,11 @@ const ChannelAbout = () => {
 
           <div className="info-box-item">
             <div>
-              {channel.channel_views >= 1000000 && (
-                <p>Channel views: {channel.channel_views}</p>
-              )}
-              {channel.channel_views < 1000000 && channel.channel_views > 0 && (
-                <p>Channel views: {channel.channel_views}</p>
+              {channel.channel_views > 0 && (
+                <FormattedNumber
+                  text="Channel views:"
+                  number={channel.channel_views}
+                />
               )}
 
               {isAdmin && (

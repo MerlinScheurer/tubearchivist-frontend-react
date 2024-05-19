@@ -4,7 +4,7 @@ import { ViewLayout } from "../pages/Home";
 import Routes from "../configuration/routes/RouteList";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
 import formatDate from "../functions/formatDates";
-import formatNumbers from "../functions/formatNumbers";
+import FormattedNumber from "./FormattedNumber";
 
 type ChannelListProps = {
   channelList: ChannelType[] | undefined;
@@ -50,18 +50,10 @@ const ChannelList = ({
                       {channel.channel_name}
                     </Link>
                   </h3>
-                  {channel.channel_subs >= 1000000 && (
-                    <p>
-                      Subscribers:{" "}
-                      {formatNumbers(channel.channel_subs, {
-                        notation: "compact",
-                        compactDisplay: "long",
-                      })}
-                    </p>
-                  )}
-                  {channel.channel_subs < 1000000 && (
-                    <p>Subscribers: {formatNumbers(channel.channel_subs)}</p>
-                  )}
+                  <FormattedNumber
+                    text="Subscribers:"
+                    number={channel.channel_subs}
+                  />
                 </div>
               </div>
               <div className="info-box-item">

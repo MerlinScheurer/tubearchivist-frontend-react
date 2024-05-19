@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
-import formatNumbers from "../functions/formatNumbers";
+import FormattedNumber from "./FormattedNumber";
 
 type ChannelOverviewProps = {
   channelId: string;
@@ -38,19 +38,7 @@ const ChannelOverview = ({
             <Link to={Routes.ChannelVideo(channelId)}>{channelname}</Link>
           </h3>
 
-          {channelSubs >= 1000000 && (
-            <p>
-              Subscribers:{" "}
-              {formatNumbers(channelSubs, {
-                notation: "compact",
-                compactDisplay: "long",
-              })}
-            </p>
-          )}
-
-          {channelSubs < 1000000 && (
-            <p>Subscribers: {formatNumbers(channelSubs)}</p>
-          )}
+          <FormattedNumber text="Subscribers:" number={channelSubs} />
 
           {showSubscribeButton && (
             <>
