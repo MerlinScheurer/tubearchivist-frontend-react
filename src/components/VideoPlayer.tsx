@@ -94,7 +94,7 @@ const handleVideoEnd =
   (
     youtubeId: string,
     watched: boolean,
-    setSponsorSegmentSkipped?: (skipped: SponsorSegmentSkippedType) => void,
+    setSponsorSegmentSkipped?: (skipped: SponsorSegmentsSkippedType) => void,
   ) =>
   async (videoTag) => {
     if (!watched) {
@@ -123,7 +123,7 @@ type VideoPlayerProps = {
   video: VideoResponseType;
   videoProgress?: VideoProgressType;
   sponsorBlock?: SponsorBlockType;
-  setSponsorSegmentSkipped?: (skipped: SponsorSegmentSkippedType) => void;
+  setSponsorSegmentSkipped?: (fn: unknown) => void;
 };
 
 const VideoPlayer = ({
