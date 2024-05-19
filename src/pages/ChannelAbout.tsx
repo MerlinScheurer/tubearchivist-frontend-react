@@ -60,12 +60,6 @@ const ChannelAbout = () => {
   const channel = channelResponse?.data;
 
   const channelOverwrites = channel?.channel_overwrites;
-  const channel_overwrite_form = {
-    download_format: "",
-    autodelete_days: 0,
-    index_playlists: 0,
-    integrate_sponsorblock: false,
-  };
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -254,7 +248,6 @@ const ChannelAbout = () => {
                     type="text"
                     name="download_format"
                     id="id_download_format"
-                    value={channel_overwrite_form?.download_format || ""}
                   />
                   <br />
                 </div>
@@ -269,7 +262,6 @@ const ChannelAbout = () => {
                     type="number"
                     name="autodelete_days"
                     id="id_autodelete_days"
-                    value={channel_overwrite_form?.autodelete_days || ""}
                   />
 
                   <br />
@@ -289,8 +281,8 @@ const ChannelAbout = () => {
                     defaultValue=""
                   >
                     <option value="">-- change playlist index --</option>
-                    <option value="0">Disable playlist index</option>
-                    <option value="1">Enable playlist index</option>
+                    <option value="false">Disable playlist index</option>
+                    <option value="true">Enable playlist index</option>
                   </select>
 
                   <br />
@@ -320,8 +312,12 @@ const ChannelAbout = () => {
                     <option value="disable">
                       disable sponsorblock integration
                     </option>
-                    <option value="1">enable sponsorblock integration</option>
-                    <option value="0">unset sponsorblock integration</option>
+                    <option value="true">
+                      enable sponsorblock integration
+                    </option>
+                    <option value="false">
+                      unset sponsorblock integration
+                    </option>
                   </select>
                   <br />
                 </div>
