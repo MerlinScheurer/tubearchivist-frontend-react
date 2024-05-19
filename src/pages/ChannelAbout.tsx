@@ -1,13 +1,7 @@
-import {
-  useLoaderData,
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import ChannelOverview from "../components/ChannelOverview";
 import { useEffect, useState } from "react";
 import loadChannelById from "../api/loader/loadChannelById";
-import { UserConfigType } from "../api/actions/updateUserConfig";
 import { ChannelResponseType } from "./ChannelBase";
 import getIsAdmin from "../functions/getIsAdmin";
 import Linkify from "../components/Linkify";
@@ -17,7 +11,6 @@ import queueReindex, {
   ReindexType,
   ReindexTypeEnum,
 } from "../api/actions/queueReindex";
-import { OutletContextType } from "./Base";
 import formatDate from "../functions/formatDates";
 import PaginationDummy from "../components/PaginationDummy";
 
