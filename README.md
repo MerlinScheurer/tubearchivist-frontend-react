@@ -1,5 +1,7 @@
 # Tubearchivist Frontend React
 
+## Development environment:
+
 Fist start the tubearchivist dev environment, then execute:
 
 ```bash
@@ -13,6 +15,20 @@ stop:
 ```bash
 docker compose -f .\docker-compose-dev.yml down
 
+```
+
+## Production environment:
+
+Build the production image
+
+```bash
+  docker build -t tubearchivist-frontend .
+```
+
+and switch to tubearchivist and execute
+
+```bash
+  docker-compose -f .\docker-compose-prod.yml up --build
 ```
 
 # Folder structure
