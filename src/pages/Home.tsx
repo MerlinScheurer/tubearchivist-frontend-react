@@ -14,52 +14,6 @@ import {
   ViewStyles,
 } from "../configuration/constants/ViewStyle";
 
-/*
-
-{% if continue_vids %}
-        <div className="title-bar">
-            <h1>Continue Watching</h1>
-        </div>
-        <div className="video-list {{ view_style }} {% if view_style == "grid" %}grid-{{ grid_items }}{% endif %}">
-            {% for video in continue_vids %}
-                <div className="video-item {{ view_style }}">
-                    <a href="#player" data-id="{{ video.youtube_id }}" onclick="createPlayer(this)">
-                        <div className="video-thumb-wrap {{ view_style }}">
-                            <div className="video-thumb">
-                                <img src="{{ video.vid_thumb_url }}" alt="video-thumb">
-                                {% if video.player.progress %}
-                                    <div className="video-progress-bar" id="progress-{{ video.youtube_id }}" style="width: {{video.player.progress}}%;"></div>
-                                {% else %}
-                                    <div className="video-progress-bar" id="progress-{{ video.youtube_id }}" style="width: 0%;"></div>
-                                {% endif %}
-                            </div>
-                            <div className="video-play">
-                                <img src="{% static 'img/icon-play.svg' %}" alt="play-icon">
-                            </div>
-                        </div>
-                    </a>
-                    <div className="video-desc {{ view_style }}">
-                        <div className="video-desc-player" id="video-info-{{ video.youtube_id }}">
-                            {% if video.player.watched %}
-                                <img src="{% static 'img/icon-seen.svg' %}" alt="seen-icon" data-id="{{ video.youtube_id }}" data-status="watched" onclick="updateVideoWatchStatus(this)" className="watch-button" title="Mark as unwatched">
-                            {% else %}
-                                <img src="{% static 'img/icon-unseen.svg' %}" alt="unseen-icon" data-id="{{ video.youtube_id }}" data-status="unwatched" onclick="updateVideoWatchStatus(this)" className="watch-button" title="Mark as watched">
-                            {% endif %}
-                            <span>{{ video.published }} | {{ video.player.duration_str }}</span>
-                        </div>
-                        <div>
-                            <a href="{% url 'channel_id' video.channel.channel_id %}"><h3>{{ video.channel.channel_name }}</h3></a>
-                            <a className="video-more" href="{% url 'video' video.youtube_id %}"><h2>{{ video.title }}</h2></a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-
-*/
-
 export type PlayerType = {
   watched: boolean;
   duration: number;
@@ -145,6 +99,8 @@ export type VideoResponseType = {
   paginate?: PaginationType;
 };
 
+type ContinueVidsType = VideoType[];
+
 type HomeLoaderDataType = {
   userConfig: UserConfigType;
 };
@@ -189,6 +145,8 @@ const Home = () => {
 
   const hasVideos = videoResponse?.data?.length !== 0;
 
+  const continue_vids: ContinueVidsType = [];
+
   const isGridView = view === ViewStyles.grid;
   const gridView = isGridView ? `boxed-${gridItems}` : "";
   const gridViewGrid = isGridView ? `grid-${gridItems}` : "";
@@ -205,7 +163,21 @@ const Home = () => {
   return (
     <>
       <div className={`boxed-content ${gridView}`}>
-        {/** continue vids */}
+        {continue_vids.length > 0 && (
+          <>
+            <div className="title-bar">
+              <h1>Continue Watching</h1>
+            </div>
+            <div className={`video-list ${view} ${gridViewGrid}`}>
+              <VideoList
+                videoList={continue_vids}
+                viewLayout={view}
+                refreshVideoList={setRefreshVideoList}
+              />
+            </div>
+          </>
+        )}
+
         <div className="title-bar">
           <h1>Recent Videos</h1>
         </div>
