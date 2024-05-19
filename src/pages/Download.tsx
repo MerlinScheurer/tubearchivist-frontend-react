@@ -408,7 +408,10 @@ const Download = () => {
                       {download.message && (
                         <button
                           className="danger-button"
-                          onclick="forgetIgnore(this)"
+                          onClick={async () => {
+                            await deleteDownloadById(download.youtube_id);
+                            setRefreshDownloadList(true);
+                          }}
                         >
                           Delete
                         </button>
