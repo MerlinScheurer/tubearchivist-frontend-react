@@ -274,9 +274,9 @@ const Video = () => {
                   {video.stats.dislike_count}
                 </p>
               )}
-              {video.stats.average_rating && (
+              {video?.stats && video?.stats?.average_rating && (
                 <div className="rating-stars">
-                  {video.stats.average_rating.map((star, index) => {
+                  {video?.stats?.average_rating?.map?.((star, index) => {
                     if (star === "full") {
                       return <img key={index} src={iconStarFull} alt={star} />;
                     }
