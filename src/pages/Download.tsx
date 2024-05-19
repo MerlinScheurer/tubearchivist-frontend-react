@@ -25,6 +25,14 @@ import updateTaskByName from "../api/actions/updateTaskByName";
 import Notifications from "../components/Notifications";
 import formatDate from "../functions/formatDates";
 
+type ChannelAggType = {
+  id: string;
+  name: string;
+  count: number;
+};
+
+type ChannelAggsType = ChannelAggType[];
+
 type Download = {
   auto_start: boolean;
   channel_id: string;
@@ -89,7 +97,7 @@ const Download = () => {
       ? downloadResponse?.data[0].channel_name
       : "";
 
-  const channel_agg_list = [];
+  const channel_agg_list: ChannelAggsType = [];
 
   const isGridView = view === ViewStyles.grid;
   const gridView = isGridView ? `boxed-${gridItems}` : "";
