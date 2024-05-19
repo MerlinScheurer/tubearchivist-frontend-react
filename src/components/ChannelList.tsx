@@ -4,6 +4,7 @@ import { ViewLayout } from "../pages/Home";
 import Routes from "../configuration/routes/RouteList";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
 import formatDate from "../functions/formatDates";
+import formatNumbers from "../functions/formatNumbers";
 
 type ChannelListProps = {
   channelList: ChannelType[] | undefined;
@@ -50,10 +51,16 @@ const ChannelList = ({
                     </Link>
                   </h3>
                   {channel.channel_subs >= 1000000 && (
-                    <p>Subscribers: {channel.channel_subs}</p>
+                    <p>
+                      Subscribers:{" "}
+                      {formatNumbers(channel.channel_subs, {
+                        notation: "compact",
+                        compactDisplay: "long",
+                      })}
+                    </p>
                   )}
                   {channel.channel_subs < 1000000 && (
-                    <p>Subscribers: {channel.channel_subs}</p>
+                    <p>Subscribers: {formatNumbers(channel.channel_subs)}</p>
                   )}
                 </div>
               </div>
