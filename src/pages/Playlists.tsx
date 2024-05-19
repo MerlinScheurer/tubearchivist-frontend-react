@@ -15,6 +15,8 @@ import Pagination, { PaginationType } from "../components/Pagination";
 import getIsAdmin from "../functions/getIsAdmin";
 import PlaylistList from "../components/PlaylistList";
 import { PlaylistType } from "./Playlist";
+import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
+import createCustomPlaylist from "../api/actions/createCustomPlaylist";
 
 export type PlaylistEntryType = {
   youtube_id: string;
@@ -46,6 +48,8 @@ const Playlists = () => {
   );
   const [showAddForm, setShowAddForm] = useState(false);
   const [refreshPlaylistList, setRefreshPlaylistList] = useState(false);
+  const [playlistsToAddText, setPlaylistsToAddText] = useState("");
+  const [customPlaylistsToAddText, setCustomPlaylistsToAddText] = useState("");
 
   const [playlistResponse, setPlaylistReponse] = useState<PlaylistResponseType>(
     {
@@ -103,11 +107,25 @@ const Playlists = () => {
                   <div>
                     <label>Subscribe to playlists:</label>
                     <textarea
+                      value={playlistsToAddText}
+                      onChange={(event) => {
+                        setPlaylistsToAddText(event.target.value);
+                      }}
                       rows={3}
                       cols={40}
                       placeholder="Input playlist IDs or URLs"
                     />
-                    <button type="submit">Subscribe</button>
+                    <button
+                      type="submit"
+                      onClick={async () => {
+                        await updatePlaylistSubscription(
+                          playlistsToAddText,
+                          true,
+                        );
+                      }}
+                    >
+                      Subscribe
+                    </button>
                   </div>
                   <br />
                   <div>
@@ -116,8 +134,19 @@ const Playlists = () => {
                       rows={1}
                       cols={40}
                       placeholder="Input playlist name"
+                      value={customPlaylistsToAddText}
+                      onChange={(event) => {
+                        setCustomPlaylistsToAddText(event.target.value);
+                      }}
                     />
-                    <button type="submit">Create</button>
+                    <button
+                      type="submit"
+                      onClick={async () => {
+                        await createCustomPlaylist(customPlaylistsToAddText);
+                      }}
+                    >
+                      Create
+                    </button>
                   </div>
                 </div>
               )}
