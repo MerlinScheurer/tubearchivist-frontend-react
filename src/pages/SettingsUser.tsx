@@ -26,7 +26,7 @@ const SettingsUser = () => {
     userConfig.stylesheet || (ColourConstant.Dark as ColourVariants),
   );
   const [selectedPageSize, setSelectedPageSize] = useState(
-    userConfig.page_size || 3,
+    userConfig.page_size || 12,
   );
   const [refresh, setRefresh] = useState(false);
 
