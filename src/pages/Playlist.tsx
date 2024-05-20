@@ -30,6 +30,7 @@ import { ChannelResponseType } from "./ChannelBase";
 import formatDate from "../functions/formatDates";
 import queueReindex from "../api/actions/queueReindex";
 import updateWatchedState from "../api/actions/updateWatchedState";
+import ScrollToTopOnNavigate from "../components/ScrollToTop";
 
 export type PlaylistType = {
   playlist_active: boolean;
@@ -122,6 +123,7 @@ const Playlist = () => {
 
   return (
     <>
+      <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <div className="title-bar">
           <h1>{playlist.playlist_name}</h1>

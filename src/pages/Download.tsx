@@ -24,6 +24,7 @@ import deleteDownloadById from "../api/actions/deleteDownloadById";
 import updateTaskByName from "../api/actions/updateTaskByName";
 import Notifications from "../components/Notifications";
 import formatDate from "../functions/formatDates";
+import ScrollToTopOnNavigate from "../components/ScrollToTop";
 
 type ChannelAggType = {
   id: string;
@@ -133,6 +134,7 @@ const Download = () => {
 
   return (
     <>
+      <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <div className="title-bar">
           <h1>

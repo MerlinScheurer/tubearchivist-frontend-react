@@ -13,6 +13,7 @@ import {
   ViewStyleNames,
   ViewStyles,
 } from "../configuration/constants/ViewStyle";
+import ScrollToTopOnNavigate from "../components/ScrollToTop";
 
 export type PlayerType = {
   watched: boolean;
@@ -162,6 +163,7 @@ const Home = () => {
 
   return (
     <>
+      <ScrollToTopOnNavigate />
       <div className={`boxed-content ${gridView}`}>
         {continue_vids.length > 0 && (
           <>

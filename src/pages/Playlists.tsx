@@ -17,6 +17,7 @@ import PlaylistList from "../components/PlaylistList";
 import { PlaylistType } from "./Playlist";
 import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
 import createCustomPlaylist from "../api/actions/createCustomPlaylist";
+import ScrollToTopOnNavigate from "../components/ScrollToTop";
 
 export type PlaylistEntryType = {
   youtube_id: string;
@@ -87,6 +88,7 @@ const Playlists = () => {
 
   return (
     <>
+      <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <div className="title-split">
           <div className="title-bar">

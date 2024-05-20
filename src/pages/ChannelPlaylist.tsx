@@ -11,6 +11,7 @@ import { UserConfigType } from "../api/actions/updateUserConfig";
 import { useEffect, useState } from "react";
 import { OutletContextType } from "./Base";
 import Pagination from "../components/Pagination";
+import ScrollToTopOnNavigate from "../components/ScrollToTop";
 
 type ChannelPlaylistLoaderDataType = {
   userConfig: UserConfigType;
@@ -50,6 +51,7 @@ const ChannelPlaylist = () => {
 
   return (
     <>
+      <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <Notifications pageName="channel" includeReindex={true} />
         <Filterbar

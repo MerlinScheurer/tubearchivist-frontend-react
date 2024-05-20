@@ -12,6 +12,7 @@ import updateUserConfig, {
 import { OutletContextType } from "./Base";
 import getIsAdmin from "../functions/getIsAdmin";
 import ChannelList from "../components/ChannelList";
+import ScrollToTopOnNavigate from "../components/ScrollToTop";
 
 type ChannelOverwritesType = {
   download_format?: string;
@@ -92,104 +93,107 @@ const Channels = () => {
   const isAdmin = getIsAdmin();
 
   return (
-    <div className="boxed-content">
-      <div className="title-split">
-        <div className="title-bar">
-          <h1>Channels</h1>
-        </div>
-        {isAdmin && (
-          <div className="title-split-form">
-            <img
-              id="animate-icon"
-              onClick={() => {
-                setShowAddForm(!showAddForm);
-              }}
-              src={iconAdd}
-              alt="add-icon"
-              title="Subscribe to Channels"
-            />
-            {showAddForm && (
-              <div className="show-form">
-                <div>
-                  <label>Subscribe to channels:</label>
-                  <textarea
-                    rows={3}
-                    placeholder="Input channel ID, URL or Video of a channel"
-                  />
+    <>
+      <ScrollToTopOnNavigate />
+      <div className="boxed-content">
+        <div className="title-split">
+          <div className="title-bar">
+            <h1>Channels</h1>
+          </div>
+          {isAdmin && (
+            <div className="title-split-form">
+              <img
+                id="animate-icon"
+                onClick={() => {
+                  setShowAddForm(!showAddForm);
+                }}
+                src={iconAdd}
+                alt="add-icon"
+                title="Subscribe to Channels"
+              />
+              {showAddForm && (
+                <div className="show-form">
+                  <div>
+                    <label>Subscribe to channels:</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Input channel ID, URL or Video of a channel"
+                    />
+                  </div>
+
+                  <button type="submit">Subscribe</button>
                 </div>
-
-                <button type="submit">Subscribe</button>
-              </div>
-            )}
+              )}
+            </div>
+          )}
+        </div>
+        <div id="notifications"></div>
+        <div className="view-controls">
+          <div className="toggle">
+            <span>Show subscribed only:</span>
+            <div className="toggleBox">
+              <input
+                id="show_subed_only"
+                onClick={() => {
+                  setShowSubscribedOnly(!showSubscribedOnly);
+                }}
+                type="checkbox"
+                checked={showSubscribedOnly}
+              />
+              {!showSubscribedOnly && (
+                <label htmlFor="" className="ofbtn">
+                  Off
+                </label>
+              )}
+              {showSubscribedOnly && (
+                <label htmlFor="" className="onbtn">
+                  On
+                </label>
+              )}
+            </div>
           </div>
-        )}
-      </div>
-      <div id="notifications"></div>
-      <div className="view-controls">
-        <div className="toggle">
-          <span>Show subscribed only:</span>
-          <div className="toggleBox">
-            <input
-              id="show_subed_only"
+          <div className="view-icons">
+            <img
+              src={iconGridView}
               onClick={() => {
-                setShowSubscribedOnly(!showSubscribedOnly);
+                setView("grid");
               }}
-              type="checkbox"
-              checked={showSubscribedOnly}
+              data-origin="channel"
+              data-value="grid"
+              alt="grid view"
             />
-            {!showSubscribedOnly && (
-              <label htmlFor="" className="ofbtn">
-                Off
-              </label>
-            )}
-            {showSubscribedOnly && (
-              <label htmlFor="" className="onbtn">
-                On
-              </label>
-            )}
+            <img
+              src={iconListView}
+              onClick={() => {
+                setView("list");
+              }}
+              data-origin="channel"
+              data-value="list"
+              alt="list view"
+            />
           </div>
         </div>
-        <div className="view-icons">
-          <img
-            src={iconGridView}
-            onClick={() => {
-              setView("grid");
-            }}
-            data-origin="channel"
-            data-value="grid"
-            alt="grid view"
-          />
-          <img
-            src={iconListView}
-            onClick={() => {
-              setView("list");
-            }}
-            data-origin="channel"
-            data-value="list"
-            alt="list view"
-          />
+        {hasChannels && <h2>Total channels: {channelCount}</h2>}
+
+        <div className={`channel-list ${view}`}>
+          {!hasChannels && <h2>No channels found...</h2>}
+
+          {hasChannels && (
+            <ChannelList
+              channelList={channels}
+              viewLayout={view}
+              refreshChannelList={setRefreshChannelList}
+            />
+          )}
         </div>
-      </div>
-      {hasChannels && <h2>Total channels: {channelCount}</h2>}
 
-      <div className={`channel-list ${view}`}>
-        {!hasChannels && <h2>No channels found...</h2>}
-
-        {hasChannels && (
-          <ChannelList
-            channelList={channels}
-            viewLayout={view}
-            refreshChannelList={setRefreshChannelList}
-          />
+        {pagination && (
+          <div className="boxed-content">
+            <Pagination pagination={pagination} setPage={setCurrentPage} />
+          </div>
         )}
       </div>
-
-      {pagination && (
-        <div className="boxed-content">
-          <Pagination pagination={pagination} setPage={setCurrentPage} />
-        </div>
-      )}
-    </div>
+    </>
   );
 };
 

@@ -21,6 +21,7 @@ import ChannelOverview from "../components/ChannelOverview";
 import getIsAdmin from "../functions/getIsAdmin";
 import loadChannelById from "../api/loader/loadChannelById";
 import { ChannelResponseType } from "./ChannelBase";
+import ScrollToTopOnNavigate from "../components/ScrollToTop";
 
 type ChannelParams = {
   channelId: string;
@@ -91,6 +92,7 @@ const ChannelVideo = () => {
 
   return (
     <>
+      <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <div className="info-box info-box-2">
           <ChannelOverview
