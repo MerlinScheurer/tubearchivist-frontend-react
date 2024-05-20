@@ -47,7 +47,7 @@ const Pagination = ({ pagination, setPage }: Props) => {
       const { code } = event;
 
       if (code === "ArrowRight") {
-        if (currentPage === 0) {
+        if (currentPage === 0 && totalHits > 1) {
           setPage(2);
           return;
         }
