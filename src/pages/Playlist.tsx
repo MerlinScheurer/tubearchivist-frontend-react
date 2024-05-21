@@ -5,6 +5,7 @@ import {
   useNavigate,
   useOutletContext,
   useParams,
+  useSearchParams,
 } from "react-router-dom";
 import { UserConfigType } from "../api/actions/updateUserConfig";
 import loadPlaylistById from "../api/loader/loadPlaylistById";
@@ -31,6 +32,7 @@ import formatDate from "../functions/formatDates";
 import queueReindex from "../api/actions/queueReindex";
 import updateWatchedState from "../api/actions/updateWatchedState";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
+import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
 
 export type PlaylistType = {
   playlist_active: boolean;
@@ -66,6 +68,8 @@ export type VideoResponseType = {
 const Playlist = () => {
   const { playlistId } = useParams();
   const navigate = useNavigate();
+  const [searchParams, _] = useSearchParams();
+  const videoId = searchParams.get("videoId");
 
   const { userConfig } = useLoaderData() as PlaylistLoaderDataType;
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
@@ -97,6 +101,7 @@ const Playlist = () => {
     palylistEntries?.filter((video) => video.downloaded).length,
   );
   const videoInPlaylistCount = videos?.length;
+  const showEmbeddedVideo = videoId !== null;
 
   const isGridView = view === ViewStyles.grid;
   const gridView = isGridView ? `boxed-${gridItems}` : "";
@@ -346,7 +351,7 @@ const Playlist = () => {
         />
       </div>
 
-      <div id="player" className="player-wrapper"></div>
+      {showEmbeddedVideo && <EmbeddableVideoPlayer videoId={videoId} />}
 
       <div className={`boxed-content ${gridView}`}>
         <div className={`video-list ${view} ${gridViewGrid}`}>

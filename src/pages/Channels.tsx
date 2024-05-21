@@ -13,6 +13,7 @@ import { OutletContextType } from "./Base";
 import getIsAdmin from "../functions/getIsAdmin";
 import ChannelList from "../components/ChannelList";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
+import Notifications from "../components/Notifications";
 
 type ChannelOverwritesType = {
   download_format?: string;
@@ -127,7 +128,9 @@ const Channels = () => {
             </div>
           )}
         </div>
-        <div id="notifications"></div>
+
+        <Notifications pageName="all" />
+
         <div className="view-controls">
           <div className="toggle">
             <span>Show subscribed only:</span>

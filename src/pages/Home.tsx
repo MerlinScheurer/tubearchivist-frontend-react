@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useLoaderData, useOutletContext } from "react-router-dom";
+import {
+  Link,
+  useLoaderData,
+  useOutletContext,
+  useSearchParams,
+} from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
-
 import Pagination, { PaginationType } from "../components/Pagination";
 import loadVideoListByPage from "../api/loader/loadVideoListByPage";
 import { UserConfigType } from "../api/actions/updateUserConfig";
@@ -14,6 +18,7 @@ import {
   ViewStyles,
 } from "../configuration/constants/ViewStyle";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
+import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
 
 export type PlayerType = {
   watched: boolean;
@@ -119,6 +124,8 @@ export type ViewLayout = "grid" | "list";
 const Home = () => {
   const { userConfig } = useLoaderData() as HomeLoaderDataType;
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
+  const [searchParams, _] = useSearchParams();
+  const videoId = searchParams.get("videoId");
 
   const [hideWatched, setHideWatched] = useState(
     userConfig.hide_watched || false,
@@ -145,6 +152,7 @@ const Home = () => {
   const pagination = videoResponse.paginate;
 
   const hasVideos = videoResponse?.data?.length !== 0;
+  const showEmbeddedVideo = videoId !== null;
 
   const continue_vids: ContinueVidsType = [];
 
@@ -202,9 +210,9 @@ const Home = () => {
           viewStyleName={ViewStyleNames.home}
           setRefresh={setRefreshVideoList}
         />
-
-        <div id="player" className="player-wrapper"></div>
       </div>
+
+      {showEmbeddedVideo && <EmbeddableVideoPlayer videoId={videoId} />}
 
       <div className={`boxed-content ${gridView}`}>
         <div className={`video-list ${view} ${gridViewGrid}`}>

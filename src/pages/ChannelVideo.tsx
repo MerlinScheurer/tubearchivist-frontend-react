@@ -4,6 +4,7 @@ import {
   useLoaderData,
   useOutletContext,
   useParams,
+  useSearchParams,
 } from "react-router-dom";
 import { SortBy, SortOrder, VideoResponseType, ViewLayout } from "./Home";
 import { OutletContextType } from "./Base";
@@ -22,6 +23,7 @@ import getIsAdmin from "../functions/getIsAdmin";
 import loadChannelById from "../api/loader/loadChannelById";
 import { ChannelResponseType } from "./ChannelBase";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
+import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
 
 type ChannelParams = {
   channelId: string;
@@ -35,6 +37,8 @@ const ChannelVideo = () => {
   const { channelId } = useParams() as ChannelParams;
   const { userConfig } = useLoaderData() as ChannelVideoLoaderType;
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
+  const [searchParams, _] = useSearchParams();
+  const videoId = searchParams.get("videoId");
 
   const [hideWatched, setHideWatched] = useState(
     userConfig.hide_watched || false,
@@ -63,6 +67,7 @@ const ChannelVideo = () => {
   const pagination = videoResponse?.paginate;
 
   const hasVideos = videoResponse?.data?.length !== 0;
+  const showEmbeddedVideo = videoId !== null;
 
   const isGridView = view === ViewStyles.grid;
   const gridView = isGridView ? `boxed-${gridItems}` : "";
@@ -160,7 +165,7 @@ const ChannelVideo = () => {
         />
       </div>
 
-      <div id="player" className="player-wrapper"></div>
+      {showEmbeddedVideo && <EmbeddableVideoPlayer videoId={videoId} />}
 
       <div className={`boxed-content ${gridView}`}>
         <div className={`video-list ${view} ${gridViewGrid}`}>

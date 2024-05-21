@@ -3,10 +3,19 @@ import updateWatchedState from "../api/actions/updateWatchedState";
 import {
   SponsorBlockSegmentType,
   SponsorBlockType,
-  SponsorSegmentsSkippedType,
   VideoResponseType,
 } from "../pages/Video";
 import watchedThreshold from "../functions/watchedThreshold";
+import Notifications from "./Notifications";
+import { useState } from "react";
+import formatTime from "../functions/formatTime";
+
+export type SkippedSegmentType = {
+  from: number;
+  to: number;
+};
+
+export type SponsorSegmentsSkippedType = Record<string, SkippedSegmentType>;
 
 type Subtitle = {
   name: string;
@@ -123,15 +132,18 @@ type VideoPlayerProps = {
   video: VideoResponseType;
   videoProgress?: VideoProgressType;
   sponsorBlock?: SponsorBlockType;
-  setSponsorSegmentSkipped?: (fn: unknown) => void;
+  embed?: boolean;
 };
 
 const VideoPlayer = ({
   video,
   videoProgress,
   sponsorBlock,
-  setSponsorSegmentSkipped,
+  embed,
 }: VideoPlayerProps) => {
+  const [skippedSegments, setSkippedSegments] =
+    useState<SponsorSegmentsSkippedType>({});
+
   const videoId = video.data.youtube_id;
   const videoUrl = video.data.media_url;
   const videoThumbUrl = video.data.vid_thumb_url;
@@ -142,49 +154,108 @@ const VideoPlayer = ({
   const autoplay = false;
 
   return (
-    <video
-      poster={videoThumbUrl}
-      onVolumeChange={(videoTag) => {
-        localStorage.setItem("playerVolume", videoTag.target.volume);
-      }}
-      onLoadStart={(videoTag) => {
-        videoTag.target.volume = localStorage.getItem("playerVolume") ?? 1;
-      }}
-      onTimeUpdate={handleTimeUpdate(
-        videoId,
-        duration,
-        watched,
-        sponsorBlock,
-        setSponsorSegmentSkipped,
-      )}
-      onPause={async (videoTag) => {
-        const currentTime = Number(videoTag.target.currentTime);
+    <>
+      <div id="player" className={embed ? "" : "player-wrapper"}>
+        <div className={embed ? "" : "video-main"}>
+          <video
+            poster={videoThumbUrl}
+            onVolumeChange={(videoTag) => {
+              localStorage.setItem("playerVolume", videoTag.target.volume);
+            }}
+            onLoadStart={(videoTag) => {
+              videoTag.target.volume =
+                localStorage.getItem("playerVolume") ?? 1;
+            }}
+            onTimeUpdate={handleTimeUpdate(
+              videoId,
+              duration,
+              watched,
+              sponsorBlock,
+              setSkippedSegments,
+            )}
+            onPause={async (videoTag) => {
+              const currentTime = Number(videoTag.target.currentTime);
 
-        if (currentTime < 10) return;
+              if (currentTime < 10) return;
 
-        await updateVideoProgressById({
-          youtubeId: videoId,
-          currentProgress: currentTime,
-        });
-      }}
-      onEnded={handleVideoEnd(videoId, watched)}
-      autoPlay={autoplay}
-      controls
-      width="100%"
-      playsInline
-      id="video-item"
-    >
-      <source
-        src={`${videoUrl}#t=${
-          Number(videoProgress?.position) > 0
-            ? Number(videoProgress?.position)
-            : ""
-        }`}
-        type="video/mp4"
-        id="video-source"
-      />
-      {videoSubtitles && <Subtitles subtitles={videoSubtitles} />}
-    </video>
+              await updateVideoProgressById({
+                youtubeId: videoId,
+                currentProgress: currentTime,
+              });
+            }}
+            onEnded={handleVideoEnd(videoId, watched)}
+            autoPlay={autoplay}
+            controls
+            width="100%"
+            playsInline
+            id="video-item"
+          >
+            <source
+              src={`${videoUrl}#t=${
+                Number(videoProgress?.position) > 0
+                  ? Number(videoProgress?.position)
+                  : ""
+              }`}
+              type="video/mp4"
+              id="video-source"
+            />
+            {videoSubtitles && <Subtitles subtitles={videoSubtitles} />}
+          </video>
+        </div>
+      </div>
+
+      <Notifications pageName="all" />
+      <div className="sponsorblock" id="sponsorblock">
+        {sponsorBlock?.is_enabled && (
+          <>
+            {sponsorBlock.segments.length == 0 && (
+              <h4>
+                This video doesn't have any sponsor segments added. To add a
+                segment go to{" "}
+                <u>
+                  <a href={`https://www.youtube.com/watch?v=${videoId}`}>
+                    this video on YouTube
+                  </a>
+                </u>{" "}
+                and add a segment using the{" "}
+                <u>
+                  <a href="https://sponsor.ajay.app/">SponsorBlock</a>
+                </u>{" "}
+                extension.
+              </h4>
+            )}
+            {sponsorBlock.has_unlocked && (
+              <h4>
+                This video has unlocked sponsor segments. Go to{" "}
+                <u>
+                  <a href={`https://www.youtube.com/watch?v=${videoId}`}>
+                    this video on YouTube
+                  </a>
+                </u>{" "}
+                and vote on the segments using the{" "}
+                <u>
+                  <a href="https://sponsor.ajay.app/">SponsorBlock</a>
+                </u>{" "}
+                extension.
+              </h4>
+            )}
+
+            {Object.values(skippedSegments).map(({ from, to }) => {
+              return (
+                <>
+                  {from !== 0 && to !== 0 && (
+                    <h3>
+                      Skipped sponsor segment from {formatTime(from)} to{" "}
+                      {formatTime(to)}.
+                    </h3>
+                  )}
+                </>
+              );
+            })}
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

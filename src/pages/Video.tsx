@@ -3,8 +3,6 @@ import loadVideoById from "../api/loader/loadVideoById";
 import { useEffect, useState } from "react";
 import { ConfigType, VideoType } from "./Home";
 import VideoPlayer, { VideoProgressType } from "../components/VideoPlayer";
-import iconUnseen from "/img/icon-unseen.svg";
-import iconSeen from "/img/icon-seen.svg";
 import iconEye from "/img/icon-eye.svg";
 import iconThumb from "/img/icon-thumb.svg";
 import iconStarFull from "/img/icon-star-full.svg";
@@ -26,8 +24,8 @@ import formatDate from "../functions/formatDates";
 import formatNumbers from "../functions/formatNumbers";
 import queueReindex from "../api/actions/queueReindex";
 import loadSponsorblockByVideoId from "../api/loader/loadSponsorblockByVideoId";
-import Notifications from "../components/Notifications";
-import formatTime from "../functions/formatTime";
+import GoogleCast from "../components/GoogleCast";
+import WatchedCheckBox from "../components/WatchedCheckBox";
 
 type VideoParams = {
   videoId: string;
@@ -59,13 +57,6 @@ type PlaylistNavItemType = {
 };
 
 type PlaylistNavType = PlaylistNavItemType[];
-
-export type SkippedSegmentType = {
-  from: number;
-  to: number;
-};
-
-export type SponsorSegmentsSkippedType = Record<string, SkippedSegmentType>;
 
 export type SponsorBlockSegmentType = {
   category: string;
@@ -100,12 +91,9 @@ const Video = () => {
   const navigate = useNavigate();
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
-  const [watched, setWatched] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [refreshVideoList, setRefreshVideoList] = useState(false);
   const [reindex, setReindex] = useState(false);
-  const [skippedSegments, setSkippedSegments] =
-    useState<SponsorSegmentsSkippedType>({});
 
   const [videoResponse, setVideoResponse] = useState<VideoResponseType>();
   const [simmilarVideos, setSimmilarVideos] =
@@ -123,7 +111,6 @@ const Video = () => {
 
       setVideoResponse(videoResponse);
       setSimmilarVideos(simmilarVideos);
-      setWatched(videoResponse.data.player.watched);
       setVideoProgress(videoProgress);
       setSponsorblockResponse(sponsorblockReponse);
       setRefreshVideoList(false);
@@ -135,86 +122,28 @@ const Video = () => {
   }
 
   const video = videoResponse.data;
+  const watched = videoResponse.data.player.watched;
   const config = videoResponse.config;
   const playlistNav = videoResponse.playlist_nav;
   const sponsorBlock = sponsorblockResponse;
 
-  const cast = false;
+  const cast = config.enable_cast;
 
   const isAdmin = getIsAdmin();
 
   return (
     <>
       <ScrollToTopOnNavigate />
-      <div id="player" className="player-wrapper">
-        <div className="video-main">
-          <div className="video-modal">
-            <span className="video-modal-text" />
-          </div>
-          <VideoPlayer
-            video={videoResponse}
-            videoProgress={videoProgress}
-            sponsorBlock={sponsorBlock}
-            setSponsorSegmentSkipped={setSkippedSegments}
-          />
-        </div>
-      </div>
-      <Notifications pageName="all" />
-      <div className="sponsorblock" id="sponsorblock">
-        {sponsorBlock?.is_enabled && (
-          <>
-            {sponsorBlock.segments.length == 0 && (
-              <h4>
-                This video doesn't have any sponsor segments added. To add a
-                segment go to{" "}
-                <u>
-                  <a href={`https://www.youtube.com/watch?v=${videoId}`}>
-                    this video on YouTube
-                  </a>
-                </u>{" "}
-                and add a segment using the{" "}
-                <u>
-                  <a href="https://sponsor.ajay.app/">SponsorBlock</a>
-                </u>{" "}
-                extension.
-              </h4>
-            )}
-            {sponsorBlock.has_unlocked && (
-              <h4>
-                This video has unlocked sponsor segments. Go to{" "}
-                <u>
-                  <a href={`https://www.youtube.com/watch?v=${videoId}`}>
-                    this video on YouTube
-                  </a>
-                </u>{" "}
-                and vote on the segments using the{" "}
-                <u>
-                  <a href="https://sponsor.ajay.app/">SponsorBlock</a>
-                </u>{" "}
-                extension.
-              </h4>
-            )}
 
-            {Object.values(skippedSegments).map(({ from, to }) => {
-              return (
-                <>
-                  {from !== 0 && to !== 0 && (
-                    <h3>
-                      Skipped sponsor segment from {formatTime(from)} to{" "}
-                      {formatTime(to)}.
-                    </h3>
-                  )}
-                </>
-              );
-            })}
-          </>
-        )}
-      </div>
+      <VideoPlayer
+        video={videoResponse}
+        videoProgress={videoProgress}
+        sponsorBlock={sponsorBlock}
+      />
+
       <div className="boxed-content">
         <div className="title-bar">
-          {/* cast && (
-            <google-cast-launcher id="castbutton"></google-cast-launcher>
-          ) */}
+          {cast && <GoogleCast />}
           <h1 id="video-title">{video.title}</h1>
         </div>
         <div className="info-box info-box-3">
@@ -232,42 +161,15 @@ const Video = () => {
               <p>Last refreshed: {formatDate(video.vid_last_refresh)}</p>
               <p className="video-info-watched">
                 Watched:
-                {watched && (
-                  <img
-                    src={iconSeen}
-                    alt="seen-icon"
-                    data-id={video.youtube_id}
-                    data-status="watched"
-                    onClick={async () => {
-                      setWatched(false);
-
-                      await updateWatchedState({
-                        id: videoId,
-                        is_watched: false,
-                      });
-                    }}
-                    className="watch-button"
-                    title="Mark as unwatched"
-                  />
-                )}
-                {!watched && (
-                  <img
-                    src={iconUnseen}
-                    alt="unseen-icon"
-                    data-id={video.youtube_id}
-                    data-status="unwatched"
-                    onClick={async () => {
-                      setWatched(true);
-
-                      await updateWatchedState({
-                        id: videoId,
-                        is_watched: true,
-                      });
-                    }}
-                    className="watch-button"
-                    title="Mark as watched"
-                  />
-                )}
+                <WatchedCheckBox
+                  watched={watched}
+                  onClick={async (status) => {
+                    await updateWatchedState({
+                      id: videoId,
+                      is_watched: status,
+                    });
+                  }}
+                />
               </p>
               {video.active && (
                 <p>

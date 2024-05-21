@@ -1,12 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import { VideoType, ViewLayout } from "../pages/Home";
 import iconPlay from "/img/icon-play.svg";
-import iconSeen from "/img/icon-seen.svg";
-import iconUnseen from "/img/icon-unseen.svg";
 import defaultVideoThumb from "/img/default-video-thumb.jpg";
 import updateWatchedState from "../api/actions/updateWatchedState";
 import formatDate from "../functions/formatDates";
+import WatchedCheckBox from "./WatchedCheckBox";
 
 type VideoListProps = {
   videoList: VideoType[] | undefined;
@@ -19,6 +18,8 @@ const VideoList = ({
   viewLayout,
   refreshVideoList,
 }: VideoListProps) => {
+  const [_, setSearchParams] = useSearchParams();
+
   if (!videoList || videoList.length === 0) {
     return <p>No videos found.</p>;
   }
@@ -28,7 +29,11 @@ const VideoList = ({
       {videoList.map((video, index) => {
         return (
           <div key={index} className={`video-item ${viewLayout}`}>
-            <Link to={video.youtube_id}>
+            <a
+              onClick={() => {
+                setSearchParams({ videoId: video.youtube_id });
+              }}
+            >
               <div className={`video-thumb-wrap ${viewLayout}`}>
                 <div className="video-thumb">
                   <picture>
@@ -57,48 +62,23 @@ const VideoList = ({
                   <img src={iconPlay} alt="play-icon" />
                 </div>
               </div>
-            </Link>
+            </a>
             <div className={`video-desc ${viewLayout}`}>
               <div
                 className="video-desc-player"
                 id={`video-info-${video.youtube_id}`}
               >
-                {video.player.watched && (
-                  <img
-                    src={iconSeen}
-                    alt="seen-icon"
-                    data-id={video.youtube_id}
-                    data-status="watched"
-                    onClick={async () => {
-                      await updateWatchedState({
-                        id: video.youtube_id,
-                        is_watched: false,
-                      });
+                <WatchedCheckBox
+                  watched={video.player.watched}
+                  onClick={async (status) => {
+                    await updateWatchedState({
+                      id: video.youtube_id,
+                      is_watched: status,
+                    });
 
-                      refreshVideoList(true);
-                    }}
-                    className="watch-button"
-                    title="Mark as unwatched"
-                  />
-                )}
-                {!video.player.watched && (
-                  <img
-                    src={iconUnseen}
-                    alt="unseen-icon"
-                    data-id={video.youtube_id}
-                    data-status="unwatched"
-                    onClick={async () => {
-                      await updateWatchedState({
-                        id: video.youtube_id,
-                        is_watched: true,
-                      });
-
-                      refreshVideoList(true);
-                    }}
-                    className="watch-button"
-                    title="Mark as watched"
-                  />
-                )}
+                    refreshVideoList(true);
+                  }}
+                />
                 <span>
                   {formatDate(video.published)} | {video.player.duration_str}
                 </span>

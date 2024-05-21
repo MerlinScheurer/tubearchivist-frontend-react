@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useSearchParams } from "react-router-dom";
 import { UserConfigType } from "../api/actions/updateUserConfig";
 import { useEffect, useState } from "react";
 import { VideoType, ViewLayout } from "./Home";
@@ -10,6 +10,7 @@ import ChannelList from "../components/ChannelList";
 import PlaylistList from "../components/PlaylistList";
 import SubtitleList from "../components/SubtitleList";
 import { ViewStyles } from "../configuration/constants/ViewStyle";
+import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
 
 const EmptySearchResponse: SearchResultsType = {
   results: {
@@ -39,6 +40,8 @@ type SearchLoaderDataType = {
 
 const Search = () => {
   const { userConfig } = useLoaderData() as SearchLoaderDataType;
+  const [searchParams, _] = useSearchParams();
+  const videoId = searchParams.get("videoId");
 
   const view = (userConfig.view_style_home || ViewStyles.grid) as ViewLayout;
   const gridItems = userConfig.grid_items || 3;
@@ -53,6 +56,7 @@ const Search = () => {
   const playlistList = searchResults?.results.playlist_results;
   const fulltextList = searchResults?.results.fulltext_results;
   const queryType = searchResults?.queryType;
+  const showEmbeddedVideo = videoId !== null;
 
   const hasSearchQuery = searchQuery.length > 0;
   const hasVideos = Number(videoList?.length) > 0;
@@ -87,7 +91,7 @@ const Search = () => {
 
   return (
     <>
-      <div id="player" className="player-wrapper"></div>
+      {showEmbeddedVideo && <EmbeddableVideoPlayer videoId={videoId} />}
       <div className={`boxed-content ${gridView}`}>
         <div className="title-bar">
           <h1>Search your Archive</h1>
