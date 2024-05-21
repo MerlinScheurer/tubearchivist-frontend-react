@@ -26,6 +26,7 @@ import queueReindex from "../api/actions/queueReindex";
 import loadSponsorblockByVideoId from "../api/loader/loadSponsorblockByVideoId";
 import GoogleCast from "../components/GoogleCast";
 import WatchedCheckBox from "../components/WatchedCheckBox";
+import convertStarRating from "../functions/convertStarRating";
 
 type VideoParams = {
   videoId: string;
@@ -126,6 +127,7 @@ const Video = () => {
   const config = videoResponse.config;
   const playlistNav = videoResponse.playlist_nav;
   const sponsorBlock = sponsorblockResponse;
+  const starRating = convertStarRating(video?.stats?.average_rating);
 
   const cast = config.enable_cast;
 
@@ -201,9 +203,9 @@ const Video = () => {
                   {video.stats.dislike_count}
                 </p>
               )}
-              {video?.stats && video?.stats?.average_rating && (
+              {video?.stats && starRating && (
                 <div className="rating-stars">
-                  {video?.stats?.average_rating?.map?.((star, index) => {
+                  {starRating?.map?.((star, index) => {
                     if (star === "full") {
                       return <img key={index} src={iconStarFull} alt={star} />;
                     }
