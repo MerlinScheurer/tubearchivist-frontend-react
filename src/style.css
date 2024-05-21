@@ -1,12 +1,12 @@
 @font-face {
   font-family: "Sen-Bold";
-  src: url("/font/Sen-Bold.woff");
+  src: url("../font/Sen-Bold.woff");
   font-family: "Sen-Bold";
 }
 
 @font-face {
   font-family: "Sen-Regular";
-  src: url("/font/Sen-Regular.woff");
+  src: url("../font/Sen-Regular.woff");
   font-family: "Sen-Regular";
 }
 
@@ -155,12 +155,6 @@ button:hover {
 .boxed-content.boxed-7 {
   max-width: unset;
   width: 85%;
-}
-
-.boxed-content-empty {
-  padding: 30px 0;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .round-img img {
@@ -379,10 +373,6 @@ button:hover {
   filter: var(--img-filter);
 }
 
-#hidden-form button {
-  margin-right: 1rem;
-}
-
 #text-reveal {
   height: 0;
   overflow: hidden;
@@ -393,13 +383,6 @@ button:hover {
   display: -webkit-inline-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
-}
-
-#text-expand-expanded {
-  overflow: hidden;
-  display: -webkit-inline-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: unset;
 }
 
 /* video player */
@@ -603,6 +586,7 @@ video:-webkit-full-screen {
 }
 
 .watch-button,
+.dot-button,
 .close-button {
   cursor: pointer;
   filter: var(--img-filter);
@@ -1346,4 +1330,29 @@ video:-webkit-full-screen {
   label {
     text-align: unset;
   }
+}
+
+.video-popup-menu img {
+  width: 12px;
+  cursor: pointer;
+  filter: var(--img-filter);
+}
+
+.video-popup-menu {
+  border-top: 2px solid;
+  border-color: var(--accent-font-dark);
+  margin: 5px 0;
+  padding-top: 10px;
+}
+
+.video-popup-menu img.move-video-button {
+  width: 24px;
+  cursor: pointer;
+  filter: var(--img-filter);
+}
+
+.video-popup-menu-close-button {
+  cursor: pointer;
+  filter: var(--img-filter);
+  float: right;
 }
