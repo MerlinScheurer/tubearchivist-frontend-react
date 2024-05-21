@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import iconPlay from "/img/icon-play.svg";
 import Linkify from "./Linkify";
@@ -30,6 +30,8 @@ const stripNanoSecs = (time: string) => {
 };
 
 const SubtitleList = ({ subtitleList }: SubtitleListProps) => {
+  const [_, setSearchParams] = useSearchParams();
+
   if (!subtitleList || subtitleList.length === 0) {
     return <p>No fulltext results found.</p>;
   }
@@ -39,7 +41,14 @@ const SubtitleList = ({ subtitleList }: SubtitleListProps) => {
       {subtitleList.map((subtitle) => {
         return (
           <div className="video-item list">
-            <a href="#player" onclick="createPlayer(this)">
+            <a
+              onClick={() => {
+                setSearchParams({
+                  videoId: subtitle.youtube_id,
+                  t: stripNanoSecs(subtitle.subtitle_start) || "00:00:00",
+                });
+              }}
+            >
               <div className="video-thumb-wrap list">
                 <div className="video-thumb">
                   <img src={subtitle.vid_thumb_url} alt="video-thumb" />
@@ -57,8 +66,8 @@ const SubtitleList = ({ subtitleList }: SubtitleListProps) => {
                 <Link
                   className="video-more"
                   to={Routes.VideoAtTimestamp(
-                    subtitle.subtitle_channel_id,
-                    subtitle.subtitle_start,
+                    subtitle.youtube_id,
+                    stripNanoSecs(subtitle.subtitle_start) || "00:00:00",
                   )}
                 >
                   <h2>{subtitle.title}</h2>

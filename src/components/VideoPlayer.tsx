@@ -9,6 +9,7 @@ import watchedThreshold from "../functions/watchedThreshold";
 import Notifications from "./Notifications";
 import { useState } from "react";
 import formatTime from "../functions/formatTime";
+import { useSearchParams } from "react-router-dom";
 
 export type SkippedSegmentType = {
   from: number;
@@ -141,6 +142,9 @@ const VideoPlayer = ({
   sponsorBlock,
   embed,
 }: VideoPlayerProps) => {
+  const [searchParams, _] = useSearchParams();
+  const searchParamVideoProgress = searchParams.get("t");
+
   const [skippedSegments, setSkippedSegments] =
     useState<SponsorSegmentsSkippedType>({});
 
@@ -150,6 +154,13 @@ const VideoPlayer = ({
   const watched = video.data.player.watched;
   const duration = video.data.player.duration;
   const videoSubtitles = video.data.subtitles;
+
+  let videoSrcProgress =
+    Number(videoProgress?.position) > 0 ? Number(videoProgress?.position) : "";
+
+  if (searchParamVideoProgress !== null) {
+    videoSrcProgress = searchParamVideoProgress;
+  }
 
   const autoplay = false;
 
@@ -191,11 +202,7 @@ const VideoPlayer = ({
             id="video-item"
           >
             <source
-              src={`${videoUrl}#t=${
-                Number(videoProgress?.position) > 0
-                  ? Number(videoProgress?.position)
-                  : ""
-              }`}
+              src={`${videoUrl}#t=${videoSrcProgress}`}
               type="video/mp4"
               id="video-source"
             />
