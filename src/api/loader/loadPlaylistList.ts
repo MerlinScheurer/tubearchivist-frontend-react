@@ -1,6 +1,6 @@
 import getCookie from "../../functions/getCookie";
 
-const loadPlaylistList = async (page: number) => {
+const loadPlaylistList = async (page: number | undefined, isCustom = false) => {
   const headers = new Headers();
 
   const csrfCookie = getCookie("csrftoken");
@@ -8,7 +8,17 @@ const loadPlaylistList = async (page: number) => {
     headers.append("X-CSRFToken", csrfCookie);
   }
 
-  const response = await fetch(`/api/playlist/?page=${page}`, {
+  const searchParams = new URLSearchParams();
+
+  if (page) {
+    searchParams.append("page", page.toString());
+  }
+
+  if (isCustom) {
+    searchParams.append("playlist_type", "custom");
+  }
+
+  const response = await fetch(`/api/playlist/?${searchParams.toString()}`, {
     headers,
     credentials: "include",
   });

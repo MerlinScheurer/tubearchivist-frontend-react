@@ -100,7 +100,7 @@ const Playlist = () => {
   const videoArchivedCount = Number(
     palylistEntries?.filter((video) => video.downloaded).length,
   );
-  const videoInPlaylistCount = videos?.length;
+  const videoInPlaylistCount = pagination?.total_hits;
   const showEmbeddedVideo = videoId !== null;
 
   const isGridView = view === ViewStyles.grid;
@@ -368,6 +368,7 @@ const Playlist = () => {
                   add videos to this playlist.
                 </p>
               )}
+
               {playlist.playlist_type != "custom" && (
                 <p>
                   Try going to the{" "}

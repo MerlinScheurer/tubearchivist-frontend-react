@@ -8,6 +8,9 @@ import iconThumb from "/img/icon-thumb.svg";
 import iconStarFull from "/img/icon-star-full.svg";
 import iconStarEmpty from "/img/icon-star-empty.svg";
 import iconStarHalf from "/img/icon-star-half.svg";
+import iconClose from "/img/icon-close.svg";
+import iconUnseen from "/img/icon-unseen.svg";
+import iconSeen from "/img/icon-seen.svg";
 import Routes from "../configuration/routes/RouteList";
 import Linkify from "../components/Linkify";
 import loadSimmilarVideosById from "../api/loader/loadSimmilarVideosById";
@@ -27,6 +30,17 @@ import loadSponsorblockByVideoId from "../api/loader/loadSponsorblockByVideoId";
 import GoogleCast from "../components/GoogleCast";
 import WatchedCheckBox from "../components/WatchedCheckBox";
 import convertStarRating from "../functions/convertStarRating";
+import loadPlaylistList from "../api/loader/loadPlaylistList";
+import { PlaylistResponseType } from "./Playlists";
+import PaginationDummy from "../components/PaginationDummy";
+import updateCustomPlaylist from "../api/actions/updateCustomPlaylist";
+import { PlaylistType } from "./Playlist";
+
+const isInPlaylist = (videoId: string, playlist: PlaylistType) => {
+  return playlist.playlist_entries.some((entry) => {
+    return entry.youtube_id === videoId;
+  });
+};
 
 type VideoParams = {
   videoId: string;
@@ -93,6 +107,7 @@ const Video = () => {
 
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
   const [refreshVideoList, setRefreshVideoList] = useState(false);
   const [reindex, setReindex] = useState(false);
 
@@ -102,6 +117,8 @@ const Video = () => {
   const [videoProgress, setVideoProgress] = useState<VideoProgressType>();
   const [sponsorblockResponse, setSponsorblockResponse] =
     useState<SponsorBlockType>();
+  const [customPlaylistsResponse, setCustomPlaylistsResponse] =
+    useState<PlaylistResponseType>();
 
   useEffect(() => {
     (async () => {
@@ -109,11 +126,13 @@ const Video = () => {
       const simmilarVideos = await loadSimmilarVideosById(videoId);
       const videoProgress = await loadVideoProgressById(videoId);
       const sponsorblockReponse = await loadSponsorblockByVideoId(videoId);
+      const customPlaylists = await loadPlaylistList(undefined, true);
 
       setVideoResponse(videoResponse);
       setSimmilarVideos(simmilarVideos);
       setVideoProgress(videoProgress);
       setSponsorblockResponse(sponsorblockReponse);
+      setCustomPlaylistsResponse(customPlaylists);
       setRefreshVideoList(false);
     })();
   }, [videoId, refreshVideoList]);
@@ -127,6 +146,7 @@ const Video = () => {
   const config = videoResponse.config;
   const playlistNav = videoResponse.playlist_nav;
   const sponsorBlock = sponsorblockResponse;
+  const customPlaylists = customPlaylistsResponse?.data;
   const starRating = convertStarRating(video?.stats?.average_rating);
 
   const cast = config.enable_cast;
@@ -276,15 +296,72 @@ const Video = () => {
                     </div>
                   )}
                 </>
+              )}{" "}
+              {!showAddToPlaylist && (
+                <button
+                  id={`${video.youtube_id}-button`}
+                  data-id={video.youtube_id}
+                  data-context="video"
+                  onClick={() => {
+                    setShowAddToPlaylist(true);
+                  }}
+                >
+                  Add To Playlist
+                </button>
               )}
-              <button
-                id={`${video.youtube_id}-button`}
-                data-id={video.youtube_id}
-                data-context="video"
-                onclick="showAddToPlaylistMenu(this)"
-              >
-                Add To Playlist
-              </button>
+              {showAddToPlaylist && (
+                <>
+                  <div className="video-popup-menu">
+                    <img
+                      src={iconClose}
+                      className="video-popup-menu-close-button"
+                      title="Close menu"
+                      onClick={() => {
+                        setShowAddToPlaylist(false);
+                      }}
+                    />
+                    <h3>Add video to...</h3>
+
+                    {customPlaylists?.map((playlist) => {
+                      return (
+                        <p
+                          onClick={async () => {
+                            if (isInPlaylist(videoId, playlist)) {
+                              await updateCustomPlaylist(
+                                "remove",
+                                playlist.playlist_id,
+                                videoId,
+                              );
+                            } else {
+                              await updateCustomPlaylist(
+                                "create",
+                                playlist.playlist_id,
+                                videoId,
+                              );
+                            }
+
+                            setRefreshVideoList(true);
+                          }}
+                        >
+                          {isInPlaylist(videoId, playlist) && (
+                            <img className="p-button" src={iconSeen} />
+                          )}
+
+                          {!isInPlaylist(videoId, playlist) && (
+                            <img className="p-button" src={iconUnseen} />
+                          )}
+
+                          {playlist.playlist_name}
+                        </p>
+                      );
+                    })}
+
+                    <p>
+                      <Link to={Routes.Playlists}>Create playlist</Link>
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <div className="info-box-item">
@@ -444,6 +521,8 @@ const Video = () => {
         )}
         <div className="boxed-content-empty" />
       </div>
+
+      <PaginationDummy />
     </>
   );
 };
