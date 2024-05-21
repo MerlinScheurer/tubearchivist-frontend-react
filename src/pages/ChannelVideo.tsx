@@ -24,6 +24,7 @@ import loadChannelById from "../api/loader/loadChannelById";
 import { ChannelResponseType } from "./ChannelBase";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
+import updateWatchedState from "../api/actions/updateWatchedState";
 
 type ChannelParams = {
   channelId: string;
@@ -85,9 +86,9 @@ const ChannelVideo = () => {
   }, [refresh, currentPage, channelId]);
 
   const aggs = {
-    total_items: { value: 0 },
-    total_duration: { value_str: "" },
-    total_size: { value: "" },
+    total_items: { value: "<debug>" },
+    total_duration: { value_str: "<debug>" },
+    total_size: { value: "<debug>" },
   };
   const isAdmin = getIsAdmin();
 
@@ -124,17 +125,29 @@ const ChannelVideo = () => {
                     title={`Mark all videos from ${channel.channel_name} as watched`}
                     type="button"
                     id="watched-button"
-                    data-id="{{ channel_info.channel_id }}"
-                    onclick="isWatchedButton(this)"
+                    onClick={async () => {
+                      await updateWatchedState({
+                        id: channel.channel_id,
+                        is_watched: true,
+                      });
+
+                      setRefresh(true);
+                    }}
                   >
                     Mark as watched
-                  </button>
+                  </button>{" "}
                   <button
                     title={`Mark all videos from ${channel.channel_name} as unwatched`}
                     type="button"
                     id="unwatched-button"
-                    data-id="{{ channel_info.channel_id }}"
-                    onclick="isUnwatchedButton(this)"
+                    onClick={async () => {
+                      await updateWatchedState({
+                        id: channel.channel_id,
+                        is_watched: false,
+                      });
+
+                      setRefresh(true);
+                    }}
                   >
                     Mark as unwatched
                   </button>

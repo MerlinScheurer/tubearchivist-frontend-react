@@ -262,6 +262,8 @@ const Playlist = () => {
                           id: playlistId,
                           is_watched: true,
                         });
+
+                        setRefreshPlaylist(true);
                       }}
                     >
                       Mark as watched
@@ -274,6 +276,8 @@ const Playlist = () => {
                           id: playlistId,
                           is_watched: false,
                         });
+
+                        setRefreshPlaylist(true);
                       }}
                     >
                       Mark as unwatched
