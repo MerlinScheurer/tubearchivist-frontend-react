@@ -110,21 +110,29 @@ const Playlist = () => {
   useEffect(() => {
     (async () => {
       const playlist = await loadPlaylistById(playlistId);
-      const channel = await loadChannelById(playlist.data.playlist_channel_id);
       const video = await loadPlaylistVideosById(playlistId, currentPage);
 
+      const isCustomPlaylist = playlist?.data?.playlist_type === "custom";
+      if (!isCustomPlaylist) {
+        const channel = await loadChannelById(
+          playlist.data.playlist_channel_id,
+        );
+
+        setChannelResponse(channel);
+      }
+
       setPlaylistResponse(playlist);
-      setChannelResponse(channel);
       setVideoResponse(video);
       setRefreshPlaylist(false);
     })();
   }, [playlistId, refreshPlaylist, currentPage]);
 
-  const isAdmin = getIsAdmin();
-
   if (!playlistId || !playlist) {
     return `Playlist ${playlistId} not found!`;
   }
+
+  const isAdmin = getIsAdmin();
+  const isCustomPlaylist = playlist.playlist_type === "custom";
 
   return (
     <>
@@ -134,7 +142,7 @@ const Playlist = () => {
           <h1>{playlist.playlist_name}</h1>
         </div>
         <div className="info-box info-box-3">
-          {playlist.playlist_type != "custom" && channel && (
+          {!isCustomPlaylist && channel && (
             <ChannelOverview
               channelId={channel?.channel_id}
               channelname={channel?.channel_name}
@@ -149,7 +157,7 @@ const Playlist = () => {
               <p>
                 Last refreshed: {formatDate(playlist.playlist_last_refresh)}
               </p>
-              {playlist.playlist_type != "custom" && (
+              {!isCustomPlaylist && (
                 <>
                   <p>
                     Playlist:
@@ -289,7 +297,7 @@ const Playlist = () => {
               {reindex && <p>Reindex scheduled</p>}
               {!reindex && (
                 <div id="reindex-button" className="button-box">
-                  {playlist.playlist_type != "custom" && (
+                  {!isCustomPlaylist && (
                     <button
                       title={`Reindex Playlist ${playlist.playlist_name}`}
                       onClick={async () => {
@@ -362,14 +370,14 @@ const Playlist = () => {
           {videoInPlaylistCount === 0 && (
             <>
               <h2>No videos found...</h2>
-              {playlist.playlist_type == "custom" && (
+              {isCustomPlaylist && (
                 <p>
                   Try going to the <a href="{% url 'home' %}">home page</a> to
                   add videos to this playlist.
                 </p>
               )}
 
-              {playlist.playlist_type != "custom" && (
+              {!isCustomPlaylist && (
                 <p>
                   Try going to the{" "}
                   <Link to={Routes.Downloads}>downloads page</Link> to start the
@@ -382,6 +390,8 @@ const Playlist = () => {
             <VideoList
               videoList={videos}
               viewLayout={view}
+              playlistId={playlistId}
+              showReorderButton={isCustomPlaylist}
               refreshVideoList={setRefreshPlaylist}
             />
           )}

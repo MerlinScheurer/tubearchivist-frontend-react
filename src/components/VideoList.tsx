@@ -2,23 +2,33 @@ import { Link, useSearchParams } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import { VideoType, ViewLayout } from "../pages/Home";
 import iconPlay from "/img/icon-play.svg";
+import iconDotMenu from "/img/icon-dot-menu.svg";
 import defaultVideoThumb from "/img/default-video-thumb.jpg";
 import updateWatchedState from "../api/actions/updateWatchedState";
 import formatDate from "../functions/formatDates";
 import WatchedCheckBox from "./WatchedCheckBox";
+import MoveVideoMenu from "./MoveVideoMenu";
+import { useState } from "react";
 
 type VideoListProps = {
   videoList: VideoType[] | undefined;
   viewLayout: ViewLayout;
+  playlistId?: string;
+  showReorderButton?: boolean;
   refreshVideoList: (refresh: boolean) => void;
 };
 
 const VideoList = ({
   videoList,
   viewLayout,
+  playlistId,
+  showReorderButton = false,
   refreshVideoList,
 }: VideoListProps) => {
   const [_, setSearchParams] = useSearchParams();
+
+  //TODO: move into .map loop to move it into a single video context
+  const [showReorderMenu, setShowReorderMenu] = useState(false);
 
   if (!videoList || videoList.length === 0) {
     return <p>No videos found.</p>;
@@ -83,17 +93,40 @@ const VideoList = ({
                   {formatDate(video.published)} | {video.player.duration_str}
                 </span>
               </div>
-              <div>
-                <Link to={Routes.Channel(video.channel.channel_id)}>
-                  <h3>{video.channel.channel_name}</h3>
-                </Link>
-                <Link
-                  className="video-more"
-                  to={Routes.Video(video.youtube_id)}
-                >
-                  <h2>{video.title}</h2>
-                </Link>
+              <div className="video-desc-details">
+                <div>
+                  <Link to={Routes.Channel(video.channel.channel_id)}>
+                    <h3>{video.channel.channel_name}</h3>
+                  </Link>
+                  <Link
+                    className="video-more"
+                    to={Routes.Video(video.youtube_id)}
+                  >
+                    <h2>{video.title}</h2>
+                  </Link>
+                </div>
+
+                {showReorderButton && !showReorderMenu && (
+                  <img
+                    src={iconDotMenu}
+                    alt="dot-menu-icon"
+                    className="dot-button"
+                    title="More actions"
+                    onClick={() => {
+                      setShowReorderMenu(true);
+                    }}
+                  />
+                )}
               </div>
+
+              {showReorderButton && showReorderMenu && (
+                <MoveVideoMenu
+                  playlistId={playlistId}
+                  videoId={video.youtube_id}
+                  setCloseMenu={(status) => setShowReorderMenu(!status)}
+                  setRefresh={refreshVideoList}
+                />
+              )}
             </div>
           </div>
         );
