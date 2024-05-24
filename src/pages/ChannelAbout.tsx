@@ -42,8 +42,7 @@ type ChannelAboutParams = {
 
 const ChannelAbout = () => {
   const { channelId } = useParams() as ChannelAboutParams;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentPage, setCurrentPage, startNotification, setStartNotification] =
+  const [, , , setStartNotification] =
     useOutletContext() as ChannelBaseOutletContextType;
   const navigate = useNavigate();
 
