@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const restoreBackup = async (fileName: string) => {
   const headers = new Headers();
@@ -16,7 +17,10 @@ const restoreBackup = async (fileName: string) => {
   });
 
   const backupRestored = await response.json();
-  console.log("restoreBackup", backupRestored);
+
+  if (isDevEnvironment()) {
+    console.log("restoreBackup", backupRestored);
+  }
 
   return backupRestored;
 };

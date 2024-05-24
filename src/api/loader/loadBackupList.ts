@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadBackupList = async () => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadBackupList = async () => {
   });
 
   const backupList = await response.json();
-  console.log("loadBackupList", backupList);
+
+  if (isDevEnvironment()) {
+    console.log("loadBackupList", backupList);
+  }
 
   return backupList;
 };

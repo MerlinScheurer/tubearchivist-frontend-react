@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const deleteApiToken = async () => {
   const headers = new Headers();
@@ -16,7 +17,9 @@ const deleteApiToken = async () => {
   });
 
   const resetToken = await response.json();
-  console.log("deleteApiToken", resetToken);
+  if (isDevEnvironment()) {
+    console.log("deleteApiToken", resetToken);
+  }
 
   return resetToken;
 };

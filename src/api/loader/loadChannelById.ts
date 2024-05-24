@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadChannelById = async (youtubeChannelId: string) => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadChannelById = async (youtubeChannelId: string) => {
   });
 
   const channel = await response.json();
-  console.log("loadChannelById", channel);
+
+  if (isDevEnvironment()) {
+    console.log("loadChannelById", channel);
+  }
 
   return channel;
 };

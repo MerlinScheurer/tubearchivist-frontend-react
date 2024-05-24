@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadSponsorblockByVideoId = async (youtubeId: string) => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadSponsorblockByVideoId = async (youtubeId: string) => {
   });
 
   const videos = await response.json();
-  console.log("loadSponsorblockByVideoId", videos);
+
+  if (isDevEnvironment()) {
+    console.log("loadSponsorblockByVideoId", videos);
+  }
 
   return videos;
 };

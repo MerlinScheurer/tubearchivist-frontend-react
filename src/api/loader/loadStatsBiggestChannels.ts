@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 type BiggestChannelsOrderType = "doc_count" | "duration" | "media_size";
 
@@ -21,7 +22,10 @@ const loadStatsBiggestChannels = async (order: BiggestChannelsOrderType) => {
   );
 
   const notifications = await response.json();
-  console.log("loadStatsBiggestChannels", notifications);
+
+  if (isDevEnvironment()) {
+    console.log("loadStatsBiggestChannels", notifications);
+  }
 
   return notifications;
 };

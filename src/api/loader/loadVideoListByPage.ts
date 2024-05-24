@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadVideoListByPage = async (page: number) => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadVideoListByPage = async (page: number) => {
   });
 
   const videos = await response.json();
-  console.log("loadVideoListByPage", videos);
+
+  if (isDevEnvironment()) {
+    console.log("loadVideoListByPage", videos);
+  }
 
   return videos;
 };

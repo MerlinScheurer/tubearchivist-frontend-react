@@ -310,7 +310,7 @@ const router = createBrowserRouter(
       errorElement: <ErrorPage />,
     },
   ],
-  { basename: "/new" },
+  { basename: import.meta.env.BASE_URL },
 );
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

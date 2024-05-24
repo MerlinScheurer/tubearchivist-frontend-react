@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadChannelList = async (page: number, showSubscribed: boolean) => {
   const headers = new Headers();
@@ -23,7 +24,10 @@ const loadChannelList = async (page: number, showSubscribed: boolean) => {
   });
 
   const channels = await response.json();
-  console.log("loadChannelList", channels);
+
+  if (isDevEnvironment()) {
+    console.log("loadChannelList", channels);
+  }
 
   return channels;
 };

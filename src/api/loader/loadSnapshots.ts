@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadSnapshots = async () => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadSnapshots = async () => {
   });
 
   const backupList = await response.json();
-  console.log("loadSnapshots", backupList);
+
+  if (isDevEnvironment()) {
+    console.log("loadSnapshots", backupList);
+  }
 
   return backupList;
 };

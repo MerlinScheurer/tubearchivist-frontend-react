@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 type FilterType = "ignore" | "pending";
 
@@ -24,7 +25,10 @@ const deleteDownloadQueueByFilter = async (filter: FilterType) => {
   });
 
   const downloadState = await response.json();
-  console.log("deleteDownloadQueueByFilter", downloadState);
+
+  if (isDevEnvironment()) {
+    console.log("deleteDownloadQueueByFilter", downloadState);
+  }
 
   return downloadState;
 };

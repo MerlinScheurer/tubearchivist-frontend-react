@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadStatsWatchProgress = async () => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadStatsWatchProgress = async () => {
   });
 
   const notifications = await response.json();
-  console.log("loadStatsWatchProgress", notifications);
+
+  if (isDevEnvironment()) {
+    console.log("loadStatsWatchProgress", notifications);
+  }
 
   return notifications;
 };

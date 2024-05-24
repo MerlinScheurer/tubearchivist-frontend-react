@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadCommentsbyVideoId = async (youtubeId: string) => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadCommentsbyVideoId = async (youtubeId: string) => {
   });
 
   const comments = await response.json();
-  console.log("loadCommentsbyVideoId", comments);
+
+  if (isDevEnvironment()) {
+    console.log("loadCommentsbyVideoId", comments);
+  }
 
   return comments;
 };

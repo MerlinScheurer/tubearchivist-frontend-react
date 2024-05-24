@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 export type NotificationPages = "download" | "settings" | "channel" | "all";
 
@@ -23,7 +24,10 @@ const loadNotifications = async (
   });
 
   const notifications = await response.json();
-  console.log("loadNotifications", notifications);
+
+  if (isDevEnvironment()) {
+    console.log("loadNotifications", notifications);
+  }
 
   return notifications;
 };

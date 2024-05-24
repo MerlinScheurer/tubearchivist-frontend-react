@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const deleteVideo = async (videoId: string) => {
   const headers = new Headers();
@@ -16,7 +17,10 @@ const deleteVideo = async (videoId: string) => {
   });
 
   const videoDeleted = await response.json();
-  console.log("deleteVideo", videoDeleted);
+
+  if (isDevEnvironment()) {
+    console.log("deleteVideo", videoDeleted);
+  }
 
   return videoDeleted;
 };

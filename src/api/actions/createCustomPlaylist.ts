@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const createCustomPlaylist = async (playlistId: string) => {
   const headers = new Headers();
@@ -18,7 +19,9 @@ const createCustomPlaylist = async (playlistId: string) => {
   });
 
   const customPlaylist = await response.json();
-  console.log("createCustomPlaylist", customPlaylist);
+  if (isDevEnvironment()) {
+    console.log("createCustomPlaylist", customPlaylist);
+  }
 
   return customPlaylist;
 };

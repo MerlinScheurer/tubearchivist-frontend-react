@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 export type ReindexType = "channel" | "video" | "playlist";
 
@@ -39,7 +40,10 @@ const queueReindex = async (
   });
 
   const channelDeleted = await response.json();
-  console.log("queueReindex", channelDeleted);
+
+  if (isDevEnvironment()) {
+    console.log("queueReindex", channelDeleted);
+  }
 
   return channelDeleted;
 };

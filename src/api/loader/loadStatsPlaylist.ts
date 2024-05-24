@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadStatsPlaylist = async () => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadStatsPlaylist = async () => {
   });
 
   const notifications = await response.json();
-  console.log("loadStatsPlaylist", notifications);
+
+  if (isDevEnvironment()) {
+    console.log("loadStatsPlaylist", notifications);
+  }
 
   return notifications;
 };

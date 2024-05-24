@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const deleteChannel = async (channelId: string) => {
   const headers = new Headers();
@@ -16,7 +17,10 @@ const deleteChannel = async (channelId: string) => {
   });
 
   const channelDeleted = await response.json();
-  console.log("deleteChannel", channelDeleted);
+
+  if (isDevEnvironment()) {
+    console.log("deleteChannel", channelDeleted);
+  }
 
   return channelDeleted;
 };

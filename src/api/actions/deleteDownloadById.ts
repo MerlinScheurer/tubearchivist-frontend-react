@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const deleteDownloadById = async (youtubeId: string) => {
   const headers = new Headers();
@@ -16,7 +17,10 @@ const deleteDownloadById = async (youtubeId: string) => {
   });
 
   const downloadState = await response.json();
-  console.log("deleteDownloadById", downloadState);
+
+  if (isDevEnvironment()) {
+    console.log("deleteDownloadById", downloadState);
+  }
 
   return downloadState;
 };

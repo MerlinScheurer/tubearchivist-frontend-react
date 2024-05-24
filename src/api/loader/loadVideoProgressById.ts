@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadVideoProgressById = async (youtubeId: string) => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadVideoProgressById = async (youtubeId: string) => {
   });
 
   const videoProgress = await response.json();
-  console.log("loadVideoProgressById", videoProgress);
+
+  if (isDevEnvironment()) {
+    console.log("loadVideoProgressById", videoProgress);
+  }
 
   return videoProgress;
 };

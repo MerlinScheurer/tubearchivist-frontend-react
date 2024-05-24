@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const queueSnapshot = async () => {
   const headers = new Headers();
@@ -16,7 +17,10 @@ const queueSnapshot = async () => {
   });
 
   const snapshotQueued = await response.json();
-  console.log("queueSnapshot", snapshotQueued);
+
+  if (isDevEnvironment()) {
+    console.log("queueSnapshot", snapshotQueued);
+  }
 
   return snapshotQueued;
 };

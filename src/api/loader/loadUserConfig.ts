@@ -1,5 +1,6 @@
 import { UserConfigType } from "../actions/updateUserConfig";
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadUserConfig = async (): Promise<UserConfigType> => {
   const headers = new Headers();
@@ -16,7 +17,10 @@ const loadUserConfig = async (): Promise<UserConfigType> => {
   });
 
   const userConfig = await response.json();
-  console.log("userConfig", userConfig);
+
+  if (isDevEnvironment()) {
+    console.log("userConfig", userConfig);
+  }
 
   return userConfig;
 };

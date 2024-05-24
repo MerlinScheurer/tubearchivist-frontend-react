@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadSimmilarVideosById = async (youtubeId: string) => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadSimmilarVideosById = async (youtubeId: string) => {
   });
 
   const videos = await response.json();
-  console.log("loadSimmilarVideosById", videos);
+
+  if (isDevEnvironment()) {
+    console.log("loadSimmilarVideosById", videos);
+  }
 
   return videos;
 };

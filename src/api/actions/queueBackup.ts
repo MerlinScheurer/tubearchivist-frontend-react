@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const queueBackup = async () => {
   const headers = new Headers();
@@ -16,7 +17,10 @@ const queueBackup = async () => {
   });
 
   const backupQueued = await response.json();
-  console.log("queueBackup", backupQueued);
+
+  if (isDevEnvironment()) {
+    console.log("queueBackup", backupQueued);
+  }
 
   return backupQueued;
 };

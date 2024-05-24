@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadPlaylistById = async (playlistId: string | undefined) => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadPlaylistById = async (playlistId: string | undefined) => {
   });
 
   const videos = await response.json();
-  console.log("loadPlaylistById", videos);
+
+  if (isDevEnvironment()) {
+    console.log("loadPlaylistById", videos);
+  }
 
   return videos;
 };

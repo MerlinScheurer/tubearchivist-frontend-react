@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const deleteVideoProgressById = async (youtubeId: string) => {
   const headers = new Headers();
@@ -16,7 +17,10 @@ const deleteVideoProgressById = async (youtubeId: string) => {
   });
 
   const watchedState = await response.json();
-  console.log("deleteVideoProgressById", watchedState);
+
+  if (isDevEnvironment()) {
+    console.log("deleteVideoProgressById", watchedState);
+  }
 
   return watchedState;
 };

@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadDownloadQueue = async (
   page: number,
@@ -29,7 +30,10 @@ const loadDownloadQueue = async (
   });
 
   const playlist = await response.json();
-  console.log("loadDownloadQueue", playlist);
+
+  if (isDevEnvironment()) {
+    console.log("loadDownloadQueue", playlist);
+  }
 
   return playlist;
 };

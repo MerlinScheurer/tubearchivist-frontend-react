@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const loadSearch = async (query: string) => {
   const headers = new Headers();
@@ -13,7 +14,10 @@ const loadSearch = async (query: string) => {
   });
 
   const searchResults = await response.json();
-  console.log("loadSearch", searchResults);
+
+  if (isDevEnvironment()) {
+    console.log("loadSearch", searchResults);
+  }
 
   return searchResults;
 };

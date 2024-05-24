@@ -1,4 +1,5 @@
 import getCookie from "../../functions/getCookie";
+import isDevEnvironment from "../../functions/isDevEnvironment";
 
 const deletePlaylist = async (playlistId: string, allVideos = false) => {
   const headers = new Headers();
@@ -21,7 +22,10 @@ const deletePlaylist = async (playlistId: string, allVideos = false) => {
   });
 
   const playlistDeleted = await response.json();
-  console.log("deletePlaylist", playlistDeleted);
+
+  if (isDevEnvironment()) {
+    console.log("deletePlaylist", playlistDeleted);
+  }
 
   return playlistDeleted;
 };
