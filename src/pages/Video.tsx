@@ -88,10 +88,11 @@ export type SponsorBlockType = {
   has_unlocked: boolean;
   is_enabled: boolean;
   segments: SponsorBlockSegmentType[];
+  message?: string;
 };
 
-export type SimilarVideoResponseType = {
-  data: VideoType;
+export type SimilarVideosResponseType = {
+  data: VideoType[];
   config: ConfigType;
 };
 
@@ -113,7 +114,7 @@ const Video = () => {
 
   const [videoResponse, setVideoResponse] = useState<VideoResponseType>();
   const [simmilarVideos, setSimmilarVideos] =
-    useState<SimilarVideoResponseType>();
+    useState<SimilarVideosResponseType>();
   const [videoProgress, setVideoProgress] = useState<VideoProgressType>();
   const [sponsorblockResponse, setSponsorblockResponse] =
     useState<SponsorBlockType>();
