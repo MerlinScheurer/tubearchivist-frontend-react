@@ -93,7 +93,12 @@ const ChannelVideo = () => {
   const isAdmin = getIsAdmin();
 
   if (!channel) {
-    return <p>Channel not found!</p>;
+    return (
+      <div className="boxed-content">
+        <br />
+        <h2>Channel {channelId} not found!</h2>
+      </div>
+    );
   }
 
   return (
