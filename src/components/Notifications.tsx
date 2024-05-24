@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import loadNotifications, {
   NotificationPages,
 } from "../api/loader/loadNotifications";
@@ -67,12 +67,12 @@ const Notifications = ({
         >
           <h3>{notification.title}</h3>
           <p>
-            {notification.messages.map((message) => {
+            {notification.messages.map((message, index) => {
               return (
-                <>
+                <Fragment key={index}>
                   {message}
                   <br />
-                </>
+                </Fragment>
               );
             })}
           </p>
