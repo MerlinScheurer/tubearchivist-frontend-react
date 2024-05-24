@@ -30,6 +30,7 @@ const SettingsActions = () => {
     useState<BackupListType>();
 
   const backups = backupListResponse;
+  const hasBackups = !!backups && backups?.length > 0;
 
   useEffect(() => {
     (async () => {
@@ -181,8 +182,8 @@ const SettingsActions = () => {
             Restore from available backup files from{" "}
             <span className="settings-current">cache/backup</span>.
           </p>
-          {!backups && <p>No backups found.</p>}
-          {backups && (
+          {!hasBackups && <p>No backups found.</p>}
+          {hasBackups && (
             <>
               <div className="backup-grid-row">
                 <span></span>
