@@ -23,10 +23,10 @@ const SettingsUser = () => {
   const navigate = useNavigate();
 
   const [selectedStylesheet, setSelectedStylesheet] = useState(
-    userConfig.stylesheet || (ColourConstant.Dark as ColourVariants),
+    userConfig.stylesheet || "",
   );
   const [selectedPageSize, setSelectedPageSize] = useState(
-    userConfig.page_size || 12,
+    userConfig.page_size || "",
   );
   const [refresh, setRefresh] = useState(false);
 
@@ -34,9 +34,10 @@ const SettingsUser = () => {
     useState<UserConfigType>();
 
   const stylesheetOverwritable =
-    userConfigResponse?.stylesheet || stylesheet || "default";
-  const pageSizeOverwritable =
-    userConfigResponse?.page_size || page_size || "default";
+    userConfigResponse?.stylesheet ||
+    stylesheet ||
+    (ColourConstant.Dark as ColourVariants);
+  const pageSizeOverwritable = userConfigResponse?.page_size || page_size || 12;
 
   const isSuperuser = auth?.user?.is_superuser;
 
