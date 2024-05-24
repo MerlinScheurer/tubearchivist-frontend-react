@@ -10,7 +10,6 @@ const loadStatsWatchProgress = async () => {
 
   const response = await fetch("/api/stats/watch/", {
     headers,
-    credentials: "same-origin",
   });
 
   const notifications = await response.json();

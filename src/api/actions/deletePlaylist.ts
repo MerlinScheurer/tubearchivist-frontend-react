@@ -18,7 +18,6 @@ const deletePlaylist = async (playlistId: string, allVideos = false) => {
   const response = await fetch(`/api/playlist/${playlistId}/${params}`, {
     method: "DELETE",
     headers,
-    credentials: "same-origin",
   });
 
   const playlistDeleted = await response.json();

@@ -10,7 +10,6 @@ const loadCommentsbyVideoId = async (youtubeId: string) => {
 
   const response = await fetch(`/api/video/${youtubeId}/comment/`, {
     headers,
-    credentials: "same-origin",
   });
 
   const comments = await response.json();

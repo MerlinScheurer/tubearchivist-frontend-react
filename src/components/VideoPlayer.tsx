@@ -7,9 +7,11 @@ import {
 } from "../pages/Video";
 import watchedThreshold from "../functions/watchedThreshold";
 import Notifications from "./Notifications";
-import { useState } from "react";
+import { Dispatch, SetStateAction, SyntheticEvent, useState } from "react";
 import formatTime from "../functions/formatTime";
 import { useSearchParams } from "react-router-dom";
+
+type VideoTag = SyntheticEvent<HTMLVideoElement, Event>;
 
 export type SkippedSegmentType = {
   from: number;
@@ -55,17 +57,19 @@ const handleTimeUpdate =
     duration: number,
     watched: boolean,
     sponsorBlock?: SponsorBlockType,
-    setSponsorSegmentSkipped?: (fn: unknown) => void,
+    setSponsorSegmentSkipped?: Dispatch<
+      SetStateAction<SponsorSegmentsSkippedType>
+    >,
   ) =>
-  async (videoTag) => {
-    const currentTime = Number(videoTag.target.currentTime);
+  async (videoTag: VideoTag) => {
+    const currentTime = Number(videoTag.currentTarget.currentTime);
 
     if (sponsorBlock && sponsorBlock.segments) {
       sponsorBlock.segments.forEach((segment: SponsorBlockSegmentType) => {
         const [from, to] = segment.segment;
 
         if (currentTime >= from && currentTime <= from + 0.3) {
-          videoTag.target.currentTime = to;
+          videoTag.currentTarget.currentTime = to;
 
           setSponsorSegmentSkipped?.((segments: SponsorSegmentsSkippedType) => {
             return { ...segments, [segment.UUID]: { from, to } };
@@ -104,9 +108,11 @@ const handleVideoEnd =
   (
     youtubeId: string,
     watched: boolean,
-    setSponsorSegmentSkipped?: (skipped: SponsorSegmentsSkippedType) => void,
+    setSponsorSegmentSkipped?: Dispatch<
+      SetStateAction<SponsorSegmentsSkippedType>
+    >,
   ) =>
-  async (videoTag) => {
+  async () => {
     if (!watched) {
       // Check if video is already marked as watched
       await updateWatchedState({ id: youtubeId, is_watched: true });
@@ -142,7 +148,7 @@ const VideoPlayer = ({
   sponsorBlock,
   embed,
 }: VideoPlayerProps) => {
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const searchParamVideoProgress = searchParams.get("t");
 
   const [skippedSegments, setSkippedSegments] =
@@ -170,12 +176,15 @@ const VideoPlayer = ({
         <div className={embed ? "" : "video-main"}>
           <video
             poster={videoThumbUrl}
-            onVolumeChange={(videoTag) => {
-              localStorage.setItem("playerVolume", videoTag.target.volume);
+            onVolumeChange={(videoTag: VideoTag) => {
+              localStorage.setItem(
+                "playerVolume",
+                videoTag.currentTarget.volume.toString(),
+              );
             }}
-            onLoadStart={(videoTag) => {
-              videoTag.target.volume =
-                localStorage.getItem("playerVolume") ?? 1;
+            onLoadStart={(videoTag: VideoTag) => {
+              videoTag.currentTarget.volume =
+                Number(localStorage.getItem("playerVolume")) ?? 1;
             }}
             onTimeUpdate={handleTimeUpdate(
               videoId,
@@ -184,8 +193,8 @@ const VideoPlayer = ({
               sponsorBlock,
               setSkippedSegments,
             )}
-            onPause={async (videoTag) => {
-              const currentTime = Number(videoTag.target.currentTime);
+            onPause={async (videoTag: VideoTag) => {
+              const currentTime = Number(videoTag.currentTarget.currentTime);
 
               if (currentTime < 10) return;
 

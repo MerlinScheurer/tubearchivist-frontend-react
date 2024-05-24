@@ -10,7 +10,6 @@ const loadPlaylistById = async (playlistId: string | undefined) => {
 
   const response = await fetch(`/api/playlist/${playlistId}/`, {
     headers,
-    credentials: "include",
   });
 
   const videos = await response.json();

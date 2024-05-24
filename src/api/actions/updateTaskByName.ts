@@ -20,7 +20,6 @@ const updateTaskByName = async (taskName: TaskNamesType) => {
   const response = await fetch(`/api/task-name/${taskName}/`, {
     method: "POST",
     headers,
-    credentials: "same-origin",
   });
 
   const downloadQueueState = await response.json();

@@ -13,7 +13,6 @@ const deleteApiToken = async () => {
   const response = await fetch("/api/token/", {
     method: "DELETE",
     headers,
-    credentials: "same-origin",
   });
 
   const resetToken = await response.json();

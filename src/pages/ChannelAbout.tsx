@@ -15,16 +15,18 @@ import formatDate from "../functions/formatDates";
 import PaginationDummy from "../components/PaginationDummy";
 import FormattedNumber from "../components/FormattedNumber";
 
-const handleSponsorBlockIntegrationOverwrite = (integration: string) => {
-  if (integration) {
-    if (integration == "False") {
-      return "Disabled";
-    }
-
-    return integration;
+const handleSponsorBlockIntegrationOverwrite = (
+  integration: boolean | undefined,
+) => {
+  if (integration === undefined) {
+    return "False";
   }
 
-  return "False";
+  if (integration) {
+    return integration;
+  } else {
+    return "Disabled";
+  }
 };
 
 export type ChannelBaseOutletContextType = [
@@ -40,6 +42,7 @@ type ChannelAboutParams = {
 
 const ChannelAbout = () => {
   const { channelId } = useParams() as ChannelAboutParams;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [currentPage, setCurrentPage, startNotification, setStartNotification] =
     useOutletContext() as ChannelBaseOutletContextType;
   const navigate = useNavigate();

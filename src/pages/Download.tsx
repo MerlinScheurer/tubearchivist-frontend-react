@@ -40,6 +40,7 @@ type Download = {
   channel_indexed: boolean;
   channel_name: string;
   duration: string;
+  message?: string;
   published: string;
   status: string;
   timestamp: number;
@@ -130,6 +131,7 @@ const Download = () => {
     })();
 
     // Do not add view & gridItems & showIgnored otherwise it will not update the userconfig first.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshDownloadList, currentPage, downloadPending]);
 
   return (
@@ -435,7 +437,9 @@ const Download = () => {
       </div>
 
       <div className="boxed-content">
-        <Pagination pagination={pagination} setPage={setCurrentPage} />
+        {pagination && (
+          <Pagination pagination={pagination} setPage={setCurrentPage} />
+        )}
       </div>
     </>
   );

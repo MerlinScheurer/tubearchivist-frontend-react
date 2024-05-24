@@ -125,7 +125,7 @@ type DashboardStatsReponses = {
 };
 
 const SettingsDashboard = () => {
-  const [useSi, setUseSi] = useState(false);
+  const [useSi] = useState(false);
 
   const [response, setResponse] = useState<DashboardStatsReponses>({
     videoStats: undefined,

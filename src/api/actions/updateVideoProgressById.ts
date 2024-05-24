@@ -21,7 +21,7 @@ const updateVideoProgressById = async ({
   const response = await fetch(`/api/video/${youtubeId}/progress/`, {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body: JSON.stringify({
       position: currentProgress,
     }),

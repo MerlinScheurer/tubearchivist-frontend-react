@@ -21,7 +21,6 @@ const deleteDownloadQueueByFilter = async (filter: FilterType) => {
   const response = await fetch(`/api/download/?${searchParams.toString()}`, {
     method: "DELETE",
     headers,
-    credentials: "same-origin",
   });
 
   const downloadState = await response.json();

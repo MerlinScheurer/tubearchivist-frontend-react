@@ -20,7 +20,6 @@ const updateCookie = async (): Promise<ValidatedCookieType> => {
   const response = await fetch("/api/cookie/", {
     method: "POST",
     headers,
-    credentials: "same-origin",
   });
 
   const validatedCookie = await response.json();

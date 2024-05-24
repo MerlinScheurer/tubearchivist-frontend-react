@@ -399,7 +399,9 @@ const Playlist = () => {
       </div>
 
       <div className="boxed-content">
-        <Pagination pagination={pagination} setPage={setCurrentPage} />
+        {pagination && (
+          <Pagination pagination={pagination} setPage={setCurrentPage} />
+        )}
       </div>
     </>
   );

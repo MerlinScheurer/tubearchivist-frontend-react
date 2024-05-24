@@ -10,7 +10,6 @@ const loadSnapshots = async () => {
 
   const response = await fetch("/api/snapshot/", {
     headers,
-    credentials: "same-origin",
   });
 
   const backupList = await response.json();

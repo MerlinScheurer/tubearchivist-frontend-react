@@ -20,7 +20,6 @@ const loadChannelVideosById = async (
     `/api/channel/${youtubeChannelId}/video/?page=${page}`,
     {
       headers,
-      credentials: "include",
     },
   );
 

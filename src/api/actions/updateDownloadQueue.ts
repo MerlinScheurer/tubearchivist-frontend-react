@@ -18,7 +18,7 @@ const updateDownloadQueue = async (download: string, autostart: boolean) => {
   const response = await fetch(`/api/download/${params}`, {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body: JSON.stringify({
       data: [{ youtube_id: download, status: "pending" }],
     }),

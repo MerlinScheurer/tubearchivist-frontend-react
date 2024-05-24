@@ -10,7 +10,6 @@ const loadAuth = async () => {
 
   const response = await fetch("/api/ping/", {
     headers,
-    credentials: "same-origin",
   });
 
   return response;

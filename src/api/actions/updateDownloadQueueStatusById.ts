@@ -18,7 +18,7 @@ const updateDownloadQueueStatusById = async (
   const response = await fetch(`/api/download/${youtubeId}/`, {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body: JSON.stringify({
       status,
     }),

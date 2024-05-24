@@ -17,7 +17,6 @@ const loadStatsBiggestChannels = async (order: BiggestChannelsOrderType) => {
     `/api/stats/biggestchannels/?${searchParams.toString()}`,
     {
       headers,
-      credentials: "same-origin",
     },
   );
 

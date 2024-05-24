@@ -15,7 +15,6 @@ const loadPlaylistVideosById = async (
     `/api/playlist/${playlistId}/video/?page=${page}`,
     {
       headers,
-      credentials: "include",
     },
   );
 

@@ -34,7 +34,7 @@ const ChannelPlaylist = () => {
   const [playlistsResponse, setPlaylistsResponse] = useState();
 
   const playlistList = playlistsResponse?.data;
-  const pagination = {};
+  const pagination = playlistsResponse?.paginate;
 
   useEffect(() => {
     (async () => {
@@ -74,7 +74,9 @@ const ChannelPlaylist = () => {
       </div>
 
       <div className="boxed-content">
-        <Pagination pagination={pagination} setPage={setCurrentPage} />
+        {pagination && (
+          <Pagination pagination={pagination} setPage={setCurrentPage} />
+        )}
       </div>
     </>
   );

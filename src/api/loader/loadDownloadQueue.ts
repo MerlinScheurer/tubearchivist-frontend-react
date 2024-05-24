@@ -26,7 +26,6 @@ const loadDownloadQueue = async (
 
   const response = await fetch(`/api/download/?${searchParams.toString()}`, {
     headers,
-    credentials: "include",
   });
 
   const playlist = await response.json();

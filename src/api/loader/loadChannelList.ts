@@ -20,7 +20,6 @@ const loadChannelList = async (page: number, showSubscribed: boolean) => {
 
   const response = await fetch(`/api/channel/?${searchParams.toString()}`, {
     headers,
-    credentials: "same-origin",
   });
 
   const channels = await response.json();

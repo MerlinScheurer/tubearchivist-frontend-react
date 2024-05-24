@@ -10,7 +10,6 @@ const loadVideoById = async (youtubeId: string) => {
 
   const response = await fetch(`/api/video/${youtubeId}/`, {
     headers,
-    credentials: "include",
   });
 
   const videos = await response.json();

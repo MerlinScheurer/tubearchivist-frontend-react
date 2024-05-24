@@ -10,7 +10,6 @@ const loadSponsorblockByVideoId = async (youtubeId: string) => {
 
   const response = await fetch(`/api/video/${youtubeId}/sponsor/`, {
     headers,
-    credentials: "include",
   });
 
   const videos = await response.json();

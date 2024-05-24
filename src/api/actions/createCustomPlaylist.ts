@@ -13,7 +13,7 @@ const createCustomPlaylist = async (playlistId: string) => {
   const response = await fetch("/api/playlist/", {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body: JSON.stringify({ data: { create: playlistId } }),
   });
 

@@ -10,7 +10,6 @@ const loadStatsChannel = async () => {
 
   const response = await fetch("/api/stats/channel/", {
     headers,
-    credentials: "same-origin",
   });
 
   const notifications = await response.json();

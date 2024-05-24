@@ -10,7 +10,6 @@ const loadVideoListByPage = async (page: number) => {
 
   const response = await fetch(`/api/video/?page=${page}`, {
     headers,
-    credentials: "include",
   });
 
   const videos = await response.json();

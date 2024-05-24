@@ -16,7 +16,7 @@ const updatePlaylistSubscription = async (
   const response = await fetch("/api/playlist/", {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body: JSON.stringify({
       data: [{ playlist_id: playlistId, playlist_subscribed: status }],
     }),

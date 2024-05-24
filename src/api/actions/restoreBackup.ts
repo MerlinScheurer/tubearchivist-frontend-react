@@ -13,7 +13,6 @@ const restoreBackup = async (fileName: string) => {
   const response = await fetch(`/api/backup/${fileName}/`, {
     method: "POST",
     headers,
-    credentials: "same-origin",
   });
 
   const backupRestored = await response.json();

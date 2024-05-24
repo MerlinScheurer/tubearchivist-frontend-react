@@ -13,7 +13,6 @@ const queueSnapshot = async () => {
   const response = await fetch("/api/snapshot/", {
     method: "POST",
     headers,
-    credentials: "same-origin",
   });
 
   const snapshotQueued = await response.json();

@@ -10,7 +10,6 @@ const loadStatsPlaylist = async () => {
 
   const response = await fetch("/api/stats/playlist/", {
     headers,
-    credentials: "same-origin",
   });
 
   const notifications = await response.json();

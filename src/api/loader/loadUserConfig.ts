@@ -13,7 +13,6 @@ const loadUserConfig = async (): Promise<UserConfigType> => {
 
   const response = await fetch("/api/config/user/", {
     headers,
-    credentials: "include",
   });
 
   const userConfig = await response.json();

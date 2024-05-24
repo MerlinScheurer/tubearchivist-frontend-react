@@ -30,7 +30,7 @@ const stripNanoSecs = (time: string) => {
 };
 
 const SubtitleList = ({ subtitleList }: SubtitleListProps) => {
-  const [_, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   if (!subtitleList || subtitleList.length === 0) {
     return <p>No fulltext results found.</p>;

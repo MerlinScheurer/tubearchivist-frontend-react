@@ -16,7 +16,7 @@ const updateChannelSubscription = async (
   const response = await fetch("/api/channel/", {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body: JSON.stringify({
       data: [{ channel_id: channelId, channel_subscribed: status }],
     }),

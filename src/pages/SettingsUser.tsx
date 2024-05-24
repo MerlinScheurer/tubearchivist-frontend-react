@@ -23,10 +23,10 @@ const SettingsUser = () => {
   const navigate = useNavigate();
 
   const [selectedStylesheet, setSelectedStylesheet] = useState(
-    userConfig.stylesheet || "",
+    userConfig.stylesheet,
   );
   const [selectedPageSize, setSelectedPageSize] = useState(
-    userConfig.page_size || "",
+    userConfig.page_size,
   );
   const [refresh, setRefresh] = useState(false);
 

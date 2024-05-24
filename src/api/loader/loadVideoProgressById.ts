@@ -10,7 +10,6 @@ const loadVideoProgressById = async (youtubeId: string) => {
 
   const response = await fetch(`/api/video/${youtubeId}/progress/`, {
     headers,
-    credentials: "same-origin",
   });
 
   const videoProgress = await response.json();

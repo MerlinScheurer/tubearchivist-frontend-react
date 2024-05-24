@@ -31,7 +31,7 @@ const updateUserConfig = async (config: UserConfigType) => {
   const response = await fetch("/api/config/user/", {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body: JSON.stringify(config),
   });
 

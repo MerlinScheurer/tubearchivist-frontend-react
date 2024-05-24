@@ -13,7 +13,7 @@ const stopTaskByName = async (taskId: string) => {
   const response = await fetch(`/api/task-id/${taskId}/`, {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body: JSON.stringify({ command: "stop" }),
   });
 

@@ -20,7 +20,6 @@ const loadPlaylistList = async (page: number | undefined, isCustom = false) => {
 
   const response = await fetch(`/api/playlist/?${searchParams.toString()}`, {
     headers,
-    credentials: "include",
   });
 
   const playlist = await response.json();

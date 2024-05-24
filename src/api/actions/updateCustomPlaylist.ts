@@ -25,7 +25,7 @@ const updateCustomPlaylist = async (
   const response = await fetch(`/api/playlist/${playlistId}/`, {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body: JSON.stringify({ action, video_id: videoId }),
   });
 

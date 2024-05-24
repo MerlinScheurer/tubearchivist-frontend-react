@@ -34,7 +34,7 @@ const queueReindex = async (
   const response = await fetch(`/api/refresh/${params}`, {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body,
   });
 

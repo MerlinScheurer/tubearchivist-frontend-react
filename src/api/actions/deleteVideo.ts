@@ -13,7 +13,6 @@ const deleteVideo = async (videoId: string) => {
   const response = await fetch(`/api/video/${videoId}/`, {
     method: "DELETE",
     headers,
-    credentials: "same-origin",
   });
 
   const videoDeleted = await response.json();

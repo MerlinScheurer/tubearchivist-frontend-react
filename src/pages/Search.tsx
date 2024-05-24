@@ -40,7 +40,7 @@ type SearchLoaderDataType = {
 
 const Search = () => {
   const { userConfig } = useLoaderData() as SearchLoaderDataType;
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const videoId = searchParams.get("videoId");
 
   const view = (userConfig.view_style_home || ViewStyles.grid) as ViewLayout;

@@ -28,7 +28,6 @@ const loadSignIn = async (
   const response = await fetch("/login/", {
     method: "POST",
     body,
-    credentials: "same-origin",
   });
 
   return response;

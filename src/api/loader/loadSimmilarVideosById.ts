@@ -10,7 +10,6 @@ const loadSimmilarVideosById = async (youtubeId: string) => {
 
   const response = await fetch(`/api/video/${youtubeId}/similar/`, {
     headers,
-    credentials: "include",
   });
 
   const videos = await response.json();

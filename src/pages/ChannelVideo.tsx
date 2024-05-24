@@ -38,7 +38,7 @@ const ChannelVideo = () => {
   const { channelId } = useParams() as ChannelParams;
   const { userConfig } = useLoaderData() as ChannelVideoLoaderType;
   const [currentPage, setCurrentPage] = useOutletContext() as OutletContextType;
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const videoId = searchParams.get("videoId");
 
   const [hideWatched, setHideWatched] = useState(

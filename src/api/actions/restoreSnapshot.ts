@@ -13,7 +13,6 @@ const restoreSnapshot = async (snapshotId: string) => {
   const response = await fetch(`/api/snapshot/${snapshotId}/`, {
     method: "POST",
     headers,
-    credentials: "same-origin",
   });
 
   const backupRestored = await response.json();

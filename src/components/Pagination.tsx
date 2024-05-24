@@ -6,7 +6,7 @@ import { useCallback, useEffect } from "react";
 export type PaginationType = {
   page_size?: number;
   page_from?: number;
-  prev_pages?: boolean | number[];
+  prev_pages?: false | number[];
   current_page: number;
   max_hits?: boolean;
   params?: string;
@@ -72,7 +72,7 @@ const Pagination = ({ pagination, setPage }: Props) => {
         setPage(currentPage - 1);
       }
     },
-    [currentPage, setPage],
+    [currentPage, lastPage, setPage, totalHits],
   );
 
   useEffect(() => {
@@ -103,7 +103,8 @@ const Pagination = ({ pagination, setPage }: Props) => {
             </>
           )}
 
-          {prev_pages &&
+          {prev_pages !== false &&
+            prev_pages &&
             prev_pages.map((page: number, index: number) => {
               if (hasParams) {
                 return (

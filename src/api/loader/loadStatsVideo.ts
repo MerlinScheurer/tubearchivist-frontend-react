@@ -10,7 +10,6 @@ const loadStatsVideo = async () => {
 
   const response = await fetch("/api/stats/video/", {
     headers,
-    credentials: "same-origin",
   });
 
   const notifications = await response.json();

@@ -13,7 +13,6 @@ const deleteChannel = async (channelId: string) => {
   const response = await fetch(`/api/channel/${channelId}/`, {
     method: "DELETE",
     headers,
-    credentials: "same-origin",
   });
 
   const channelDeleted = await response.json();

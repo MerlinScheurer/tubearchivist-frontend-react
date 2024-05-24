@@ -20,7 +20,6 @@ const loadNotifications = async (
 
   const response = await fetch(`/api/notification/${params}`, {
     headers,
-    credentials: "same-origin",
   });
 
   const notifications = await response.json();

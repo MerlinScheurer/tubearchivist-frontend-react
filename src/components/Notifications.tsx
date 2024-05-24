@@ -51,7 +51,7 @@ const Notifications = ({
     return () => {
       clearInterval(intervalId);
     };
-  }, [pageName, update, setIsDone]);
+  }, [pageName, update, setIsDone, includeReindex]);
 
   if (notificationResponse.length === 0) {
     return [];

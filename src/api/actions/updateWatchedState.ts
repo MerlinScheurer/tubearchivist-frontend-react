@@ -23,7 +23,7 @@ const updateWatchedState = async (watched: Watched) => {
   const response = await fetch("/api/watched/", {
     method: "POST",
     headers,
-    credentials: "same-origin",
+
     body: JSON.stringify(watched),
   });
 

@@ -10,7 +10,6 @@ const loadSearch = async (query: string) => {
 
   const response = await fetch(`/api/search/?query=${query}`, {
     headers,
-    credentials: "same-origin",
   });
 
   const searchResults = await response.json();

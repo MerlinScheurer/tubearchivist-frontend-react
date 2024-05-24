@@ -13,7 +13,6 @@ const deleteDownloadById = async (youtubeId: string) => {
   const response = await fetch(`/api/download/${youtubeId}/`, {
     method: "DELETE",
     headers,
-    credentials: "same-origin",
   });
 
   const downloadState = await response.json();

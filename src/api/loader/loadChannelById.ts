@@ -10,7 +10,6 @@ const loadChannelById = async (youtubeChannelId: string) => {
 
   const response = await fetch(`/api/channel/${youtubeChannelId}/`, {
     headers,
-    credentials: "include",
   });
 
   const channel = await response.json();

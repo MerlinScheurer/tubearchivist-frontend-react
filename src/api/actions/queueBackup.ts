@@ -13,7 +13,6 @@ const queueBackup = async () => {
   const response = await fetch("/api/backup/", {
     method: "POST",
     headers,
-    credentials: "same-origin",
   });
 
   const backupQueued = await response.json();

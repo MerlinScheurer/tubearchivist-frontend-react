@@ -10,7 +10,6 @@ const loadStatsDownload = async () => {
 
   const response = await fetch("/api/stats/download/", {
     headers,
-    credentials: "same-origin",
   });
 
   const notifications = await response.json();
