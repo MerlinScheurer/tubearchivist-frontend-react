@@ -44,28 +44,34 @@ const Base = () => {
   const taUpdate = auth.ta_update;
 
   useEffect(() => {
-    console.log("location");
     if (currentPageFromUrl !== currentPage) {
       setCurrentPage(0);
     }
+
+    // This should only be executed when location.pathname changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   useEffect(() => {
     if (currentPageFromUrl !== currentPage) {
-      console.log("url");
       setCurrentPage(currentPageFromUrl);
     }
+
+    // This should only be executed when currentPageFromUrl changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPageFromUrl]);
 
   useEffect(() => {
     if (currentPageFromUrl !== currentPage) {
-      console.log("currentpage");
       setSearchParams((params) => {
         params.set("page", currentPage.toString());
 
         return params;
       });
     }
+
+    // This should only be executed when currentPage changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   importColours(userConfig.stylesheet);
