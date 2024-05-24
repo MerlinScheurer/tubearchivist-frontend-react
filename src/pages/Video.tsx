@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import loadVideoById from "../api/loader/loadVideoById";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { ConfigType, VideoType } from "./Home";
 import VideoPlayer, { VideoProgressType } from "../components/VideoPlayer";
 import iconEye from "/img/icon-eye.svg";
@@ -35,6 +35,8 @@ import { PlaylistResponseType } from "./Playlists";
 import PaginationDummy from "../components/PaginationDummy";
 import updateCustomPlaylist from "../api/actions/updateCustomPlaylist";
 import { PlaylistType } from "./Playlist";
+import loadCommentsbyVideoId from "../api/loader/loadCommentsbyVideoId";
+import CommentBox, { CommentsType } from "../components/CommentBox";
 
 const isInPlaylist = (videoId: string, playlist: PlaylistType) => {
   return playlist.playlist_entries.some((entry) => {
@@ -102,6 +104,17 @@ export type VideoResponseType = {
   playlist_nav: PlaylistNavType;
 };
 
+type CommentsResponseType = {
+  data: CommentsType[];
+  config: ConfigType;
+};
+
+export type VideoCommentsResponseType = {
+  data: VideoType;
+  config: ConfigType;
+  playlist_nav: PlaylistNavType;
+};
+
 const Video = () => {
   const { videoId } = useParams() as VideoParams;
   const navigate = useNavigate();
@@ -120,20 +133,24 @@ const Video = () => {
     useState<SponsorBlockType>();
   const [customPlaylistsResponse, setCustomPlaylistsResponse] =
     useState<PlaylistResponseType>();
+  const [commentsResponse, setCommentsResponse] =
+    useState<CommentsResponseType>();
 
   useEffect(() => {
     (async () => {
       const videoResponse = await loadVideoById(videoId);
-      const simmilarVideos = await loadSimmilarVideosById(videoId);
-      const videoProgress = await loadVideoProgressById(videoId);
+      const simmilarVideosResponse = await loadSimmilarVideosById(videoId);
+      const videoProgressResponse = await loadVideoProgressById(videoId);
       const sponsorblockReponse = await loadSponsorblockByVideoId(videoId);
-      const customPlaylists = await loadPlaylistList(undefined, true);
+      const customPlaylistsResponse = await loadPlaylistList(undefined, true);
+      const commentsResponse = await loadCommentsbyVideoId(videoId);
 
       setVideoResponse(videoResponse);
-      setSimmilarVideos(simmilarVideos);
-      setVideoProgress(videoProgress);
+      setSimmilarVideos(simmilarVideosResponse);
+      setVideoProgress(videoProgressResponse);
       setSponsorblockResponse(sponsorblockReponse);
-      setCustomPlaylistsResponse(customPlaylists);
+      setCustomPlaylistsResponse(customPlaylistsResponse);
+      setCommentsResponse(commentsResponse);
       setRefreshVideoList(false);
     })();
   }, [videoId, refreshVideoList]);
@@ -149,6 +166,7 @@ const Video = () => {
   const sponsorBlock = sponsorblockResponse;
   const customPlaylists = customPlaylistsResponse?.data;
   const starRating = convertStarRating(video?.stats?.average_rating);
+  const comments = commentsResponse?.data;
 
   const cast = config.enable_cast;
 
@@ -518,8 +536,15 @@ const Video = () => {
         {video.comment_count && (
           <div className="comments-section">
             <h3>Comments: {video.comment_count}</h3>
-            <div id="comments-list" className="comments-list"></div>
-            <script>getComments('{video.youtube_id}')</script>
+            <div id="comments-list" className="comments-list">
+              {comments?.map((comment, index) => {
+                return (
+                  <Fragment key={index}>
+                    <CommentBox comment={comment} />
+                  </Fragment>
+                );
+              })}
+            </div>
           </div>
         )}
         <div className="boxed-content-empty" />
