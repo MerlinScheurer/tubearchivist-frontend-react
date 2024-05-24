@@ -11,7 +11,7 @@ import WatchedCheckBox from "./WatchedCheckBox";
 import GoogleCast from "./GoogleCast";
 import updateWatchedState from "../api/actions/updateWatchedState";
 import formatNumbers from "../functions/formatNumbers";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import loadPlaylistById from "../api/loader/loadPlaylistById";
 
@@ -26,8 +26,7 @@ type EmbeddableVideoPlayerProps = {
 };
 
 const EmbeddableVideoPlayer = ({ videoId }: EmbeddableVideoPlayerProps) => {
-  const navigate = useNavigate();
-  const [_, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const [refresh, setRefresh] = useState(false);
 
@@ -44,30 +43,32 @@ const EmbeddableVideoPlayer = ({ videoId }: EmbeddableVideoPlayerProps) => {
       const sponsorblockReponse = await loadSponsorblockByVideoId(videoId);
 
       const playlistIds = videoResponse.data.playlist;
+      if (playlistIds !== undefined) {
+        const playlists = await Promise.all(
+          playlistIds.map(async (playlistid: string) => {
+            const playlistResponse = await loadPlaylistById(playlistid);
 
-      const playlists = await Promise.all(
-        playlistIds.map(async (playlistid: string) => {
-          const playlistResponse = await loadPlaylistById(playlistid);
+            return playlistResponse.data;
+          }),
+        );
 
-          return playlistResponse.data;
-        }),
-      );
+        const playlistsFiltered = playlists
+          .filter((playlist) => {
+            return playlist.playlist_subscribed;
+          })
+          .map((playlist) => {
+            return {
+              id: playlist.playlist_id,
+              name: playlist.playlist_name,
+            };
+          });
 
-      const playlistsFiltered = playlists
-        .filter((playlist) => {
-          return playlist.playlist_subscribed;
-        })
-        .map((playlist) => {
-          return {
-            id: playlist.playlist_id,
-            name: playlist.playlist_name,
-          };
-        });
+        setPlaylists(playlistsFiltered);
+      }
 
       setVideoResponse(videoResponse);
       setVideoProgress(videoProgress);
       setSponsorblockResponse(sponsorblockReponse);
-      setPlaylists(playlistsFiltered);
 
       setRefresh(false);
     })();
