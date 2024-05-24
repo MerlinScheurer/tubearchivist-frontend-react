@@ -6,6 +6,7 @@ import getIsAdmin from "../functions/getIsAdmin";
 import { OutletContextType } from "./Base";
 import Notifications from "../components/Notifications";
 import { useState } from "react";
+import defaultChannelImage from "/img/default-channel-banner.jpg";
 
 type ChannelParams = {
   channelId: string;
@@ -41,6 +42,10 @@ const ChannelBase = () => {
             <img
               src={`/cache/channels/${channelId}_banner.jpg`}
               alt="channel_banner"
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = defaultChannelImage;
+              }}
             />
           </Link>
         </div>
