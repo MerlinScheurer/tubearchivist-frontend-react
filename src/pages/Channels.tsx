@@ -137,7 +137,7 @@ const Channels = () => {
             <div className="toggleBox">
               <input
                 id="show_subed_only"
-                onClick={() => {
+                onChange={() => {
                   setShowSubscribedOnly(!showSubscribedOnly);
                 }}
                 type="checkbox"

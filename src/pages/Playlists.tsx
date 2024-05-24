@@ -164,7 +164,7 @@ const Playlists = () => {
             <div className="toggleBox">
               <input
                 checked={showSubedOnly}
-                onClick={() => {
+                onChange={() => {
                   setShowSubedOnly(!showSubedOnly);
                 }}
                 type="checkbox"

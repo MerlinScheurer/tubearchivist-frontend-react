@@ -819,16 +819,16 @@ const SettingsApplication = () => {
               </i>
               <br />
               <select
-                name="downloads_integrate_ryd"
-                id="id_downloads_integrate_ryd"
+                name="downloads_integrate_sponsorblock"
+                id="id_downloads_integrate_sponsorblock"
                 defaultValue=""
                 onChange={(event) => {
                   setEnableSponsorBlock(event.target.value === "true");
                 }}
               >
-                <option value="">-- change ryd integrations</option>
-                <option value="false">disable ryd integration</option>
-                <option value="true">enable ryd integration</option>
+                <option value="">-- change sponsorblock integrations</option>
+                <option value="false">disable sponsorblock integration</option>
+                <option value="true">enable sponsorblock integration</option>
               </select>
             </div>
           </div>
@@ -881,7 +881,7 @@ const SettingsApplication = () => {
                       {snapshots.expire_after}
                     </span>
                     . <br />
-                    {isSnapshotQueued && <p>Snapshot in progress</p>}
+                    {isSnapshotQueued && <span>Snapshot in progress</span>}
                     {!isSnapshotQueued && (
                       <button
                         onClick={async () => {

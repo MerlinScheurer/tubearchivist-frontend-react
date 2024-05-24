@@ -47,6 +47,7 @@ const Login = () => {
             name="username"
             id="id_username"
             placeholder="Username"
+            autoComplete="username"
             maxLength={150}
             required={true}
             value={username}
@@ -58,6 +59,7 @@ const Login = () => {
             name="password"
             id="id_password"
             placeholder="Password"
+            autoComplete="current-password"
             required={true}
             value={password}
             onChange={(event) => setPassword(event.target.value)}

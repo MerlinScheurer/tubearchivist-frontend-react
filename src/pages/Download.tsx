@@ -227,7 +227,7 @@ const Download = () => {
             <div className="toggleBox">
               <input
                 id="showIgnored"
-                onClick={() => {
+                onChange={() => {
                   setShowIgnored(!showIgnored);
                 }}
                 type="checkbox"
