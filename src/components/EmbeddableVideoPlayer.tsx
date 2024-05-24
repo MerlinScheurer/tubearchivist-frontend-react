@@ -86,7 +86,7 @@ const EmbeddableVideoPlayer = ({ videoId }: EmbeddableVideoPlayerProps) => {
   const hasLikes = videoResponse.data.stats.like_count;
   const likes = formatNumbers(videoResponse.data.stats.like_count);
   const hasDislikes =
-    videoResponse.data.stats.dislike_count &&
+    videoResponse.data.stats.dislike_count > 0 &&
     videoResponse.config.downloads.integrate_ryd;
   const dislikes = formatNumbers(videoResponse.data.stats.dislike_count);
   const config = videoResponse.config;
