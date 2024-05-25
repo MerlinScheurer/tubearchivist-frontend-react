@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { OutletContextType } from "./Base";
 import Pagination from "../components/Pagination";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
+import { Helmet } from "react-helmet";
 
 type ChannelPlaylistLoaderDataType = {
   userConfig: UserConfigType;
@@ -51,6 +52,9 @@ const ChannelPlaylist = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Channel: Playlists {channel.channel_name}</title>
+      </Helmet>
       <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <Notifications pageName="channel" includeReindex={true} />

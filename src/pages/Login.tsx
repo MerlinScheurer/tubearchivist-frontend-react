@@ -6,6 +6,7 @@ import importColours, {
   ColourVariants,
 } from "../configuration/colours/getColours";
 import loadSignIn from "../api/loader/loadSignIn";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -34,6 +35,9 @@ const Login = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Welcome</title>
+      </Helmet>
       <div className="boxed-content login-page">
         <img alt="tube-archivist-logo" />
         <h1>Tube Archivist</h1>

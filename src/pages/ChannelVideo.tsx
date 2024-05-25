@@ -25,6 +25,7 @@ import { ChannelResponseType } from "./ChannelBase";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
 import updateWatchedState from "../api/actions/updateWatchedState";
+import { Helmet } from "react-helmet";
 
 type ChannelParams = {
   channelId: string;
@@ -103,6 +104,9 @@ const ChannelVideo = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Channel: {channel.channel_name}</title>
+      </Helmet>
       <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <div className="info-box info-box-2">
@@ -182,9 +186,7 @@ const ChannelVideo = () => {
           setRefresh={setRefresh}
         />
       </div>
-
       {showEmbeddedVideo && <EmbeddableVideoPlayer videoId={videoId} />}
-
       <div className={`boxed-content ${gridView}`}>
         <div className={`video-list ${view} ${gridViewGrid}`}>
           {!hasVideos && (
@@ -205,7 +207,6 @@ const ChannelVideo = () => {
           />
         </div>
       </div>
-
       {pagination && (
         <div className="boxed-content">
           <Pagination pagination={pagination} setPage={setCurrentPage} />

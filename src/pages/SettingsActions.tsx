@@ -6,6 +6,7 @@ import updateTaskByName from "../api/actions/updateTaskByName";
 import queueBackup from "../api/actions/queueBackup";
 import restoreBackup from "../api/actions/restoreBackup";
 import Notifications from "../components/Notifications";
+import { Helmet } from "react-helmet";
 
 type Backup = {
   filename: string;
@@ -42,6 +43,9 @@ const SettingsActions = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Actions</title>
+      </Helmet>
       <div className="boxed-content">
         <SettingsNavigation />
         <Notifications

@@ -14,6 +14,7 @@ import queueReindex, {
 import formatDate from "../functions/formatDates";
 import PaginationDummy from "../components/PaginationDummy";
 import FormattedNumber from "../components/FormattedNumber";
+import { Helmet } from "react-helmet";
 
 const handleSponsorBlockIntegrationOverwrite = (
   integration: boolean | undefined,
@@ -81,6 +82,9 @@ const ChannelAbout = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Channel: About {channel.channel_name}</title>
+      </Helmet>
       <div className="boxed-content">
         <div className="info-box info-box-3">
           <ChannelOverview

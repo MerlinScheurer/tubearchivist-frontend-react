@@ -37,6 +37,7 @@ import updateCustomPlaylist from "../api/actions/updateCustomPlaylist";
 import { PlaylistType } from "./Playlist";
 import loadCommentsbyVideoId from "../api/loader/loadCommentsbyVideoId";
 import CommentBox, { CommentsType } from "../components/CommentBox";
+import { Helmet } from "react-helmet";
 
 const isInPlaylist = (videoId: string, playlist: PlaylistType) => {
   return playlist.playlist_entries.some((entry) => {
@@ -174,6 +175,9 @@ const Video = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | {video.title}</title>
+      </Helmet>
       <ScrollToTopOnNavigate />
 
       <VideoPlayer

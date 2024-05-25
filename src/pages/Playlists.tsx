@@ -18,6 +18,7 @@ import { PlaylistType } from "./Playlist";
 import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
 import createCustomPlaylist from "../api/actions/createCustomPlaylist";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
+import { Helmet } from "react-helmet";
 
 export type PlaylistEntryType = {
   youtube_id: string;
@@ -88,6 +89,9 @@ const Playlists = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Playlists</title>
+      </Helmet>
       <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <div className="title-split">

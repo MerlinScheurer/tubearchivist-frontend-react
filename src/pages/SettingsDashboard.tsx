@@ -15,6 +15,7 @@ import DownloadHistoryStats from "../components/DownloadHistoryStats";
 import BiggestChannelsStats from "../components/BiggestChannelsStats";
 import Notifications from "../components/Notifications";
 import PaginationDummy from "../components/PaginationDummy";
+import { Helmet } from "react-helmet";
 
 export type VideoStatsType = {
   doc_count: number;
@@ -185,6 +186,9 @@ const SettingsDashboard = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Settings Dashboard</title>
+      </Helmet>
       <div className="boxed-content">
         <SettingsNavigation />
         <Notifications pageName={"all"} />

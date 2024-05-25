@@ -11,6 +11,7 @@ import {
 } from "../configuration/colours/getColours";
 import SettingsNavigation from "../components/SettingsNavigation";
 import Notifications from "../components/Notifications";
+import { Helmet } from "react-helmet";
 
 type SettingsUserLoaderData = {
   userConfig: UserConfigType;
@@ -55,6 +56,9 @@ const SettingsUser = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | User Settings</title>
+      </Helmet>
       <div className="boxed-content">
         <SettingsNavigation />
         <Notifications pageName={"all"} />

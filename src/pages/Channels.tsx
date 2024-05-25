@@ -14,6 +14,7 @@ import getIsAdmin from "../functions/getIsAdmin";
 import ChannelList from "../components/ChannelList";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import Notifications from "../components/Notifications";
+import { Helmet } from "react-helmet";
 
 type ChannelOverwritesType = {
   download_format?: string;
@@ -95,6 +96,9 @@ const Channels = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Channels</title>
+      </Helmet>
       <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <div className="title-split">

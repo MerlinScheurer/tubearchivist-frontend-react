@@ -11,6 +11,7 @@ import PlaylistList from "../components/PlaylistList";
 import SubtitleList from "../components/SubtitleList";
 import { ViewStyles } from "../configuration/constants/ViewStyle";
 import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
+import { Helmet } from "react-helmet";
 
 const EmptySearchResponse: SearchResultsType = {
   results: {
@@ -91,6 +92,9 @@ const Search = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TubeArchivist</title>
+      </Helmet>
       {showEmbeddedVideo && <EmbeddableVideoPlayer videoId={videoId} />}
       <div className={`boxed-content ${gridView}`}>
         <div className="title-bar">

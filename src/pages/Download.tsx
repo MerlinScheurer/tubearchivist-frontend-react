@@ -25,6 +25,7 @@ import updateTaskByName from "../api/actions/updateTaskByName";
 import Notifications from "../components/Notifications";
 import formatDate from "../functions/formatDates";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
+import { Helmet } from "react-helmet";
 
 type ChannelAggType = {
   id: string;
@@ -136,6 +137,9 @@ const Download = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Downloads</title>
+      </Helmet>
       <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <div className="title-bar">

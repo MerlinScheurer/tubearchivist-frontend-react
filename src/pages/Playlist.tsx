@@ -33,6 +33,7 @@ import queueReindex from "../api/actions/queueReindex";
 import updateWatchedState from "../api/actions/updateWatchedState";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
+import { Helmet } from "react-helmet";
 
 export type PlaylistType = {
   playlist_active: boolean;
@@ -136,6 +137,9 @@ const Playlist = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Playlist: {playlist.playlist_name}</title>
+      </Helmet>
       <ScrollToTopOnNavigate />
       <div className="boxed-content">
         <div className="title-bar">

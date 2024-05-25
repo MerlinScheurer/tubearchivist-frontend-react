@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import Notifications from "../components/Notifications";
 import SettingsNavigation from "../components/SettingsNavigation";
 
@@ -138,6 +139,9 @@ const SettingsScheduling = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Scheduling Settings</title>
+      </Helmet>
       <div className="boxed-content">
         <SettingsNavigation />
         <Notifications pageName={"all"} />

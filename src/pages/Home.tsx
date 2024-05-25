@@ -19,6 +19,7 @@ import {
 } from "../configuration/constants/ViewStyle";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
+import { Helmet } from "react-helmet";
 
 export type PlayerType = {
   watched: boolean;
@@ -172,6 +173,9 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TubeArchivist</title>
+      </Helmet>
       <ScrollToTopOnNavigate />
       <div className={`boxed-content ${gridView}`}>
         {continue_vids.length > 0 && (

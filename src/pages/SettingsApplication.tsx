@@ -7,6 +7,7 @@ import restoreSnapshot from "../api/actions/restoreSnapshot";
 import queueSnapshot from "../api/actions/queueSnapshot";
 import updateCookie from "../api/actions/updateCookie";
 import deleteApiToken from "../api/actions/deleteApiToken";
+import { Helmet } from "react-helmet";
 
 type SnapshotType = {
   id: string;
@@ -124,6 +125,9 @@ const SettingsApplication = () => {
 
   return (
     <>
+      <Helmet>
+        <title>TA | Application Settings</title>
+      </Helmet>
       <div className="boxed-content">
         <SettingsNavigation />
         <Notifications pageName={"all"} />
