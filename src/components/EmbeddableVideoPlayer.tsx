@@ -78,17 +78,18 @@ const EmbeddableVideoPlayer = ({ videoId }: EmbeddableVideoPlayerProps) => {
     return [];
   }
 
-  const name = videoResponse.data.title;
-  const channelId = videoResponse.data.channel.channel_id;
-  const channelName = videoResponse.data.channel.channel_name;
-  const watched = videoResponse.data.player.watched;
-  const views = formatNumbers(videoResponse.data.stats.view_count);
-  const hasLikes = videoResponse.data.stats.like_count;
-  const likes = formatNumbers(videoResponse.data.stats.like_count);
+  const video = videoResponse.data;
+  const name = video.title;
+  const channelId = video.channel.channel_id;
+  const channelName = video.channel.channel_name;
+  const watched = video.player.watched;
+  const views = formatNumbers(video.stats.view_count);
+  const hasLikes = video.stats.like_count;
+  const likes = formatNumbers(video.stats.like_count);
   const hasDislikes =
-    videoResponse.data.stats.dislike_count > 0 &&
+    video.stats.dislike_count > 0 &&
     videoResponse.config.downloads.integrate_ryd;
-  const dislikes = formatNumbers(videoResponse.data.stats.dislike_count);
+  const dislikes = formatNumbers(video.stats.dislike_count);
   const config = videoResponse.config;
   const cast = config.enable_cast;
 
@@ -124,7 +125,15 @@ const EmbeddableVideoPlayer = ({ videoId }: EmbeddableVideoPlayerProps) => {
                 setRefresh(true);
               }}
             />
-            {cast && <GoogleCast />}
+            {cast && (
+              <GoogleCast
+                video={video}
+                videoProgress={videoProgress}
+                setRefresh={() => {
+                  setRefresh(true);
+                }}
+              />
+            )}
 
             <div className="thumb-icon player-stats">
               <img src={iconEye} alt="views icon" />

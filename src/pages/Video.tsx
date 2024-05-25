@@ -184,7 +184,15 @@ const Video = () => {
 
       <div className="boxed-content">
         <div className="title-bar">
-          {cast && <GoogleCast />}
+          {cast && (
+            <GoogleCast
+              video={video}
+              videoProgress={videoProgress}
+              setRefresh={() => {
+                setRefreshVideoList(true);
+              }}
+            />
+          )}
           <h1 id="video-title">{video.title}</h1>
         </div>
         <div className="info-box info-box-3">
