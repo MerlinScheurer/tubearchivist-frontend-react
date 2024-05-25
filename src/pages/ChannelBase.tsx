@@ -82,7 +82,7 @@ const ChannelBase = () => {
           pageName="channel"
           includeReindex={true}
           update={startNotification}
-          setIsDone={() => setStartNotification(false)}
+          setShouldRefresh={() => setStartNotification(false)}
         />
       </div>
 

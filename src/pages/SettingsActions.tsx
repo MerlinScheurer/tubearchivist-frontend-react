@@ -55,7 +55,7 @@ const SettingsActions = () => {
             isRestoringBackup ||
             reScanningFileSystem
           }
-          setIsDone={() => {
+          setShouldRefresh={() => {
             setDeleteIgnored(false);
             setDeletePending(false);
             setProcessingImports(false);
