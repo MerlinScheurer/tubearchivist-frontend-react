@@ -22,14 +22,14 @@ type NotificationsProps = {
   pageName: NotificationPages;
   includeReindex?: boolean;
   update?: boolean;
-  setIsDone?: () => void;
+  setShouldRefresh?: (isDone: boolean) => void;
 };
 
 const Notifications = ({
   pageName,
   includeReindex = false,
   update,
-  setIsDone,
+  setShouldRefresh,
 }: NotificationsProps) => {
   const [notificationResponse, setNotificationResponse] =
     useState<NotificationResponseType>([]);
@@ -41,8 +41,10 @@ const Notifications = ({
       if (notifications.length === 0) {
         setNotificationResponse(notifications);
         clearInterval(intervalId);
-        setIsDone?.();
+        setShouldRefresh?.(true);
         return;
+      } else {
+        setShouldRefresh?.(false);
       }
 
       setNotificationResponse(notifications);
@@ -51,7 +53,7 @@ const Notifications = ({
     return () => {
       clearInterval(intervalId);
     };
-  }, [pageName, update, setIsDone, includeReindex]);
+  }, [pageName, update, setShouldRefresh, includeReindex]);
 
   if (notificationResponse.length === 0) {
     return [];

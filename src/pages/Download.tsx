@@ -146,9 +146,12 @@ const Download = () => {
         <Notifications
           pageName="download"
           update={rescanPending || downloadPending}
-          setIsDone={() => {
-            setRescanPending(false);
-            setDownloadPending(false);
+          setShouldRefresh={(isDone) => {
+            if (!isDone) {
+              setRescanPending(false);
+              setDownloadPending(false);
+              setRefreshDownloadList(true);
+            }
           }}
         />
         <div id="downloadControl"></div>
