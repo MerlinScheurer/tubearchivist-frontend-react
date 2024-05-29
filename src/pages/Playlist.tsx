@@ -69,7 +69,7 @@ export type VideoResponseType = {
 const Playlist = () => {
   const { playlistId } = useParams();
   const navigate = useNavigate();
-  const [searchParams, _] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const videoId = searchParams.get("videoId");
 
   const { userConfig } = useLoaderData() as PlaylistLoaderDataType;
@@ -112,8 +112,8 @@ const Playlist = () => {
     (async () => {
       if (
         refresh ||
-        (pagination?.current_page !== undefined &&
-          currentPage !== pagination?.current_page)
+        pagination?.current_page === undefined ||
+        currentPage !== pagination?.current_page
       ) {
         const playlist = await loadPlaylistById(playlistId);
         const video = await loadPlaylistVideosById(playlistId, currentPage);
@@ -365,6 +365,7 @@ const Playlist = () => {
           isGridView={isGridView}
           view={view}
           gridItems={gridItems}
+          userConfig={userConfig}
           setHideWatched={setHideWatched}
           setView={setView}
           setGridItems={setGridItems}

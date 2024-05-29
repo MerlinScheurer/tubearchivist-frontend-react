@@ -64,6 +64,7 @@ const ChannelPlaylist = () => {
           isGridView={isGridView}
           view={view}
           gridItems={gridItems}
+          userConfig={userConfig}
           setHideWatched={setHideWatched}
           setView={setView}
           setGridItems={setGridItems}

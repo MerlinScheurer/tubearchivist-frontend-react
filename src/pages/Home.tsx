@@ -145,13 +145,10 @@ const Home = () => {
   const [showHidden, setShowHidden] = useState(false);
   const [refreshVideoList, setRefreshVideoList] = useState(false);
 
-  const [videoResponse, setVideoReponse] = useState<VideoResponseType>({
-    data: [],
-    paginate: { current_page: 0 },
-  });
+  const [videoResponse, setVideoReponse] = useState<VideoResponseType>();
 
-  const videoList = videoResponse.data;
-  const pagination = videoResponse.paginate;
+  const videoList = videoResponse?.data;
+  const pagination = videoResponse?.paginate;
 
   const hasVideos = videoResponse?.data?.length !== 0;
   const showEmbeddedVideo = videoId !== null;
@@ -166,8 +163,8 @@ const Home = () => {
     (async () => {
       if (
         refreshVideoList ||
-        (pagination?.current_page !== undefined &&
-          currentPage !== pagination?.current_page)
+        pagination?.current_page === undefined ||
+        currentPage !== pagination?.current_page
       ) {
         const videos = await loadVideoListByPage(currentPage);
 
@@ -212,6 +209,7 @@ const Home = () => {
           gridItems={gridItems}
           sortBy={sortBy}
           sortOrder={sortOrder}
+          userConfig={userConfig}
           setShowHidden={setShowHidden}
           setHideWatched={setHideWatched}
           setView={setView}

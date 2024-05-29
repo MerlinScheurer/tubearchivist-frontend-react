@@ -59,10 +59,7 @@ const ChannelVideo = () => {
   const [refresh, setRefresh] = useState(false);
 
   const [channelResponse, setChannelResponse] = useState<ChannelResponseType>();
-  const [videoResponse, setVideoReponse] = useState<VideoResponseType>({
-    data: [],
-    paginate: { current_page: 0 },
-  });
+  const [videoResponse, setVideoReponse] = useState<VideoResponseType>();
 
   const channel = channelResponse?.data;
   const videoList = videoResponse?.data;
@@ -79,8 +76,8 @@ const ChannelVideo = () => {
     (async () => {
       if (
         refresh ||
-        (pagination?.current_page !== undefined &&
-          currentPage !== pagination?.current_page)
+        pagination?.current_page === undefined ||
+        currentPage !== pagination?.current_page
       ) {
         const channelResponse = await loadChannelById(channelId);
         const videos = await loadChannelVideosById(channelId, currentPage);
@@ -182,6 +179,7 @@ const ChannelVideo = () => {
           showHidden={showHidden}
           sortBy={sortBy}
           sortOrder={sortOrder}
+          userConfig={userConfig}
           setSortBy={setSortBy}
           setSortOrder={setSortOrder}
           setHideWatched={setHideWatched}

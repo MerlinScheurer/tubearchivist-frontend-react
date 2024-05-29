@@ -19,6 +19,7 @@ type FilterbarProps = {
   gridItems: number;
   sortBy?: SortBy;
   sortOrder?: SortOrder;
+  userConfig: UserConfigType;
   setShowHidden?: (showHidden: boolean) => void;
   setHideWatched?: (hideWatched: boolean) => void;
   setView: (view: ViewLayout) => void;
@@ -38,6 +39,7 @@ const Filterbar = ({
   gridItems,
   sortBy,
   sortOrder,
+  userConfig,
   setShowHidden,
   setHideWatched,
   setView,
@@ -48,16 +50,24 @@ const Filterbar = ({
 }: FilterbarProps) => {
   useEffect(() => {
     (async () => {
-      const userConfig: UserConfigType = {
-        hide_watched: hideWatched,
-        [viewStyleName.toString()]: view,
-        grid_items: gridItems,
-        sort_by: sortBy,
-        sort_order: sortOrder,
-      };
+      if (
+        userConfig.hide_watched !== hideWatched ||
+        userConfig[viewStyleName.toString()] !== view ||
+        userConfig.grid_items !== gridItems ||
+        userConfig.sort_by !== sortBy ||
+        userConfig.sort_order !== sortOrder
+      ) {
+        const userConfig: UserConfigType = {
+          hide_watched: hideWatched,
+          [viewStyleName.toString()]: view,
+          grid_items: gridItems,
+          sort_by: sortBy,
+          sort_order: sortOrder,
+        };
 
-      await updateUserConfig(userConfig);
-      setRefresh?.(true);
+        await updateUserConfig(userConfig);
+        setRefresh?.(true);
+      }
     })();
   }, [
     hideWatched,
@@ -67,6 +77,7 @@ const Filterbar = ({
     sortOrder,
     viewStyleName,
     setRefresh,
+    userConfig,
   ]);
 
   return (

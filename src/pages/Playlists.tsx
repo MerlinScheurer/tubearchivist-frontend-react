@@ -53,15 +53,11 @@ const Playlists = () => {
   const [playlistsToAddText, setPlaylistsToAddText] = useState("");
   const [customPlaylistsToAddText, setCustomPlaylistsToAddText] = useState("");
 
-  const [playlistResponse, setPlaylistReponse] = useState<PlaylistResponseType>(
-    {
-      data: [],
-      paginate: { current_page: 0 },
-    },
-  );
+  const [playlistResponse, setPlaylistReponse] =
+    useState<PlaylistResponseType>();
 
-  const playlistList = playlistResponse.data;
-  const pagination = playlistResponse.paginate;
+  const playlistList = playlistResponse?.data;
+  const pagination = playlistResponse?.paginate;
 
   const hasPlaylists = playlistResponse?.data?.length !== 0;
 
@@ -92,8 +88,8 @@ const Playlists = () => {
     (async () => {
       if (
         refresh ||
-        (pagination?.current_page !== undefined &&
-          currentPage !== pagination?.current_page)
+        pagination?.current_page === undefined ||
+        currentPage !== pagination?.current_page
       ) {
         const playlist = await loadPlaylistList(currentPage);
 

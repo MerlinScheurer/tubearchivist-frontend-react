@@ -85,13 +85,10 @@ const Download = () => {
   const [downloadQueueText, setDownloadQueueText] = useState("");
 
   const [downloadResponse, setDownloadResponse] =
-    useState<DownloadResponseType>({
-      data: [],
-      paginate: { current_page: 0 },
-    });
+    useState<DownloadResponseType>();
 
-  const downloadList = downloadResponse.data;
-  const pagination = downloadResponse.paginate;
+  const downloadList = downloadResponse?.data;
+  const pagination = downloadResponse?.paginate;
 
   const downloadCount = pagination?.total_hits;
 
@@ -136,8 +133,8 @@ const Download = () => {
     (async () => {
       if (
         refresh ||
-        (pagination?.current_page !== undefined &&
-          currentPage !== pagination?.current_page)
+        pagination?.current_page === undefined ||
+        currentPage !== pagination?.current_page
       ) {
         const videos = await loadDownloadQueue(
           currentPage,

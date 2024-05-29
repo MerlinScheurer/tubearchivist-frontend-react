@@ -94,8 +94,8 @@ const Channels = () => {
     (async () => {
       if (
         refresh ||
-        (pagination?.current_page !== undefined &&
-          currentPage !== pagination?.current_page)
+        pagination?.current_page === undefined ||
+        currentPage !== pagination?.current_page
       ) {
         const channelListResponse = await loadChannelList(
           currentPage,
