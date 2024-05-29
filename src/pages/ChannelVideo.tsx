@@ -77,14 +77,20 @@ const ChannelVideo = () => {
 
   useEffect(() => {
     (async () => {
-      const channelResponse = await loadChannelById(channelId);
-      const videos = await loadChannelVideosById(channelId, currentPage);
+      if (
+        refresh ||
+        (pagination?.current_page !== undefined &&
+          currentPage !== pagination?.current_page)
+      ) {
+        const channelResponse = await loadChannelById(channelId);
+        const videos = await loadChannelVideosById(channelId, currentPage);
 
-      setChannelResponse(channelResponse);
-      setVideoReponse(videos);
-      setRefresh(false);
+        setChannelResponse(channelResponse);
+        setVideoReponse(videos);
+        setRefresh(false);
+      }
     })();
-  }, [refresh, currentPage, channelId]);
+  }, [refresh, currentPage, channelId, pagination?.current_page]);
 
   const aggs = {
     total_items: { value: "<debug>" },

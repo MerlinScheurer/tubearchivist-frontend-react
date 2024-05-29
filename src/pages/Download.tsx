@@ -77,7 +77,7 @@ const Download = () => {
   const [showIgnored, setShowIgnored] = useState(
     userConfig.show_ignored_only || false,
   );
-  const [refreshDownloadList, setRefreshDownloadList] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [showHiddenForm, setShowHiddenForm] = useState(false);
   const [downloadPending, setDownloadPending] = useState(false);
   const [rescanPending, setRescanPending] = useState(false);
@@ -108,32 +108,51 @@ const Download = () => {
 
   useEffect(() => {
     (async () => {
-      const userConfig: UserConfigType = {
-        show_ignored_only: showIgnored,
-        [ViewStyleNames.downloads]: view,
-        grid_items: gridItems,
-      };
+      if (
+        userConfig.show_ignored_only !== showIgnored ||
+        userConfig.view_style_downloads !== view ||
+        userConfig.grid_items !== gridItems
+      ) {
+        const userConfig: UserConfigType = {
+          show_ignored_only: showIgnored,
+          [ViewStyleNames.downloads]: view,
+          grid_items: gridItems,
+        };
 
-      await updateUserConfig(userConfig);
-      setRefreshDownloadList(true);
+        await updateUserConfig(userConfig);
+        setRefresh(true);
+      }
     })();
-  }, [view, gridItems, showIgnored]);
+  }, [
+    view,
+    gridItems,
+    showIgnored,
+    userConfig.show_ignored_only,
+    userConfig.view_style_downloads,
+    userConfig.grid_items,
+  ]);
 
   useEffect(() => {
     (async () => {
-      const videos = await loadDownloadQueue(
-        currentPage,
-        channelFilterFromUrl,
-        showIgnored,
-      );
+      if (
+        refresh ||
+        (pagination?.current_page !== undefined &&
+          currentPage !== pagination?.current_page)
+      ) {
+        const videos = await loadDownloadQueue(
+          currentPage,
+          channelFilterFromUrl,
+          showIgnored,
+        );
 
-      setDownloadResponse(videos);
-      setRefreshDownloadList(false);
+        setDownloadResponse(videos);
+        setRefresh(false);
+      }
     })();
 
-    // Do not add view & gridItems & showIgnored otherwise it will not update the userconfig first.
+    // Do not add showIgnored otherwise it will not update the userconfig first.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshDownloadList, currentPage, downloadPending]);
+  }, [refresh, currentPage, downloadPending]);
 
   return (
     <>
@@ -154,7 +173,7 @@ const Download = () => {
             if (!isDone) {
               setRescanPending(false);
               setDownloadPending(false);
-              setRefreshDownloadList(true);
+              setRefresh(true);
             }
           }}
         />
@@ -210,7 +229,7 @@ const Download = () => {
                   <button
                     onClick={async () => {
                       await updateDownloadQueue(downloadQueueText, false);
-                      setRefreshDownloadList(true);
+                      setRefresh(true);
                       setShowHiddenForm(false);
                     }}
                   >
@@ -219,7 +238,7 @@ const Download = () => {
                   <button
                     onClick={async () => {
                       await updateDownloadQueue(downloadQueueText, true);
-                      setRefreshDownloadList(true);
+                      setRefresh(true);
                       setShowHiddenForm(false);
                     }}
                   >
@@ -380,7 +399,7 @@ const Download = () => {
                           <button
                             onClick={async () => {
                               await deleteDownloadById(download.youtube_id);
-                              setRefreshDownloadList(true);
+                              setRefresh(true);
                             }}
                           >
                             Forget
@@ -391,7 +410,7 @@ const Download = () => {
                                 download.youtube_id,
                                 "pending",
                               );
-                              setRefreshDownloadList(true);
+                              setRefresh(true);
                             }}
                           >
                             Add to queue
@@ -406,7 +425,7 @@ const Download = () => {
                                 download.youtube_id,
                                 "ignore",
                               );
-                              setRefreshDownloadList(true);
+                              setRefresh(true);
                             }}
                           >
                             Ignore
@@ -417,7 +436,7 @@ const Download = () => {
                                 download.youtube_id,
                                 "priority",
                               );
-                              setRefreshDownloadList(true);
+                              setRefresh(true);
                             }}
                           >
                             Download now
@@ -429,7 +448,7 @@ const Download = () => {
                           className="danger-button"
                           onClick={async () => {
                             await deleteDownloadById(download.youtube_id);
-                            setRefreshDownloadList(true);
+                            setRefresh(true);
                           }}
                         >
                           Delete

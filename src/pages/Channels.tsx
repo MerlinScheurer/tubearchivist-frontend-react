@@ -62,35 +62,51 @@ const Channels = () => {
     userConfig.view_style_channel || "grid",
   );
   const [showAddForm, setShowAddForm] = useState(false);
-  const [refreshChannelList, setRefreshChannelList] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      const userConfig: UserConfigType = {
-        show_subed_only: showSubscribedOnly,
-        view_style_channel: view,
-      };
-
-      await updateUserConfig(userConfig);
-    })();
-  }, [showSubscribedOnly, view]);
-
-  useEffect(() => {
-    (async () => {
-      const channelListResponse = await loadChannelList(
-        currentPage,
-        showSubscribedOnly,
-      );
-
-      setChannelListResponse(channelListResponse);
-      setRefreshChannelList(false);
-    })();
-  }, [currentPage, showSubscribedOnly, refreshChannelList]);
+  const [refresh, setRefresh] = useState(false);
 
   const channels = channelListResponse?.data;
   const pagination = channelListResponse?.paginate;
   const channelCount = pagination?.total_hits;
   const hasChannels = channels?.length !== 0;
+
+  useEffect(() => {
+    (async () => {
+      if (
+        userConfig.view_style_channel !== view ||
+        userConfig.show_subed_only !== showSubscribedOnly
+      ) {
+        const userConfig: UserConfigType = {
+          show_subed_only: showSubscribedOnly,
+          view_style_channel: view,
+        };
+
+        await updateUserConfig(userConfig);
+      }
+    })();
+  }, [
+    showSubscribedOnly,
+    userConfig.show_subed_only,
+    userConfig.view_style_channel,
+    view,
+  ]);
+
+  useEffect(() => {
+    (async () => {
+      if (
+        refresh ||
+        (pagination?.current_page !== undefined &&
+          currentPage !== pagination?.current_page)
+      ) {
+        const channelListResponse = await loadChannelList(
+          currentPage,
+          showSubscribedOnly,
+        );
+
+        setChannelListResponse(channelListResponse);
+        setRefresh(false);
+      }
+    })();
+  }, [currentPage, showSubscribedOnly, refresh, pagination?.current_page]);
 
   const isAdmin = getIsAdmin();
 
@@ -189,7 +205,7 @@ const Channels = () => {
             <ChannelList
               channelList={channels}
               viewLayout={view}
-              refreshChannelList={setRefreshChannelList}
+              refreshChannelList={setRefresh}
             />
           )}
         </div>

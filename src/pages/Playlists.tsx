@@ -46,10 +46,10 @@ const Playlists = () => {
     userConfig.hide_watched || false,
   );
   const [view, setView] = useState<ViewLayout>(
-    userConfig.view_style_home || "grid",
+    userConfig.view_style_playlist || "grid",
   );
   const [showAddForm, setShowAddForm] = useState(false);
-  const [refreshPlaylistList, setRefreshPlaylistList] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [playlistsToAddText, setPlaylistsToAddText] = useState("");
   const [customPlaylistsToAddText, setCustomPlaylistsToAddText] = useState("");
 
@@ -69,23 +69,39 @@ const Playlists = () => {
 
   useEffect(() => {
     (async () => {
-      const userConfig: UserConfigType = {
-        show_subed_only: showSubedOnly,
-        view_style_playlist: view,
-      };
+      if (
+        userConfig.view_style_playlist !== view ||
+        userConfig.show_subed_only !== showSubedOnly
+      ) {
+        const userConfig: UserConfigType = {
+          show_subed_only: showSubedOnly,
+          view_style_playlist: view,
+        };
 
-      await updateUserConfig(userConfig);
+        await updateUserConfig(userConfig);
+      }
     })();
-  }, [showSubedOnly, view]);
+  }, [
+    showSubedOnly,
+    userConfig.show_subed_only,
+    userConfig.view_style_playlist,
+    view,
+  ]);
 
   useEffect(() => {
     (async () => {
-      const playlist = await loadPlaylistList(currentPage);
+      if (
+        refresh ||
+        (pagination?.current_page !== undefined &&
+          currentPage !== pagination?.current_page)
+      ) {
+        const playlist = await loadPlaylistList(currentPage);
 
-      setPlaylistReponse(playlist);
-      setRefreshPlaylistList(false);
+        setPlaylistReponse(playlist);
+        setRefresh(false);
+      }
     })();
-  }, [refreshPlaylistList, currentPage, showSubedOnly, view]);
+  }, [refresh, currentPage, showSubedOnly, view, pagination?.current_page]);
 
   return (
     <>
@@ -210,7 +226,7 @@ const Playlists = () => {
             <PlaylistList
               playlistList={playlistList}
               viewLayout={view}
-              setRefresh={setRefreshPlaylistList}
+              setRefresh={setRefresh}
             />
           )}
         </div>

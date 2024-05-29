@@ -83,7 +83,7 @@ const Playlist = () => {
   );
   const [gridItems, setGridItems] = useState(userConfig.grid_items || 3);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
-  const [refreshPlaylist, setRefreshPlaylist] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [reindex, setReindex] = useState(false);
 
@@ -110,23 +110,29 @@ const Playlist = () => {
 
   useEffect(() => {
     (async () => {
-      const playlist = await loadPlaylistById(playlistId);
-      const video = await loadPlaylistVideosById(playlistId, currentPage);
+      if (
+        refresh ||
+        (pagination?.current_page !== undefined &&
+          currentPage !== pagination?.current_page)
+      ) {
+        const playlist = await loadPlaylistById(playlistId);
+        const video = await loadPlaylistVideosById(playlistId, currentPage);
 
-      const isCustomPlaylist = playlist?.data?.playlist_type === "custom";
-      if (!isCustomPlaylist) {
-        const channel = await loadChannelById(
-          playlist.data.playlist_channel_id,
-        );
+        const isCustomPlaylist = playlist?.data?.playlist_type === "custom";
+        if (!isCustomPlaylist) {
+          const channel = await loadChannelById(
+            playlist.data.playlist_channel_id,
+          );
 
-        setChannelResponse(channel);
+          setChannelResponse(channel);
+        }
+
+        setPlaylistResponse(playlist);
+        setVideoResponse(video);
+        setRefresh(false);
       }
-
-      setPlaylistResponse(playlist);
-      setVideoResponse(video);
-      setRefreshPlaylist(false);
     })();
-  }, [playlistId, refreshPlaylist, currentPage]);
+  }, [playlistId, refresh, currentPage, pagination?.current_page]);
 
   if (!playlistId || !playlist) {
     return `Playlist ${playlistId} not found!`;
@@ -152,7 +158,7 @@ const Playlist = () => {
               channelname={channel?.channel_name}
               channelSubs={channel?.channel_subs}
               channelSubscribed={channel?.channel_subscribed}
-              setRefresh={setRefreshPlaylist}
+              setRefresh={setRefresh}
             />
           )}
 
@@ -177,7 +183,7 @@ const Playlist = () => {
                                 false,
                               );
 
-                              setRefreshPlaylist(true);
+                              setRefresh(true);
                             }}
                             title={`Unsubscribe from ${playlist.playlist_name}`}
                           >
@@ -192,7 +198,7 @@ const Playlist = () => {
                         onClick={async () => {
                           await updatePlaylistSubscription(playlistId, true);
 
-                          setRefreshPlaylist(true);
+                          setRefresh(true);
                         }}
                         title={`Subscribe to ${playlist.playlist_name}`}
                       >
@@ -275,7 +281,7 @@ const Playlist = () => {
                           is_watched: true,
                         });
 
-                        setRefreshPlaylist(true);
+                        setRefresh(true);
                       }}
                     >
                       Mark as watched
@@ -289,7 +295,7 @@ const Playlist = () => {
                           is_watched: false,
                         });
 
-                        setRefreshPlaylist(true);
+                        setRefresh(true);
                       }}
                     >
                       Mark as unwatched
@@ -363,7 +369,7 @@ const Playlist = () => {
           setView={setView}
           setGridItems={setGridItems}
           viewStyleName={ViewStyleNames.playlist}
-          setRefresh={setRefreshPlaylist}
+          setRefresh={setRefresh}
         />
       </div>
 
@@ -396,7 +402,7 @@ const Playlist = () => {
               viewLayout={view}
               playlistId={playlistId}
               showReorderButton={isCustomPlaylist}
-              refreshVideoList={setRefreshPlaylist}
+              refreshVideoList={setRefresh}
             />
           )}
         </div>
