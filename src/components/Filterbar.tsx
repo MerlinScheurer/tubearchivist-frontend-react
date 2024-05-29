@@ -52,7 +52,8 @@ const Filterbar = ({
     (async () => {
       if (
         userConfig.hide_watched !== hideWatched ||
-        userConfig[viewStyleName.toString()] !== view ||
+        userConfig[viewStyleName.toString() as keyof typeof userConfig] !==
+          view ||
         userConfig.grid_items !== gridItems ||
         userConfig.sort_by !== sortBy ||
         userConfig.sort_order !== sortOrder
