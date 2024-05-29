@@ -164,12 +164,18 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const videos = await loadVideoListByPage(currentPage);
+      if (
+        refreshVideoList ||
+        (pagination?.current_page !== undefined &&
+          currentPage !== pagination?.current_page)
+      ) {
+        const videos = await loadVideoListByPage(currentPage);
 
-      setVideoReponse(videos);
-      setRefreshVideoList(false);
+        setVideoReponse(videos);
+        setRefreshVideoList(false);
+      }
     })();
-  }, [refreshVideoList, currentPage]);
+  }, [refreshVideoList, currentPage, pagination?.current_page]);
 
   return (
     <>
