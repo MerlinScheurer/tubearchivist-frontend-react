@@ -1,20 +1,15 @@
 import {
-  Link,
   Outlet,
   useLoaderData,
   useLocation,
   useSearchParams,
 } from "react-router-dom";
-import Routes from "../configuration/routes/RouteList";
 import Footer, { TaUpdateType } from "../components/Footer";
-import iconSearch from "/img/icon-search.svg";
-import iconGear from "/img/icon-gear.svg";
-import iconExit from "/img/icon-exit.svg";
 import importColours from "../configuration/colours/getColours";
 import { UserConfigType } from "../api/actions/updateUserConfig";
 import { useEffect, useState } from "react";
+import Navigation from "../components/Navigation";
 import getIsAdmin from "../functions/getIsAdmin";
-import NavigationItem from "../components/NavigationItem";
 
 export type AuthenticationType = {
   response: string;
@@ -82,41 +77,7 @@ const Base = () => {
   return (
     <>
       <div className="main-content">
-        <div className="boxed-content">
-          <Link to={Routes.Home}>
-            <div className="top-banner"></div>
-          </Link>
-          <div className="top-nav">
-            <div className="nav-items">
-              <NavigationItem label="home" navigateTo={Routes.Home} />
-              <NavigationItem label="channels" navigateTo={Routes.Channels} />
-              <NavigationItem label="playlists" navigateTo={Routes.Playlists} />
-
-              {isAdmin && (
-                <NavigationItem
-                  label="downloads"
-                  navigateTo={Routes.Downloads}
-                />
-              )}
-            </div>
-            <div className="nav-icons">
-              <Link to={Routes.Search}>
-                <img src={iconSearch} alt="search-icon" title="Search" />
-              </Link>
-              <Link to={Routes.SettingsDashboard}>
-                <img src={iconGear} alt="gear-icon" title="Settings" />
-              </Link>
-              <Link to={Routes.Logout}>
-                <img
-                  className="alert-hover"
-                  src={iconExit}
-                  alt="exit-icon"
-                  title="Logout"
-                />
-              </Link>
-            </div>
-          </div>
-        </div>
+        <Navigation isAdmin={isAdmin} />
         {/** Outlet: https://reactrouter.com/en/main/components/outlet */}
         <Outlet context={[currentPage, setCurrentPage]} />
       </div>

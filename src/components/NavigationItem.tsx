@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 
-interface NavigaitonItemProps {
+interface NavigationItemProps {
   navigateTo: string;
   label: string;
 }
 
-const NavigationItem = ({ label, navigateTo }: NavigaitonItemProps) => {
+const NavigationItem = ({ label, navigateTo }: NavigationItemProps) => {
   return (
     <Link to={navigateTo}>
       <div className="nav-item">{label}</div>
