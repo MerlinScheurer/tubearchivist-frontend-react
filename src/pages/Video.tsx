@@ -439,7 +439,7 @@ const Video = () => {
             </p>
 
             <Button
-              label="Show more"
+              label={descriptionExpanded ? "Show less" : "Show more"}
               id="text-expand-button"
               onClick={() => setDescriptionExpanded(!descriptionExpanded)}
             />
