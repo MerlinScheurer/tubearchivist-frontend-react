@@ -34,6 +34,7 @@ import updateWatchedState from "../api/actions/updateWatchedState";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 export type PlaylistType = {
   playlist_active: boolean;
@@ -174,9 +175,11 @@ const Playlist = () => {
                     {playlist.playlist_subscribed && (
                       <>
                         {isAdmin && (
-                          <button
+                          <Button
+                            label="Unsubscribe"
                             className="unsubscribe"
                             type="button"
+                            title={`Unsubscribe from ${playlist.playlist_name}`}
                             onClick={async () => {
                               await updatePlaylistSubscription(
                                 playlistId,
@@ -185,25 +188,21 @@ const Playlist = () => {
 
                               setRefresh(true);
                             }}
-                            title={`Unsubscribe from ${playlist.playlist_name}`}
-                          >
-                            Unsubscribe
-                          </button>
+                          />
                         )}
                       </>
                     )}{" "}
                     {!playlist.playlist_subscribed && (
-                      <button
+                      <Button
+                        label="Subscribe"
                         type="button"
+                        title={`Subscribe to ${playlist.playlist_name}`}
                         onClick={async () => {
                           await updatePlaylistSubscription(playlistId, true);
 
                           setRefresh(true);
                         }}
-                        title={`Subscribe to ${playlist.playlist_name}`}
-                      >
-                        Subscribe
-                      </button>
+                      />
                     )}
                   </p>
                   {playlist.playlist_active && (
@@ -222,43 +221,39 @@ const Playlist = () => {
               )}
 
               {!showDeleteConfirm && (
-                <button
-                  onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                <Button
+                  label="Delete Playlist"
                   id="delete-item"
-                >
-                  Delete Playlist
-                </button>
+                  onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                />
               )}
 
               {showDeleteConfirm && (
                 <div className="delete-confirm" id="delete-button">
                   <span>Delete {playlist.playlist_name}?</span>
 
-                  <button
+                  <Button
+                    label="Delete metadata"
                     onClick={async () => {
                       await deletePlaylist(playlistId, false);
                       navigate(Routes.Playlists);
                     }}
-                  >
-                    Delete metadata
-                  </button>
+                  />
 
-                  <button
+                  <Button
+                    label="Delete all"
                     className="danger-button"
                     onClick={async () => {
                       await deletePlaylist(playlistId, true);
                       navigate(Routes.Playlists);
                     }}
-                  >
-                    Delete all
-                  </button>
+                  />
 
                   <br />
-                  <button
+                  <Button
+                    label="Cancel"
                     onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
-                  >
-                    Cancel
-                  </button>
+                  />
                 </div>
               )}
             </div>
@@ -272,7 +267,8 @@ const Playlist = () => {
                     {videoInPlaylistCount}
                   </p>
                   <div id="watched-button" className="button-box">
-                    <button
+                    <Button
+                      label="Mark as watched"
                       title={`Mark all videos from ${playlist.playlist_name} as watched`}
                       type="button"
                       onClick={async () => {
@@ -283,10 +279,9 @@ const Playlist = () => {
 
                         setRefresh(true);
                       }}
-                    >
-                      Mark as watched
-                    </button>{" "}
-                    <button
+                    />{" "}
+                    <Button
+                      label="Mark as unwatched"
                       title={`Mark all videos from ${playlist.playlist_name} as unwatched`}
                       type="button"
                       onClick={async () => {
@@ -297,9 +292,7 @@ const Playlist = () => {
 
                         setRefresh(true);
                       }}
-                    >
-                      Mark as unwatched
-                    </button>
+                    />
                   </div>
                 </>
               )}
@@ -308,18 +301,18 @@ const Playlist = () => {
               {!reindex && (
                 <div id="reindex-button" className="button-box">
                   {!isCustomPlaylist && (
-                    <button
+                    <Button
+                      label="Reindex"
                       title={`Reindex Playlist ${playlist.playlist_name}`}
                       onClick={async () => {
                         setReindex(true);
 
                         await queueReindex(playlist.playlist_id, "playlist");
                       }}
-                    >
-                      Reindex
-                    </button>
+                    />
                   )}{" "}
-                  <button
+                  <Button
+                    label="Reindex Videos"
                     title={`Reindex Videos of ${playlist.playlist_name}`}
                     onClick={async () => {
                       setReindex(true);
@@ -330,9 +323,7 @@ const Playlist = () => {
                         true,
                       );
                     }}
-                  >
-                    Reindex Videos
-                  </button>
+                  />
                 </div>
               )}
             </div>
@@ -348,12 +339,11 @@ const Playlist = () => {
               <Linkify>{playlist.playlist_description}</Linkify>
             </p>
 
-            <button
-              onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+            <Button
+              label="Show more"
               id="text-expand-button"
-            >
-              Show more
-            </button>
+              onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+            />
           </div>
         )}
       </div>

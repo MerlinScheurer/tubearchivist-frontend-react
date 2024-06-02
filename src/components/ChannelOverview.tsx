@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Routes from "../configuration/routes/RouteList";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
 import FormattedNumber from "./FormattedNumber";
+import Button from "./Button";
 
 type ChannelOverviewProps = {
   channelId: string;
@@ -43,30 +44,28 @@ const ChannelOverview = ({
           {showSubscribeButton && (
             <>
               {channelSubscribed && isUserAdmin && (
-                <button
+                <Button
+                  label="Unsubscribe"
                   className="unsubscribe"
                   type="button"
+                  title={`Unsubscribe from ${channelname}`}
                   onClick={async () => {
                     await updateChannelSubscription(channelId, false);
                     setRefresh(true);
                   }}
-                  title={`Unsubscribe from ${channelname}`}
-                >
-                  Unsubscribe
-                </button>
+                />
               )}
 
               {!channelSubscribed && (
-                <button
+                <Button
+                  label="Subscribe"
                   type="button"
+                  title={`Subscribe to ${channelname}`}
                   onClick={async () => {
                     await updateChannelSubscription(channelId, true);
                     setRefresh(true);
                   }}
-                  title={`Subscribe to ${channelname}`}
-                >
-                  Subscribe
-                </button>
+                />
               )}
             </>
           )}

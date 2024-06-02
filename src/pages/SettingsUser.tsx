@@ -12,6 +12,7 @@ import {
 import SettingsNavigation from "../components/SettingsNavigation";
 import Notifications from "../components/Notifications";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 type SettingsUserLoaderData = {
   userConfig: UserConfigType;
@@ -118,8 +119,9 @@ const SettingsUser = () => {
               ></input>
             </div>
           </div>
-          <button
+          <Button
             name="user-settings"
+            label="Update User Configurations"
             onClick={async () => {
               await updateUserConfig({
                 page_size: selectedPageSize,
@@ -128,9 +130,7 @@ const SettingsUser = () => {
 
               setRefresh(true);
             }}
-          >
-            Update User Configurations
-          </button>
+          />
         </div>
 
         {isSuperuser && (
@@ -146,7 +146,7 @@ const SettingsUser = () => {
                 and more.
               </p>
               <a href="/admin/">
-                <button>Admin Interface</button>
+                <Button label="Admin Interface" />
               </a>
             </div>
           </>

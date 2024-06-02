@@ -15,6 +15,7 @@ import formatDate from "../functions/formatDates";
 import PaginationDummy from "../components/PaginationDummy";
 import FormattedNumber from "../components/FormattedNumber";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 const handleSponsorBlockIntegrationOverwrite = (
   integration: boolean | undefined,
@@ -128,12 +129,11 @@ const ChannelAbout = () => {
                 <>
                   <div className="button-box">
                     {!showDeleteConfirm && (
-                      <button
-                        onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                      <Button
+                        label="Delete Channel"
                         id="delete-item"
-                      >
-                        Delete Channel
-                      </button>
+                        onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                      />
                     )}
 
                     {showDeleteConfirm && (
@@ -141,29 +141,28 @@ const ChannelAbout = () => {
                         <span>
                           Delete {channel.channel_name} including all videos?{" "}
                         </span>
-                        <button
+                        <Button
+                          label="Delete"
                           className="danger-button"
                           onClick={async () => {
                             await deleteChannel(channelId);
                             navigate(Routes.Channels);
                           }}
-                        >
-                          Delete
-                        </button>{" "}
-                        <button
+                        />{" "}
+                        <Button
+                          label="Cancel"
                           onClick={() =>
                             setShowDeleteConfirm(!showDeleteConfirm)
                           }
-                        >
-                          Cancel
-                        </button>
+                        />
                       </div>
                     )}
                   </div>
                   {reindex && <p>Reindex scheduled</p>}
                   {!reindex && (
                     <div id="reindex-button" className="button-box">
-                      <button
+                      <Button
+                        label="Reindex"
                         title={`Reindex Channel ${channel.channel_name}`}
                         onClick={async () => {
                           await queueReindex(
@@ -174,10 +173,9 @@ const ChannelAbout = () => {
                           setReindex(true);
                           setStartNotification(true);
                         }}
-                      >
-                        Reindex
-                      </button>{" "}
-                      <button
+                      />{" "}
+                      <Button
+                        label="Reindex Videos"
                         title={`Reindex Videos of ${channel.channel_name}`}
                         onClick={async () => {
                           await queueReindex(
@@ -189,9 +187,7 @@ const ChannelAbout = () => {
                           setReindex(true);
                           setStartNotification(true);
                         }}
-                      >
-                        Reindex Videos
-                      </button>
+                      />
                     </div>
                   )}
                 </>
@@ -209,12 +205,11 @@ const ChannelAbout = () => {
               <Linkify>{channel.channel_description}</Linkify>
             </p>
 
-            <button
-              onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+            <Button
+              label="Show more"
               id="text-expand-button"
-            >
-              Show more
-            </button>
+              onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+            />
           </div>
         )}
 
@@ -321,7 +316,8 @@ const ChannelAbout = () => {
                   </select>
                   <br />
                 </div>
-                <button type="submit">Save Channel Overwrites</button>
+
+                <Button type="submit" label="Save Channel Overwrites" />
               </form>
             </div>
           </div>

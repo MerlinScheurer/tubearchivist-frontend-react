@@ -19,6 +19,7 @@ import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscriptio
 import createCustomPlaylist from "../api/actions/createCustomPlaylist";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 export type PlaylistEntryType = {
   youtube_id: string;
@@ -133,7 +134,9 @@ const Playlists = () => {
                       cols={40}
                       placeholder="Input playlist IDs or URLs"
                     />
-                    <button
+
+                    <Button
+                      label="Subscribe"
                       type="submit"
                       onClick={async () => {
                         await updatePlaylistSubscription(
@@ -141,9 +144,7 @@ const Playlists = () => {
                           true,
                         );
                       }}
-                    >
-                      Subscribe
-                    </button>
+                    />
                   </div>
                   <br />
                   <div>
@@ -157,14 +158,14 @@ const Playlists = () => {
                         setCustomPlaylistsToAddText(event.target.value);
                       }}
                     />
-                    <button
+
+                    <Button
+                      label="Create"
                       type="submit"
                       onClick={async () => {
                         await createCustomPlaylist(customPlaylistsToAddText);
                       }}
-                    >
-                      Create
-                    </button>
+                    />
                   </div>
                 </div>
               )}

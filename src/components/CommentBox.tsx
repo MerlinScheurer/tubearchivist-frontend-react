@@ -4,6 +4,7 @@ import formatDate from "../functions/formatDates";
 import { Fragment, useState } from "react";
 import Linkify from "./Linkify";
 import formatNumbers from "../functions/formatNumbers";
+import Button from "./Button";
 
 export type CommentReplyType = {
   comment_id: string;
@@ -79,14 +80,16 @@ const CommentBox = ({ comment }: CommentBoxProps) => {
 
       {hasSubComments && (
         <>
-          <button
+          <Button
             onClick={() => {
               setShowSubComments(!showSubComments);
             }}
           >
-            <span id="toggle-icon">{showSubComments ? "▲" : "▼"}</span>{" "}
-            {comment.comment_replies?.length} replies
-          </button>
+            <>
+              <span id="toggle-icon">{showSubComments ? "▲" : "▼"}</span>{" "}
+              {comment.comment_replies?.length} replies
+            </>
+          </Button>
 
           <div className="comments-replies" style={{ display: "block" }}>
             {showSubComments &&

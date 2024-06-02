@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet";
 import Notifications from "../components/Notifications";
 import SettingsNavigation from "../components/SettingsNavigation";
+import Button from "../components/Button";
 
 type CronTabType = {
   minute: number;
@@ -204,13 +205,12 @@ const SettingsScheduling = () => {
                       {update_subscribed.crontab.minute}{" "}
                       {update_subscribed.crontab.hour}{" "}
                       {update_subscribed.crontab.day_of_week}
-                      <button
+                      <Button
+                        label="Delete"
                         data-schedule="update_subscribed"
                         onclick="deleteSchedule(this)"
                         className="danger-button"
-                      >
-                        Delete
-                      </button>
+                      />
                     </>
                   )}
 
@@ -244,13 +244,12 @@ const SettingsScheduling = () => {
                       {download_pending.crontab.minute}{" "}
                       {download_pending.crontab.hour}{" "}
                       {download_pending.crontab.day_of_week}
-                      <button
+                      <Button
+                        label="Delete"
                         data-schedule="download_pending"
                         onclick="deleteSchedule(this)"
                         className="danger-button"
-                      >
-                        Delete
-                      </button>
+                      />
                     </>
                   )}
 
@@ -284,13 +283,12 @@ const SettingsScheduling = () => {
                       {check_reindex.crontab.minute}{" "}
                       {check_reindex.crontab.hour}{" "}
                       {check_reindex.crontab.day_of_week}
-                      <button
+                      <Button
+                        label="Delete"
                         data-schedule="check_reindex"
                         onclick="deleteSchedule(this)"
                         className="danger-button"
-                      >
-                        Delete
-                      </button>
+                      />
                     </>
                   )}
 
@@ -335,13 +333,12 @@ const SettingsScheduling = () => {
                       {thumbnail_check.crontab.minute}{" "}
                       {thumbnail_check.crontab.hour}{" "}
                       {thumbnail_check.crontab.day_of_week}
-                      <button
+                      <Button
+                        label="Delete"
                         data-schedule="thumbnail_check"
                         onclick="deleteSchedule(this)"
                         className="danger-button"
-                      >
-                        Delete
-                      </button>
+                      />
                     </>
                   )}
 
@@ -382,13 +379,12 @@ const SettingsScheduling = () => {
                     <>
                       {run_backup.crontab.minute} {run_backup.crontab.hour}{" "}
                       {run_backup.crontab.day_of_week}
-                      <button
+                      <Button
+                        label="Delete"
                         data-schedule="run_backup"
                         onclick="deleteSchedule(this)"
                         className="danger-button"
-                      >
-                        Delete
-                      </button>
+                      />
                     </>
                   )}
 
@@ -428,13 +424,12 @@ const SettingsScheduling = () => {
               {notifications && (
                 <>
                   <p>
-                    <button
+                    <Button
+                      label="Show"
                       type="button"
                       onclick="textReveal(this)"
                       id="text-reveal-button"
-                    >
-                      Show
-                    </button>{" "}
+                    />{" "}
                     stored notification links
                   </p>
                   <div id="text-reveal" className="description-text">
@@ -446,16 +441,14 @@ const SettingsScheduling = () => {
                             {notification.urls.map((url: string) => {
                               return (
                                 <p>
-                                  <button
+                                  <Button
                                     type="button"
                                     className="danger-button"
+                                    label="Delete"
                                     data-url={url}
                                     data-task={task}
                                     onclick="deleteNotificationUrl(this)"
-                                  >
-                                    {" "}
-                                    Delete
-                                  </button>
+                                  />
                                   <span> {url}</span>
                                 </p>
                               );
@@ -499,9 +492,11 @@ const SettingsScheduling = () => {
             </div>
           </div>
 
-          <button type="submit" name="scheduler-settings">
-            Update Scheduler Settings
-          </button>
+          <Button
+            type="submit"
+            name="scheduler-settings"
+            label="Update Scheduler Settings"
+          />
         </form>
       </div>
     </>

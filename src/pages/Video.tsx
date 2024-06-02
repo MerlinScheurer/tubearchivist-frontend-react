@@ -38,6 +38,7 @@ import { PlaylistType } from "./Playlist";
 import loadCommentsbyVideoId from "../api/loader/loadCommentsbyVideoId";
 import CommentBox, { CommentsType } from "../components/CommentBox";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 const isInPlaylist = (videoId: string, playlist: PlaylistType) => {
   return playlist.playlist_entries.some((entry) => {
@@ -282,65 +283,60 @@ const Video = () => {
                 <>
                   {isAdmin && (
                     <div id="reindex-button" className="button-box">
-                      <button
+                      <Button
+                        label="Reindex"
                         title={`Reindex ${video.title}`}
                         onClick={async () => {
                           await queueReindex(video.youtube_id, "video");
                           setReindex(true);
                         }}
-                      >
-                        Reindex
-                      </button>
+                      />
                     </div>
                   )}
                 </>
               )}
               <a download="" href={video.media_url}>
-                <button id="download-item">Download File</button>
+                <Button label="Download File" id="download-item" />
               </a>{" "}
               {isAdmin && (
                 <>
                   {!showDeleteConfirm && (
-                    <button
-                      onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                    <Button
+                      label="Delete Video"
                       id="delete-item"
-                    >
-                      Delete Video
-                    </button>
+                      onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+                    />
                   )}
 
                   {showDeleteConfirm && (
                     <div className="delete-confirm" id="delete-button">
                       <span>Are you sure? </span>
-                      <button
+                      <Button
+                        label="Delete"
                         className="danger-button"
                         onClick={async () => {
                           await deleteVideo(videoId);
                           navigate(Routes.Channel(video.channel.channel_id));
                         }}
-                      >
-                        Delete
-                      </button>{" "}
-                      <button
+                      />{" "}
+                      <Button
+                        label="Cancel"
                         onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
-                      >
-                        Cancel
-                      </button>
+                      />
                     </div>
                   )}
                 </>
               )}{" "}
               {!showAddToPlaylist && (
-                <button
+                <Button
+                  label="Add To Playlist"
                   id={`${video.youtube_id}-button`}
                   data-id={video.youtube_id}
                   data-context="video"
                   onClick={() => {
                     setShowAddToPlaylist(true);
                   }}
-                >
-                  Add To Playlist
-                </button>
+                />
               )}
               {showAddToPlaylist && (
                 <>
@@ -442,12 +438,11 @@ const Video = () => {
               <Linkify>{video.description}</Linkify>
             </p>
 
-            <button
-              onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+            <Button
+              label="Show more"
               id="text-expand-button"
-            >
-              Show more
-            </button>
+              onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+            />
           </div>
         )}
 

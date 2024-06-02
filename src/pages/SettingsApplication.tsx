@@ -8,6 +8,7 @@ import queueSnapshot from "../api/actions/queueSnapshot";
 import updateCookie from "../api/actions/updateCookie";
 import deleteApiToken from "../api/actions/deleteApiToken";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 type SnapshotType = {
   id: string;
@@ -723,17 +724,16 @@ const SettingsApplication = () => {
                 <>
                   {config.downloads.cookie_import && (
                     <div id="cookieMessage">
-                      <button
-                        type="button"
+                      <Button
                         id="cookieButton"
+                        label="Validate Cookie File"
+                        type="button"
                         onClick={async () => {
                           setValidatingCookie(true);
                           const response = await updateCookie();
                           setCookieResponse(response);
                         }}
-                      >
-                        Validate Cookie File
-                      </button>
+                      />
                     </div>
                   )}
                 </>
@@ -746,15 +746,14 @@ const SettingsApplication = () => {
             <div className="settings-item">
               <p>
                 API token:{" "}
-                <button
-                  type="button"
+                <Button
                   id="text-reveal-button"
+                  label="Show"
+                  type="button"
                   onClick={() => {
                     setShowApiToken(!showApiToken);
                   }}
-                >
-                  Show
-                </button>
+                />
               </p>
               {resetTokenResponse && resetTokenResponse?.success && (
                 <p>Token revoked</p>
@@ -762,16 +761,15 @@ const SettingsApplication = () => {
               {showApiToken && !resetTokenResponse?.success && (
                 <div className="description-text">
                   <p>{config.api_token}</p>
-                  <button
+                  <Button
                     className="danger-button"
+                    label="Revoke"
                     type="button"
                     onClick={async () => {
                       const response = await deleteApiToken();
                       setResetTokenResponse(response);
                     }}
-                  >
-                    Revoke
-                  </button>
+                  />
                 </div>
               )}
             </div>
@@ -887,15 +885,14 @@ const SettingsApplication = () => {
                     . <br />
                     {isSnapshotQueued && <span>Snapshot in progress</span>}
                     {!isSnapshotQueued && (
-                      <button
+                      <Button
+                        label="Create snapshot now"
+                        id="createButton"
                         onClick={async () => {
                           setIsSnapshotQueued(true);
                           await queueSnapshot();
                         }}
-                        id="createButton"
-                      >
-                        Create snapshot now
-                      </button>
+                      />
                     )}
                   </p>
                   <br />
@@ -905,14 +902,13 @@ const SettingsApplication = () => {
                     snapshots.snapshots.map((snapshot, index) => {
                       return (
                         <p key={index}>
-                          <button
+                          <Button
+                            label="Restore"
                             onClick={async () => {
                               setRestoringSnapshot(true);
                               await restoreSnapshot(snapshot.id);
                             }}
-                          >
-                            Restore
-                          </button>{" "}
+                          />{" "}
                           Snapshot created on:{" "}
                           <span className="settings-current">
                             {snapshot.start_date}
@@ -930,9 +926,11 @@ const SettingsApplication = () => {
             </div>
           </div>
 
-          <button type="submit" name="application-settings">
-            Update Application Configurations
-          </button>
+          <Button
+            type="submit"
+            name="application-settings"
+            label="Update Application Configurations"
+          />
         </form>
       </div>
 

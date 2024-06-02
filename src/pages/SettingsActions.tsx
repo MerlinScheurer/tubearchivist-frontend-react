@@ -7,6 +7,7 @@ import queueBackup from "../api/actions/queueBackup";
 import restoreBackup from "../api/actions/restoreBackup";
 import Notifications from "../components/Notifications";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 type Backup = {
   filename: string;
@@ -81,27 +82,25 @@ const SettingsActions = () => {
           </p>
           {deleteIgnored && <p>Deleting download queue: ignored</p>}
           {!deleteIgnored && (
-            <button
+            <Button
+              label="Delete all ignored"
               title="Delete all previously ignored videos from the queue"
               onClick={async () => {
                 await deleteDownloadQueueByFilter("ignore");
                 setDeleteIgnored(true);
               }}
-            >
-              Delete all ignored
-            </button>
+            />
           )}{" "}
           {deletePending && <p>Deleting download queue: pending</p>}
           {!deletePending && (
-            <button
+            <Button
+              label="Delete all queued"
               title="Delete all pending videos from the queue"
               onClick={async () => {
                 await deleteDownloadQueueByFilter("pending");
                 setDeletePending(true);
               }}
-            >
-              Delete all queued
-            </button>
+            />
           )}
         </div>
         <div className="settings-group">
@@ -121,14 +120,13 @@ const SettingsActions = () => {
           <div id="manual-import">
             {processingImports && <p>Processing import</p>}
             {!processingImports && (
-              <button
+              <Button
+                label="Start import"
                 onClick={async () => {
                   await updateTaskByName("manual_import");
                   setProcessingImports(true);
                 }}
-              >
-                Start import
-              </button>
+              />
             )}
           </div>
         </div>
@@ -138,14 +136,13 @@ const SettingsActions = () => {
           <div id="re-embed">
             {reEmbed && <p>Processing thumbnails</p>}
             {!reEmbed && (
-              <button
+              <Button
+                label="Start process"
                 onClick={async () => {
                   await updateTaskByName("resync_thumbs");
                   setReEmbed(true);
                 }}
-              >
-                Start process
-              </button>
+              />
             )}
           </div>
         </div>
@@ -165,14 +162,13 @@ const SettingsActions = () => {
           <div id="db-backup">
             {backupStarted && <p>Backing up archive</p>}
             {!backupStarted && (
-              <button
+              <Button
+                label="Start backup"
                 onClick={async () => {
                   await queueBackup();
                   setBackupStarted(true);
                 }}
-              >
-                Start backup
-              </button>
+              />
             )}
           </div>
         </div>
@@ -204,14 +200,13 @@ const SettingsActions = () => {
                       id={backup.filename}
                       className="backup-grid-row"
                     >
-                      <button
+                      <Button
+                        label="Restore"
                         onClick={async () => {
                           await restoreBackup(backup.filename);
                           setIsRestoringBackup(true);
                         }}
-                      >
-                        Restore
-                      </button>
+                      />
                       <span>{backup.timestamp}</span>
                       <span>{backup.reason}</span>
                       <span>{backup.filename}</span>
@@ -241,14 +236,13 @@ const SettingsActions = () => {
           <div id="fs-rescan">
             {reScanningFileSystem && <p>File system scan in progress</p>}
             {!reScanningFileSystem && (
-              <button
+              <Button
+                label="Rescan filesystem"
                 onClick={async () => {
                   await updateTaskByName("rescan_filesystem");
                   setReScanningFileSystem(true);
                 }}
-              >
-                Rescan filesystem
-              </button>
+              />
             )}
           </div>
         </div>

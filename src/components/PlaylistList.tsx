@@ -4,6 +4,7 @@ import { ViewLayout } from "../pages/Home";
 import { PlaylistType } from "../pages/Playlist";
 import updatePlaylistSubscription from "../api/actions/updatePlaylistSubscription";
 import formatDate from "../functions/formatDates";
+import Button from "./Button";
 
 type PlaylistListProps = {
   playlistList: PlaylistType[] | undefined;
@@ -51,7 +52,8 @@ const PlaylistList = ({
               {playlist.playlist_type != "custom" && (
                 <>
                   {playlist.playlist_subscribed && (
-                    <button
+                    <Button
+                      label="Unsubscribe"
                       className="unsubscribe"
                       type="button"
                       title={`Unsubscribe from ${playlist.playlist_name}`}
@@ -63,13 +65,12 @@ const PlaylistList = ({
 
                         setRefresh(true);
                       }}
-                    >
-                      Unsubscribe
-                    </button>
+                    />
                   )}
 
                   {!playlist.playlist_subscribed && (
-                    <button
+                    <Button
+                      label="Subscribe"
                       type="button"
                       title={`Subscribe to ${playlist.playlist_name}`}
                       onClick={async () => {
@@ -80,9 +81,7 @@ const PlaylistList = ({
 
                         setRefresh(true);
                       }}
-                    >
-                      Subscribe
-                    </button>
+                    />
                   )}
                 </>
               )}

@@ -5,6 +5,7 @@ import Routes from "../configuration/routes/RouteList";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
 import formatDate from "../functions/formatDates";
 import FormattedNumber from "./FormattedNumber";
+import Button from "./Button";
 
 type ChannelListProps = {
   channelList: ChannelType[] | undefined;
@@ -62,11 +63,11 @@ const ChannelList = ({
                     Last refreshed: {formatDate(channel.channel_last_refresh)}
                   </p>
                   {channel.channel_subscribed && (
-                    <button
+                    <Button
+                      label="Unsubscribe"
                       className="unsubscribe"
                       type="button"
-                      data-type="channel"
-                      data-id={channel.channel_id}
+                      title={`Unsubscribe from ${channel.channel_name}`}
                       onClick={async () => {
                         await updateChannelSubscription(
                           channel.channel_id,
@@ -74,16 +75,13 @@ const ChannelList = ({
                         );
                         refreshChannelList(true);
                       }}
-                      title={`Unsubscribe from ${channel.channel_name}`}
-                    >
-                      Unsubscribe
-                    </button>
+                    />
                   )}
                   {!channel.channel_subscribed && (
-                    <button
+                    <Button
+                      label="Subscribe"
                       type="button"
-                      data-type="channel"
-                      data-id={channel.channel_id}
+                      title={`Subscribe to ${channel.channel_name}`}
                       onClick={async () => {
                         await updateChannelSubscription(
                           channel.channel_id,
@@ -91,10 +89,7 @@ const ChannelList = ({
                         );
                         refreshChannelList(true);
                       }}
-                      title={`Subscribe to ${channel.channel_name}`}
-                    >
-                      Subscribe
-                    </button>
+                    />
                   )}
                 </div>
               </div>

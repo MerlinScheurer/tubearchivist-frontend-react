@@ -15,6 +15,7 @@ import ChannelList from "../components/ChannelList";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import Notifications from "../components/Notifications";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 type ChannelOverwritesType = {
   download_format?: string;
@@ -142,7 +143,7 @@ const Channels = () => {
                     />
                   </div>
 
-                  <button type="submit">Subscribe</button>
+                  <Button label="Subscribe" type="submit" />
                 </div>
               )}
             </div>

@@ -26,6 +26,7 @@ import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import EmbeddableVideoPlayer from "../components/EmbeddableVideoPlayer";
 import updateWatchedState from "../api/actions/updateWatchedState";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 type ChannelParams = {
   channelId: string;
@@ -133,10 +134,11 @@ const ChannelVideo = () => {
                   {aggs.total_size.value}
                 </p>
                 <div className="button-box">
-                  <button
-                    title={`Mark all videos from ${channel.channel_name} as watched`}
-                    type="button"
+                  <Button
+                    label="Mark as watched"
                     id="watched-button"
+                    type="button"
+                    title={`Mark all videos from ${channel.channel_name} as watched`}
                     onClick={async () => {
                       await updateWatchedState({
                         id: channel.channel_id,
@@ -145,13 +147,12 @@ const ChannelVideo = () => {
 
                       setRefresh(true);
                     }}
-                  >
-                    Mark as watched
-                  </button>{" "}
-                  <button
-                    title={`Mark all videos from ${channel.channel_name} as unwatched`}
-                    type="button"
+                  />{" "}
+                  <Button
+                    label="Mark as unwatched"
                     id="unwatched-button"
+                    type="button"
+                    title={`Mark all videos from ${channel.channel_name} as unwatched`}
                     onClick={async () => {
                       await updateWatchedState({
                         id: channel.channel_id,
@@ -160,9 +161,7 @@ const ChannelVideo = () => {
 
                       setRefresh(true);
                     }}
-                  >
-                    Mark as unwatched
-                  </button>
+                  />
                 </div>
               </>
             )}

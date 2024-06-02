@@ -7,6 +7,7 @@ import importColours, {
 } from "../configuration/colours/getColours";
 import loadSignIn from "../api/loader/loadSignIn";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -82,7 +83,7 @@ const Login = () => {
             />
           </p>
           <input type="hidden" name="next" value={Routes.Home} />
-          <button type="submit">Login</button>
+          <Button label="Login" type="submit" />
         </form>
         <p className="login-links">
           <span>

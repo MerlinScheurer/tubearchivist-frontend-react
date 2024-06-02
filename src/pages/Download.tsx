@@ -26,6 +26,7 @@ import Notifications from "../components/Notifications";
 import formatDate from "../functions/formatDates";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import { Helmet } from "react-helmet";
+import Button from "../components/Button";
 
 type ChannelAggType = {
   id: string;
@@ -223,24 +224,23 @@ const Download = () => {
                     rows={4}
                     placeholder="Enter at least one video, channel or playlist id/URL here..."
                   />
-                  <button
+                  <Button
+                    label="Add to queue"
                     onClick={async () => {
                       await updateDownloadQueue(downloadQueueText, false);
                       setRefresh(true);
                       setShowHiddenForm(false);
                     }}
-                  >
-                    Add to queue
-                  </button>
-                  <button
+                  />
+
+                  <Button
+                    label="Download now"
                     onClick={async () => {
                       await updateDownloadQueue(downloadQueueText, true);
                       setRefresh(true);
                       setShowHiddenForm(false);
                     }}
-                  >
-                    Download now
-                  </button>
+                  />
                 </div>
               </div>
             )}
@@ -393,15 +393,15 @@ const Download = () => {
                     <div>
                       {showIgnored && (
                         <>
-                          <button
+                          <Button
+                            label="Forget"
                             onClick={async () => {
                               await deleteDownloadById(download.youtube_id);
                               setRefresh(true);
                             }}
-                          >
-                            Forget
-                          </button>{" "}
-                          <button
+                          />{" "}
+                          <Button
+                            label="Add to queue"
                             onClick={async () => {
                               await updateDownloadQueueStatusById(
                                 download.youtube_id,
@@ -409,14 +409,13 @@ const Download = () => {
                               );
                               setRefresh(true);
                             }}
-                          >
-                            Add to queue
-                          </button>
+                          />
                         </>
                       )}
                       {!showIgnored && (
                         <>
-                          <button
+                          <Button
+                            label="Ignore"
                             onClick={async () => {
                               await updateDownloadQueueStatusById(
                                 download.youtube_id,
@@ -424,10 +423,9 @@ const Download = () => {
                               );
                               setRefresh(true);
                             }}
-                          >
-                            Ignore
-                          </button>{" "}
-                          <button
+                          />{" "}
+                          <Button
+                            label="Download now"
                             onClick={async () => {
                               await updateDownloadQueueStatusById(
                                 download.youtube_id,
@@ -435,21 +433,18 @@ const Download = () => {
                               );
                               setRefresh(true);
                             }}
-                          >
-                            Download now
-                          </button>
+                          />
                         </>
                       )}
                       {download.message && (
-                        <button
+                        <Button
+                          label="Delete"
                           className="danger-button"
                           onClick={async () => {
                             await deleteDownloadById(download.youtube_id);
                             setRefresh(true);
                           }}
-                        >
-                          Delete
-                        </button>
+                        />
                       )}
                     </div>
                   </div>
