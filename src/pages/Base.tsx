@@ -14,6 +14,7 @@ import importColours from "../configuration/colours/getColours";
 import { UserConfigType } from "../api/actions/updateUserConfig";
 import { useEffect, useState } from "react";
 import getIsAdmin from "../functions/getIsAdmin";
+import NavigationItem from "../components/NavigationItem";
 
 export type AuthenticationType = {
   response: string;
@@ -87,22 +88,15 @@ const Base = () => {
           </Link>
           <div className="top-nav">
             <div className="nav-items">
-              <Link to={Routes.Home}>
-                <div className="nav-item">home</div>
-              </Link>
-
-              <Link to={Routes.Channels}>
-                <div className="nav-item">channels</div>
-              </Link>
-
-              <Link to={Routes.Playlists}>
-                <div className="nav-item">playlists</div>
-              </Link>
+              <NavigationItem label="home" navigateTo={Routes.Home} />
+              <NavigationItem label="channels" navigateTo={Routes.Channels} />
+              <NavigationItem label="playlists" navigateTo={Routes.Playlists} />
 
               {isAdmin && (
-                <Link to={Routes.Downloads}>
-                  <div className="nav-item">downloads</div>
-                </Link>
+                <NavigationItem
+                  label="downloads"
+                  navigateTo={Routes.Downloads}
+                />
               )}
             </div>
             <div className="nav-icons">
