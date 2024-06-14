@@ -314,8 +314,78 @@ const ChannelAbout = () => {
                       unset sponsorblock integration
                     </option>
                   </select>
+                </div>
+                <h3>Page Size Overrides</h3>
+                <br />
+                <p>
+                  Disable standard videos, shorts, or streams for this channel
+                  by setting their page size to 0 (zero).
+                </p>
+                <br />
+                <p>
+                  Disable page size overwrite for channel by setting to negative
+                  value.
+                </p>
+                <br />
+                <div className="overwrite-form-item">
+                  <p>
+                    YouTube page size:{" "}
+                    <span className="settings-current">
+                      {channelOverwrites?.subscriptions_channel_size || "False"}
+                    </span>
+                  </p>
+                  <i>
+                    Videos to scan to find new items for the{" "}
+                    <b>Rescan subscriptions</b> task, max recommended 50.
+                  </i>
+                  <br />
+                  <input
+                    type="number"
+                    name="channel_size"
+                    id="id_channel_size"
+                  />
                   <br />
                 </div>
+                <div className="overwrite-form-item">
+                  <p>
+                    YouTube Live page size:{" "}
+                    <span className="settings-current">
+                      {channelOverwrites?.subscriptions_live_channel_size ||
+                        "False"}
+                    </span>
+                  </p>
+                  <i>
+                    Live Videos to scan to find new items for the{" "}
+                    <b>Rescan subscriptions</b> task, max recommended 50.
+                  </i>
+                  <br />
+                  <input
+                    type="number"
+                    name="live_channel_size"
+                    id="id_live_channel_size"
+                  />
+                  <br />
+                </div>
+                <div className="overwrite-form-item">
+                  <p>
+                    YouTube Shorts page size:{" "}
+                    <span className="settings-current">
+                      {channelOverwrites?.subscriptions_shorts_channel_size ||
+                        "False"}
+                    </span>
+                  </p>
+                  <i>
+                    Shorts Videos to scan to find new items for the{" "}
+                    <b>Rescan subscriptions</b> task, max recommended 50.
+                  </i>
+                  <br />
+                  <input
+                    type="number"
+                    name="shorts_channel_size"
+                    id="id_shorts_channel_size"
+                  />
+                </div>
+                <br />
 
                 <Button type="submit" label="Save Channel Overwrites" />
               </form>

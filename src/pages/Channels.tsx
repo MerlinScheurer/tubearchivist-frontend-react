@@ -22,6 +22,9 @@ type ChannelOverwritesType = {
   autodelete_days?: number;
   index_playlists?: boolean;
   integrate_sponsorblock?: boolean;
+  subscriptions_channel_size?: number;
+  subscriptions_live_channel_size?: number;
+  subscriptions_shorts_channel_size?: number;
 };
 
 export type ChannelType = {
