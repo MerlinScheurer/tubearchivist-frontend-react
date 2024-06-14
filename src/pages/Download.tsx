@@ -4,8 +4,8 @@ import iconAdd from "/img/icon-add.svg";
 import iconSubstract from "/img/icon-substract.svg";
 import iconGridView from "/img/icon-gridview.svg";
 import iconListView from "/img/icon-listview.svg";
-import { useEffect, useState } from "react";
-import { Link, useLoaderData, useOutletContext } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import updateUserConfig, {
   UserConfigType,
 } from "../api/actions/updateUserConfig";
@@ -13,20 +13,17 @@ import { ConfigType, ViewLayout } from "./Home";
 import loadDownloadQueue from "../api/loader/loadDownloadQueue";
 import { OutletContextType } from "./Base";
 import Pagination, { PaginationType } from "../components/Pagination";
-import Routes from "../configuration/routes/RouteList";
 import {
   ViewStyleNames,
   ViewStyles,
 } from "../configuration/constants/ViewStyle";
 import updateDownloadQueue from "../api/actions/updateDownloadQueue";
-import updateDownloadQueueStatusById from "../api/actions/updateDownloadQueueStatusById";
-import deleteDownloadById from "../api/actions/deleteDownloadById";
 import updateTaskByName from "../api/actions/updateTaskByName";
 import Notifications from "../components/Notifications";
-import formatDate from "../functions/formatDates";
 import ScrollToTopOnNavigate from "../components/ScrollToTop";
 import { Helmet } from "react-helmet";
 import Button from "../components/Button";
+import DownloadListItem from "../components/DownloadListItem";
 
 type ChannelAggType = {
   id: string;
@@ -349,105 +346,14 @@ const Download = () => {
           {downloadList &&
             downloadList?.map((download, index) => {
               return (
-                <div
-                  key={index}
-                  className={`video-item ${view}`}
-                  id={`dl-${download.youtube_id}`}
-                >
-                  <div className={`video-thumb-wrap ${view}`}>
-                    <div className="video-thumb">
-                      <img src={download.vid_thumb_url} alt="video_thumb" />
-                      <div className="video-tags">
-                        {showIgnored && <span>ignored</span>}
-                        {!showIgnored && <span>queued</span>}
-                        <span>{download.vid_type}</span>
-                        {download.auto_start && <span>auto</span>}
-                      </div>
-                    </div>
-                  </div>
-                  <div className={`video-desc ${view}`}>
-                    <div>
-                      {download.channel_indexed && (
-                        <Link to={Routes.Channel(download.channel_id)}>
-                          {download.channel_name}
-                        </Link>
-                      )}
-                      {!download.channel_indexed && (
-                        <span>{download.channel_name}</span>
-                      )}
-                      <a
-                        href={`https://www.youtube.com/watch?v=${download.youtube_id}`}
-                        target="_blank"
-                      >
-                        <h3>{download.title}</h3>
-                      </a>
-                    </div>
-                    <p>
-                      Published: {formatDate(download.published)} | Duration:{" "}
-                      {download.duration} | {download.youtube_id}
-                    </p>
-                    {download.message && (
-                      <p className="danger-zone">{download.message}</p>
-                    )}
-                    <div>
-                      {showIgnored && (
-                        <>
-                          <Button
-                            label="Forget"
-                            onClick={async () => {
-                              await deleteDownloadById(download.youtube_id);
-                              setRefresh(true);
-                            }}
-                          />{" "}
-                          <Button
-                            label="Add to queue"
-                            onClick={async () => {
-                              await updateDownloadQueueStatusById(
-                                download.youtube_id,
-                                "pending",
-                              );
-                              setRefresh(true);
-                            }}
-                          />
-                        </>
-                      )}
-                      {!showIgnored && (
-                        <>
-                          <Button
-                            label="Ignore"
-                            onClick={async () => {
-                              await updateDownloadQueueStatusById(
-                                download.youtube_id,
-                                "ignore",
-                              );
-                              setRefresh(true);
-                            }}
-                          />{" "}
-                          <Button
-                            label="Download now"
-                            onClick={async () => {
-                              await updateDownloadQueueStatusById(
-                                download.youtube_id,
-                                "priority",
-                              );
-                              setRefresh(true);
-                            }}
-                          />
-                        </>
-                      )}
-                      {download.message && (
-                        <Button
-                          label="Delete"
-                          className="danger-button"
-                          onClick={async () => {
-                            await deleteDownloadById(download.youtube_id);
-                            setRefresh(true);
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                </div>
+                <Fragment key={index}>
+                  <DownloadListItem
+                    download={download}
+                    view={view}
+                    showIgnored={showIgnored}
+                    setRefresh={setRefresh}
+                  />
+                </Fragment>
               );
             })}
         </div>
