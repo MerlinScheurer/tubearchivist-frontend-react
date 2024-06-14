@@ -231,8 +231,7 @@ const Download = () => {
                       setRefresh(true);
                       setShowHiddenForm(false);
                     }}
-                  />
-
+                  />{" "}
                   <Button
                     label="Download now"
                     onClick={async () => {
