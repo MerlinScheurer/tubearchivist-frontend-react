@@ -6,7 +6,7 @@ import getIsAdmin from "../functions/getIsAdmin";
 import { OutletContextType } from "./Base";
 import Notifications from "../components/Notifications";
 import { useState } from "react";
-import defaultChannelImage from "/img/default-channel-banner.jpg";
+import ChannelBanner from "../components/ChannelBanner";
 
 type ChannelParams = {
   channelId: string;
@@ -39,14 +39,7 @@ const ChannelBase = () => {
       <div className="boxed-content">
         <div className="channel-banner">
           <Link to={Routes.ChannelVideo(channelId)}>
-            <img
-              src={`/cache/channels/${channelId}_banner.jpg`}
-              alt="channel_banner"
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null; // prevents looping
-                currentTarget.src = defaultChannelImage;
-              }}
-            />
+            <ChannelBanner channel_id={channelId} />
           </Link>
         </div>
         <div className="info-box-item child-page-nav">

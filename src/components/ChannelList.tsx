@@ -6,6 +6,8 @@ import updateChannelSubscription from "../api/actions/updateChannelSubscription"
 import formatDate from "../functions/formatDates";
 import FormattedNumber from "./FormattedNumber";
 import Button from "./Button";
+import ChannelIcon from "./ChannelIcon";
+import ChannelBanner from "./ChannelBanner";
 
 type ChannelListProps = {
   channelList: ChannelType[] | undefined;
@@ -29,20 +31,14 @@ const ChannelList = ({
           <div key={index} className={`channel-item ${viewLayout}`}>
             <div className={`channel-banner ${viewLayout}`}>
               <Link to={Routes.Channel(channel.channel_id)}>
-                <img
-                  src={`/cache/channels/${channel.channel_id}_banner.jpg`}
-                  alt={`${channel.channel_id}-banner`}
-                />
+                <ChannelBanner channel_id={channel.channel_id} />
               </Link>
             </div>
             <div className={`info-box info-box-2 ${viewLayout}`}>
               <div className="info-box-item">
                 <div className="round-img">
                   <Link to={Routes.Channel(channel.channel_id)}>
-                    <img
-                      src={`/cache/channels/${channel.channel_id}_thumb.jpg`}
-                      alt="channel-thumb"
-                    />
+                    <ChannelIcon channel_id={channel.channel_id} />
                   </Link>
                 </div>
                 <div>

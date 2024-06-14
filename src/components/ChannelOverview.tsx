@@ -3,6 +3,7 @@ import Routes from "../configuration/routes/RouteList";
 import updateChannelSubscription from "../api/actions/updateChannelSubscription";
 import FormattedNumber from "./FormattedNumber";
 import Button from "./Button";
+import ChannelIcon from "./ChannelIcon";
 
 type ChannelOverviewProps = {
   channelId: string;
@@ -28,10 +29,7 @@ const ChannelOverview = ({
       <div className="info-box-item">
         <div className="round-img">
           <Link to={Routes.Channel(channelId)}>
-            <img
-              src={`/cache/channels/${channelId}_thumb.jpg`}
-              alt="channel-thumb"
-            />
+            <ChannelIcon channel_id={channelId} />
           </Link>
         </div>
         <div>
