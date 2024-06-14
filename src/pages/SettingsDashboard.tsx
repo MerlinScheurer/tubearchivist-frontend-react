@@ -126,7 +126,7 @@ type DashboardStatsReponses = {
 };
 
 const SettingsDashboard = () => {
-  const [useSi] = useState(false);
+  const [useSi, setUseSi] = useState(false);
 
   const [response, setResponse] = useState<DashboardStatsReponses>({
     videoStats: undefined,
@@ -192,10 +192,24 @@ const SettingsDashboard = () => {
       <div className="boxed-content">
         <SettingsNavigation />
         <Notifications pageName={"all"} />
-
         <div className="title-bar">
           <h1>Your Archive</h1>
         </div>
+        <p>
+          File Sizes in:
+          <select
+            value={useSi ? "true" : "false"}
+            onChange={(event) => {
+              const value = event.target.value;
+              console.log(value);
+              setUseSi(value === "true");
+            }}
+          >
+            <option value="true">SI units</option>
+            <option value="false">Binary units</option>
+          </select>
+        </p>
+
         <div className="settings-item">
           <h2>Overview</h2>
           <div className="info-box info-box-3">
@@ -233,7 +247,6 @@ const SettingsDashboard = () => {
             />
           </div>
         </div>
-
         <div className="settings-item">
           <h2>Biggest Channels</h2>
           <div className="info-box info-box-3">
