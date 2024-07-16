@@ -5,7 +5,7 @@
 Fist start the tubearchivist dev environment, then execute:
 
 ```bash
-  docker compose up --build
+docker compose up --build
 ```
 
 Now open: http://localhost:8000/new/
@@ -22,13 +22,13 @@ docker compose down
 Build the production image
 
 ```bash
-  docker build -t tubearchivist-frontend .
+docker build -t tubearchivist-frontend .
 ```
 
 and switch to tubearchivist and execute
 
 ```bash
-  docker-compose -f .\docker-compose.yml up
+docker-compose -f .\docker-compose.yml up
 ```
 
 # Folder structure
